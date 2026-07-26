@@ -1,0 +1,255 @@
+---
+/*
+  首頁 —— 門戶的門面。
+  節奏：Hero（星座＋宣言）→ 作品 → 最新動態 → 理念一句 → 加入我們。
+  動效只有 reveal 進場與星座呼吸微光；大氣來自留白與排版。
+*/
+import Layout from "@/layouts/Layout.astro";
+import Constellation from "@/components/Constellation.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import NewsCard from "@/components/NewsCard.astro";
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import { PRODUCTS } from "@/lib/products";
+import { getNewsForLocale } from "@/lib/news";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
+---
+
+<Layout locale={locale}>
+  <main id="main">
+    <!-- Hero：星座之下的宣言 -->
+    <section class="hv-hero">
+      <div class="hv-hero__sky" aria-hidden="true">
+        <Constellation />
+      </div>
+      <div class="hv-container hv-hero__inner">
+        <p class="hv-eyebrow" data-reveal>{t("home.hero.eyebrow")}</p>
+        <h1 class="hv-hero__title" data-reveal>
+          {t("home.hero.titleA")}<br />
+          <span class="hv-gradient-text">{t("home.hero.titleB")}</span>
+        </h1>
+        <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
+        <div class="hv-hero__cta" data-reveal>
+          <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
+            {t("cta.works")}
+          </a>
+          <a class="hv-btn hv-btn--ghost" href={localizedPath(locale, "/about")}>
+            {t("cta.about")}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 作品 -->
+    <section class="hv-section">
+      <div class="hv-container">
+        <div class="hv-section-head">
+          <p class="hv-eyebrow" data-reveal>{t("home.works.eyebrow")}</p>
+          <h2 data-reveal>{t("home.works.title")}</h2>
+          <p class="hv-lead" data-reveal>{t("home.works.lead")}</p>
+        </div>
+        <div class="hv-home-works">
+          {PRODUCTS.map((p) => <ProductCard locale={locale} product={p} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- 最新動態 -->
+    <section class="hv-section hv-home-news">
+      <div class="hv-container">
+        <div class="hv-home-news__head">
+          <div class="hv-section-head">
+            <p class="hv-eyebrow" data-reveal>{t("home.news.eyebrow")}</p>
+            <h2 data-reveal>{t("home.news.title")}</h2>
+          </div>
+          <a class="hv-more" href={localizedPath(locale, "/news")} data-reveal>
+            {t("cta.allNews")}
+          </a>
+        </div>
+        <div class="hv-home-news__grid">
+          {latestNews.map((post) => <NewsCard locale={locale} post={post} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- 理念一句 -->
+    <section class="hv-section hv-home-belief">
+      <div class="hv-container hv-narrow">
+        <blockquote class="hv-home-belief__quote" data-reveal>
+          <p>{t("home.belief.quote")}</p>
+          <footer>
+            <a class="hv-home-belief__source" href={localizedPath(locale, "/about")}>
+              {t("home.belief.source")}
+            </a>
+          </footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 加入我們 -->
+    <section class="hv-section hv-home-join">
+      <div class="hv-container">
+        <div class="hv-home-join__card hv-card" data-reveal>
+          <div>
+            <h2 class="hv-home-join__title">{t("home.join.title")}</h2>
+            <p class="hv-lead hv-home-join__lead">{t("home.join.lead")}</p>
+          </div>
+          <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/join")}>
+            {t("cta.join")}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .hv-hero {
+    position: relative;
+    overflow: hidden;
+    /* 大氣：接近整屏的留白高度 */
+    padding-block: clamp(6rem, 16vh, 11rem) clamp(5rem, 14vh, 10rem);
+    background:
+      radial-gradient(
+        120% 90% at 50% -10%,
+        rgba(157, 180, 255, 0.08),
+        transparent 60%
+      ),
+      var(--hv-night);
+    border-bottom: 1px solid var(--hv-border);
+  }
+  .hv-hero__sky {
+    position: absolute;
+    inset: 0;
+    z-index: var(--hv-z-bg);
+    pointer-events: none;
+  }
+  .hv-hero__inner {
+    position: relative;
+    z-index: var(--hv-z-content);
+  }
+  .hv-hero__title {
+    margin-top: var(--hv-space-6);
+    font-size: var(--hv-text-display);
+    line-height: var(--hv-leading-tight);
+    letter-spacing: 0.01em;
+    color: var(--hv-text-bright);
+    max-width: 16ch;
+  }
+  .hv-hero__lead {
+    margin-top: var(--hv-space-6);
+    max-width: 44ch;
+    font-size: var(--hv-text-base);
+  }
+  .hv-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-8);
+  }
+
+  /* ---- 作品 ---- */
+  .hv-home-works {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-12);
+  }
+  @media (max-width: 860px) {
+    .hv-home-works {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- 最新動態 ---- */
+  .hv-home-news {
+    background: var(--hv-bg-deep);
+    border-block: 1px solid var(--hv-border);
+  }
+  .hv-home-news__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--hv-space-6);
+  }
+  .hv-home-news__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-12);
+  }
+  @media (max-width: 980px) {
+    .hv-home-news__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- 理念一句 ---- */
+  .hv-home-belief__quote {
+    text-align: center;
+  }
+  .hv-home-belief__quote > p {
+    font-size: var(--hv-text-xl);
+    line-height: 1.5;
+    color: var(--hv-text-bright);
+  }
+  .hv-home-belief__quote > p::before {
+    content: var(--hv-glyph-mark);
+    display: block;
+    margin-bottom: var(--hv-space-6);
+    color: var(--hv-gold);
+    font-size: 1rem;
+  }
+  .hv-home-belief__source {
+    display: inline-block;
+    margin-top: var(--hv-space-6);
+    font-size: var(--hv-text-sm);
+    color: var(--hv-text-muted);
+    transition: color var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-home-belief__source:hover {
+    color: var(--hv-accent);
+  }
+  .hv-home-belief__source::before {
+    content: "—— ";
+  }
+
+  /* ---- 加入我們 ---- */
+  .hv-home-join {
+    padding-top: 0;
+  }
+  .hv-home-join__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-8);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    background:
+      radial-gradient(
+        90% 140% at 100% 0%,
+        rgba(157, 180, 255, 0.09),
+        transparent 55%
+      ),
+      var(--hv-surface-1);
+  }
+  .hv-home-join__title {
+    font-size: var(--hv-text-xl);
+    color: var(--hv-text-bright);
+  }
+  .hv-home-join__lead {
+    margin-top: var(--hv-space-3);
+    max-width: 46ch;
+  }
+  @media (max-width: 760px) {
+    .hv-home-join__card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

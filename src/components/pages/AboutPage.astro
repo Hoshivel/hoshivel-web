@@ -1,0 +1,204 @@
+---
+/*
+  關於頁 —— 我們是誰 → 名字的由來 → 我們相信（三條）→ 聯繫。
+  敘事節奏以窄欄正文為主，價值觀用三卡；聯繫收在最後。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import Mark from "@/components/brand/Mark.astro";
+import { useTranslations, type Locale } from "@/i18n/utils";
+import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const values = [
+  { name: t("about.v1.name"), desc: t("about.v1.desc") },
+  { name: t("about.v2.name"), desc: t("about.v2.desc") },
+  { name: t("about.v3.name"), desc: t("about.v3.desc") },
+];
+---
+
+<Layout locale={locale} title={t("about.title")} description={t("about.lead")}>
+  <main id="main">
+    <PageHero
+      eyebrow={t("about.eyebrow")}
+      title={t("about.title")}
+      lead={t("about.lead")}
+    />
+
+    <!-- 我們是誰 -->
+    <section class="hv-section hv-about-who" aria-labelledby="about-who">
+      <div class="hv-container hv-about-who__grid">
+        <h2 id="about-who" class="hv-about__h2" data-reveal>
+          {t("about.who.title")}
+        </h2>
+        <div class="hv-about-who__body">
+          <p data-reveal>{t("about.who.body1")}</p>
+          <p data-reveal>{t("about.who.body2")}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 名字的由來 -->
+    <section class="hv-about-name" aria-labelledby="about-name">
+      <div class="hv-container">
+        <div class="hv-about-name__card" data-reveal>
+          <Mark size={44} glow />
+          <div>
+            <h2 id="about-name" class="hv-about__h2">{t("about.name.title")}</h2>
+            <p class="hv-about-name__body">{t("about.name.body")}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 我們相信 -->
+    <section class="hv-section" aria-labelledby="about-values">
+      <div class="hv-container">
+        <h2 id="about-values" class="hv-about__h2" data-reveal>
+          {t("about.values.title")}
+        </h2>
+        <div class="hv-about-values">
+          {
+            values.map((v, i) => (
+              <div class="hv-card hv-about-values__item" data-reveal>
+                <span class="hv-about-values__index" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 class="hv-about-values__name">{v.name}</h3>
+                <p class="hv-about-values__desc">{v.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 聯繫 -->
+    <section class="hv-section hv-about-contact" aria-labelledby="about-contact">
+      <div class="hv-container hv-narrow hv-about-contact__inner">
+        <h2 id="about-contact" class="hv-about__h2" data-reveal>
+          {t("about.contact.title")}
+        </h2>
+        <p class="hv-lead" data-reveal>{t("about.contact.body")}</p>
+        <div class="hv-about-contact__cta" data-reveal>
+          <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
+            {t("footer.github")}
+            <span aria-hidden="true">↗</span>
+            <span class="hv-visually-hidden">{t("a11y.external")}</span>
+          </a>
+          <a class="hv-btn hv-btn--ghost" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hv-about__h2 {
+    font-size: var(--hv-text-xl);
+    line-height: var(--hv-leading-tight);
+    color: var(--hv-text-bright);
+  }
+
+  /* 我們是誰：左標題右正文的紙面節奏 */
+  .hv-about-who__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(1.5rem, 6vw, 5rem);
+  }
+  .hv-about-who__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hv-space-6);
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-base);
+    max-width: 62ch;
+  }
+
+  /* 名字的由來：星標＋窄卡 */
+  .hv-about-name__card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--hv-space-8);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border: 1px solid var(--hv-border);
+    border-radius: var(--hv-radius-lg);
+    background:
+      radial-gradient(
+        70% 120% at 0% 0%,
+        rgba(157, 180, 255, 0.07),
+        transparent 60%
+      ),
+      var(--hv-surface-1);
+  }
+  .hv-about-name__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-muted);
+    max-width: 58ch;
+  }
+
+  /* 我們相信：三卡 */
+  .hv-about-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-about-values__item {
+    padding: var(--hv-space-8);
+  }
+  .hv-about-values__index {
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
+    color: var(--hv-gold);
+  }
+  .hv-about-values__name {
+    margin-top: var(--hv-space-4);
+    font-size: var(--hv-text-lg);
+    color: var(--hv-text-bright);
+  }
+  .hv-about-values__desc {
+    margin-top: var(--hv-space-3);
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-sm);
+  }
+
+  /* 聯繫 */
+  .hv-about-contact {
+    border-top: 1px solid var(--hv-border);
+    background: var(--hv-bg-deep);
+  }
+  .hv-about-contact__inner {
+    text-align: center;
+  }
+  .hv-about-contact .hv-lead {
+    margin-top: var(--hv-space-4);
+  }
+  .hv-about-contact__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-8);
+  }
+
+  @media (max-width: 860px) {
+    .hv-about-who__grid {
+      grid-template-columns: 1fr;
+    }
+    .hv-about-values {
+      grid-template-columns: 1fr;
+    }
+    .hv-about-name__card {
+      flex-direction: column;
+      gap: var(--hv-space-6);
+    }
+  }
+</style>

@@ -1,0 +1,132 @@
+---
+/*
+  作品卡（首頁用）—— 識別色頂線 + 字符記號 + 名稱 / 類型 / 摘要 / 入口。
+  整卡可點（連到作品頁對應段落）；外部入口另附。
+*/
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import type { Product } from "@/lib/products";
+
+interface Props {
+  locale: Locale;
+  product: Product;
+}
+const { locale, product } = Astro.props;
+const t = useTranslations(locale);
+const detailHref = localizedPath(locale, `/works#${product.id}`);
+---
+
+<article
+  class="hv-card hv-product-card"
+  style={`--card-accent: var(${product.accentVar})`}
+  data-reveal
+>
+  <a class="hv-product-card__cover" href={detailHref}>
+    <span class="hv-product-card__glyph" aria-hidden="true">{product.glyph}</span>
+    <span class="hv-product-card__status">{t(product.statusKey)}</span>
+    <h3 class="hv-product-card__name">
+      {t(product.nameKey)}
+      <span class="hv-product-card__latin">{t(product.latinKey)}</span>
+    </h3>
+    <p class="hv-product-card__kind">{t(product.kindKey)}</p>
+    <p class="hv-product-card__desc">{t(product.descKey)}</p>
+  </a>
+  <div class="hv-product-card__foot">
+    <a class="hv-more" href={detailHref}>{t("nav.works")}</a>
+    {
+      product.url && (
+        <a
+          class="hv-btn hv-btn--ghost hv-product-card__visit"
+          href={product.url}
+          target="_blank"
+          rel="noopener"
+        >
+          {t("cta.visit")}
+          <span aria-hidden="true">↗</span>
+          <span class="hv-visually-hidden">{t("a11y.external")}</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .hv-product-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* 識別色頂線：作品的簽名 */
+  .hv-product-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--card-accent), transparent 70%);
+    opacity: 0.9;
+  }
+  .hv-product-card:hover {
+    border-color: color-mix(in srgb, var(--card-accent) 45%, var(--hv-border));
+  }
+  .hv-product-card__cover {
+    display: block;
+    padding: var(--hv-space-8);
+    flex: 1;
+  }
+  .hv-product-card__glyph {
+    display: block;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--card-accent);
+  }
+  .hv-product-card__status {
+    position: absolute;
+    top: var(--hv-space-6);
+    right: var(--hv-space-6);
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--hv-border);
+    border-radius: var(--hv-radius-pill);
+    font-size: var(--hv-text-xs);
+    color: var(--hv-text-muted);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .hv-product-card__name {
+    margin-top: var(--hv-space-6);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: var(--hv-text-xl);
+    line-height: var(--hv-leading-tight);
+    color: var(--hv-text-bright);
+  }
+  .hv-product-card__latin {
+    font-size: var(--hv-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--hv-tracking-wide);
+    color: var(--hv-text-dim);
+  }
+  .hv-product-card__kind {
+    margin-top: var(--hv-space-2);
+    font-size: var(--hv-text-sm);
+    color: color-mix(in srgb, var(--card-accent) 78%, var(--hv-text));
+  }
+  .hv-product-card__desc {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-sm);
+    max-width: 52ch;
+  }
+  .hv-product-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-4);
+    padding: var(--hv-space-4) var(--hv-space-8) var(--hv-space-6);
+    border-top: 1px solid var(--hv-border);
+  }
+  .hv-product-card__visit {
+    padding: 0.5rem 1rem;
+  }
+</style>

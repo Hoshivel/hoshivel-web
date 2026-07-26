@@ -1,0 +1,49 @@
+---
+/*
+  子頁頁首 —— eyebrow + 大標 + 導語，統一的資訊節奏。
+  簡潔立大氣：大量留白＋一條漸層髮絲線收尾。
+*/
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<div class="hv-page-hero">
+  <div class="hv-container">
+    <p class="hv-eyebrow" data-reveal>{eyebrow}</p>
+    <h1 class="hv-page-hero__title" data-reveal>{title}</h1>
+    {lead && <p class="hv-lead hv-page-hero__lead" data-reveal>{lead}</p>}
+  </div>
+  <div class="hv-page-hero__rule" aria-hidden="true"></div>
+</div>
+
+<style>
+  .hv-page-hero {
+    padding-top: clamp(4rem, 9vw, 7rem);
+  }
+  .hv-page-hero__title {
+    margin-top: var(--hv-space-4);
+    max-width: 22ch;
+    font-size: var(--hv-text-2xl);
+    line-height: var(--hv-leading-tight);
+    color: var(--hv-text-bright);
+  }
+  .hv-page-hero__lead {
+    margin-top: var(--hv-space-4);
+    max-width: 56ch;
+  }
+  .hv-page-hero__rule {
+    height: 1px;
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--hv-border-strong) 20%,
+      var(--hv-border-strong) 80%,
+      transparent
+    );
+  }
+</style>

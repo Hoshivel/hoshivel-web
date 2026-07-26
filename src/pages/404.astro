@@ -1,0 +1,79 @@
+---
+/*
+  品牌化 404 —— 星圖之外。依 Referer 無從得知語言，預設 zh-Hant，
+  但提供三語返回連結（靜態站的務實做法）。
+*/
+import Layout from "@/layouts/Layout.astro";
+import Constellation from "@/components/Constellation.astro";
+import {
+  useTranslations,
+  localizedPath,
+  LOCALES,
+  LOCALE_LABEL,
+} from "@/i18n/utils";
+
+const t = useTranslations("zh-Hant");
+---
+
+<Layout locale="zh-Hant" title="404">
+  <main id="main" class="hv-404">
+    <div class="hv-404__sky" aria-hidden="true">
+      <Constellation />
+    </div>
+    <div class="hv-container hv-404__inner">
+      <p class="hv-404__code" aria-hidden="true">404</p>
+      <h1 class="hv-404__title">{t("notfound.title")}</h1>
+      <p class="hv-lead">{t("notfound.body")}</p>
+      <div class="hv-404__cta">
+        {
+          LOCALES.map((l) => (
+            <a class="hv-btn hv-btn--ghost" href={localizedPath(l, "/")} hreflang={l}>
+              {LOCALE_LABEL[l]}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .hv-404 {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(6rem, 18vh, 12rem);
+    text-align: center;
+    background: var(--hv-night);
+  }
+  .hv-404__sky {
+    position: absolute;
+    inset: 0;
+    z-index: var(--hv-z-bg);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .hv-404__inner {
+    position: relative;
+    z-index: var(--hv-z-content);
+  }
+  .hv-404__code {
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
+    color: var(--hv-gold);
+  }
+  .hv-404__title {
+    margin-top: var(--hv-space-4);
+    font-size: var(--hv-text-2xl);
+    color: var(--hv-text-bright);
+  }
+  .hv-404 .hv-lead {
+    margin-top: var(--hv-space-4);
+  }
+  .hv-404__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-8);
+  }
+</style>

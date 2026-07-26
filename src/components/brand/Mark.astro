@@ -1,0 +1,68 @@
+---
+/*
+  Hoshivel 品牌標記 —— 四芒星＋軌道＋帆點（SVG 向量，可縮放）。
+  語彙：「以星為帆」——星（四芒）為仰望，軌道上的金色小點是航行中的帆。
+  title 有值 → role="img" + aria-label；無值 → aria-hidden（純裝飾）。
+*/
+interface Props {
+  size?: number;
+  glow?: boolean;
+  title?: string;
+  class?: string;
+}
+const { size = 32, glow = false, title, class: className } = Astro.props;
+
+// 每個實例獨立漸層 id，避免同頁多個 Mark 撞 id
+const gid = `hv-mark-grad-${Math.random().toString(36).slice(2, 8)}`;
+const a11y = title
+  ? { role: "img" as const, "aria-label": title }
+  : { "aria-hidden": "true" as const };
+---
+
+<svg
+  class:list={["hv-mark", { "is-glow": glow }, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  xmlns="http://www.w3.org/2000/svg"
+  {...a11y}
+>
+  <defs>
+    <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dbe4ff"></stop>
+      <stop offset="0.55" stop-color="#9db4ff"></stop>
+      <stop offset="1" stop-color="#c9b8ff"></stop>
+    </linearGradient>
+  </defs>
+  <!-- 軌道：細環，微傾（帆的航道） -->
+  <ellipse
+    cx="16"
+    cy="16"
+    rx="13.5"
+    ry="5.2"
+    fill="none"
+    stroke={`url(#${gid})`}
+    stroke-width="1"
+    opacity="0.45"
+    transform="rotate(-24 16 16)"></ellipse>
+  <!-- 四芒星：內凹弧邊（starlight） -->
+  <path
+    d="M16 4.5
+       C 17.2 10.2 21.8 14.8 27.5 16
+       C 21.8 17.2 17.2 21.8 16 27.5
+       C 14.8 21.8 10.2 17.2 4.5 16
+       C 10.2 14.8 14.8 10.2 16 4.5 Z"
+    fill={`url(#${gid})`}></path>
+  <!-- 帆點：航行於軌道上的金色小點 -->
+  <circle cx="26.6" cy="10.4" r="1.7" fill="#e6c88e"></circle>
+</svg>
+
+<style>
+  .hv-mark {
+    display: block;
+    overflow: visible;
+  }
+  .hv-mark.is-glow {
+    filter: drop-shadow(0 0 10px rgba(157, 180, 255, 0.45));
+  }
+</style>

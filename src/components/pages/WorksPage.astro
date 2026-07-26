@@ -1,0 +1,199 @@
+---
+/*
+  作品頁 —— 每件作品一個完整段落（錨點 = 作品 id）。
+  結構：字符記號＋名稱／類型／狀態 → 摘要 → 三項特點 → 入口。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import { useTranslations, type Locale } from "@/i18n/utils";
+import { PRODUCTS } from "@/lib/products";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Layout locale={locale} title={t("nav.works")} description={t("works.lead")}>
+  <main id="main">
+    <PageHero
+      eyebrow={t("works.eyebrow")}
+      title={t("works.title")}
+      lead={t("works.lead")}
+    />
+
+    <div class="hv-container">
+      {
+        PRODUCTS.map((p) => (
+          <section
+            id={p.id}
+            class="hv-work"
+            style={`--work-accent: var(${p.accentVar})`}
+            aria-labelledby={`${p.id}-title`}
+          >
+            <div class="hv-work__head" data-reveal>
+              <span class="hv-work__glyph" aria-hidden="true">
+                {p.glyph}
+              </span>
+              <div>
+                <h2 id={`${p.id}-title`} class="hv-work__name">
+                  {t(p.nameKey)}
+                  <span class="hv-work__latin">{t(p.latinKey)}</span>
+                </h2>
+                <p class="hv-work__kind">{t(p.kindKey)}</p>
+              </div>
+              <span class="hv-work__status">{t(p.statusKey)}</span>
+            </div>
+
+            <p class="hv-work__desc" data-reveal>
+              {t(p.descKey)}
+            </p>
+
+            <ul class="hv-work__features">
+              {p.featureKeys.map((f) => (
+                <li class="hv-work__feature" data-reveal>
+                  {t(f)}
+                </li>
+              ))}
+            </ul>
+
+            <div class="hv-work__foot" data-reveal>
+              {p.url ? (
+                <a
+                  class="hv-btn hv-btn--primary"
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {t("cta.visit")}
+                  <span aria-hidden="true">↗</span>
+                  <span class="hv-visually-hidden">{t("a11y.external")}</span>
+                </a>
+              ) : null}
+              {p.noteKey ? (
+                <p class="hv-work__note">{t(p.noteKey)}</p>
+              ) : null}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .hv-work {
+    /* 比全站 section 稍緊：兩件作品相鄰，過大留白會斷了「同一片星空」的連續感 */
+    padding-block: clamp(4rem, 8vw, 7rem);
+    /* sticky header 下的錨點落點 */
+    scroll-margin-top: 88px;
+  }
+  .hv-work + .hv-work {
+    border-top: 1px solid var(--hv-border);
+  }
+
+  .hv-work__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--hv-space-6);
+  }
+  /* 名稱區塊可伸縮；空間不足時狀態徽章自然換行 */
+  .hv-work__head > div {
+    flex: 1 1 260px;
+  }
+  .hv-work__glyph {
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--work-accent);
+  }
+  .hv-work__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+    font-size: var(--hv-text-2xl);
+    line-height: var(--hv-leading-tight);
+    color: var(--hv-text-bright);
+  }
+  .hv-work__latin {
+    font-size: var(--hv-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--hv-tracking-wide);
+    color: var(--hv-text-dim);
+  }
+  .hv-work__kind {
+    margin-top: var(--hv-space-2);
+    color: color-mix(in srgb, var(--work-accent) 78%, var(--hv-text));
+    font-size: var(--hv-text-sm);
+  }
+  .hv-work__status {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--hv-border);
+    border-radius: var(--hv-radius-pill);
+    font-size: var(--hv-text-xs);
+    color: var(--hv-text-muted);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .hv-work__desc {
+    margin-top: var(--hv-space-8);
+    max-width: 62ch;
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-base);
+  }
+
+  .hv-work__features {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--hv-space-8);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--hv-space-4);
+  }
+  .hv-work__feature {
+    position: relative;
+    padding: var(--hv-space-6);
+    padding-top: calc(var(--hv-space-6) + 0.4rem);
+    border: 1px solid var(--hv-border);
+    border-radius: var(--hv-radius);
+    background: var(--hv-surface-1);
+    color: var(--hv-text);
+    font-size: var(--hv-text-sm);
+    line-height: 1.7;
+  }
+  .hv-work__feature::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--hv-space-6);
+    width: 2.2rem;
+    height: 2px;
+    background: var(--work-accent);
+    opacity: 0.85;
+  }
+
+  .hv-work__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-work__note {
+    color: var(--hv-text-dim);
+    font-size: var(--hv-text-sm);
+  }
+
+  @media (max-width: 860px) {
+    .hv-work__features {
+      grid-template-columns: 1fr;
+    }
+    .hv-work__status {
+      margin-left: 0;
+    }
+  }
+</style>

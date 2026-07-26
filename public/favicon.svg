@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hoshivel">
+  <defs>
+    <linearGradient id="hv-mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dbe4ff" />
+      <stop offset="0.55" stop-color="#9db4ff" />
+      <stop offset="1" stop-color="#c9b8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="#05060a" />
+  <!-- 軌道（帆的航道） -->
+  <ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="url(#hv-mark)" stroke-width="1" opacity="0.45" transform="rotate(-24 16 16)" />
+  <!-- 四芒星 -->
+  <path d="M16 5 C 17.1 10.4 21.6 14.9 27 16 C 21.6 17.1 17.1 21.6 16 27 C 14.9 21.6 10.4 17.1 5 16 C 10.4 14.9 14.9 10.4 16 5 Z" fill="url(#hv-mark)" />
+  <!-- 帆點 -->
+  <circle cx="26.2" cy="10.7" r="1.6" fill="#e6c88e" />
+</svg>

@@ -1,0 +1,5 @@
+# Hoshivel 官方門戶
+User-agent: *
+Allow: /
+
+Sitemap: https://hoshivel.oha.li/sitemap.xml

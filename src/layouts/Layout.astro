@@ -1,0 +1,99 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import {
+  useTranslations,
+  localizedPath,
+  stripLocalePrefix,
+  HTML_LANG,
+  OG_LOCALE,
+  LOCALES,
+  DEFAULT_LOCALE,
+  type Locale,
+} from "@/i18n/utils";
+
+interface Props {
+  locale?: Locale;
+  /** 頁名（自動接上「— Hoshivel」）；不給 = 首頁形式（Hoshivel — 標語）。 */
+  title?: string;
+  description?: string;
+}
+
+const { locale = DEFAULT_LOCALE, title, description } = Astro.props;
+const t = useTranslations(locale);
+
+const siteName = t("site.name");
+const pageTitle = title
+  ? `${title} — ${siteName}`
+  : `${siteName} — ${t("site.tagline")}`;
+const pageDescription = description ?? t("site.summary");
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.pathname;
+
+// hreflang：把同一頁的各語言版本互相標示（含 x-default → 預設語言）。
+const logicalPath = stripLocalePrefix(Astro.url.pathname);
+const alternates = LOCALES.map((l) => ({
+  hreflang: HTML_LANG[l],
+  href: Astro.site
+    ? new URL(localizedPath(l, logicalPath), Astro.site).href
+    : localizedPath(l, logicalPath),
+}));
+const xDefault = Astro.site
+  ? new URL(localizedPath(DEFAULT_LOCALE, logicalPath), Astro.site).href
+  : localizedPath(DEFAULT_LOCALE, logicalPath);
+---
+
+<!doctype html>
+<html lang={HTML_LANG[locale]}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 盡早標記 JS 可用：reveal 內容只在有 JS 時預先隱藏，避免無 JS 環境被永久藏住 -->
+    <script is:inline>
+      document.documentElement.classList.add("hv-js");
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#05060a" />
+
+    <!-- i18n 交替連結 -->
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:locale" content={OG_LOCALE[locale]} />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={siteName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og.png" />
+    <meta name="twitter:image:alt" content={siteName} />
+  </head>
+  <body>
+    <Header locale={locale} path={logicalPath} />
+    <slot />
+    <Footer locale={locale} path={logicalPath} />
+
+    <script>
+      // 門戶唯一的捲動動效：reveal-on-scroll（IntersectionObserver、reduced-motion 友善）。
+      import { initScrollReveal } from "@/lib/motion";
+      initScrollReveal();
+    </script>
+  </body>
+</html>

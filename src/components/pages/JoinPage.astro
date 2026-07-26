@@ -1,0 +1,175 @@
+---
+/*
+  加入我們 —— 開放角色（卡列）→ 開放式申請 → 如何聯繫。
+  每個角色卡：職稱／範疇／模式 → 描述 → 期待的能力 → mailto 應徵
+  （主旨自動帶職稱，降低申請摩擦）。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import { useTranslations, type Locale } from "@/i18n/utils";
+import { ROLES } from "@/lib/roles";
+import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const applyHref = (roleTitle: string) =>
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[Join] ${roleTitle}`)}`;
+---
+
+<Layout locale={locale} title={t("nav.join")} description={t("join.lead")}>
+  <main id="main">
+    <PageHero
+      eyebrow={t("join.eyebrow")}
+      title={t("join.title")}
+      lead={t("join.lead")}
+    />
+
+    <!-- 開放角色 -->
+    <section class="hv-section" aria-labelledby="join-roles">
+      <div class="hv-container">
+        <h2 id="join-roles" class="hv-join__h2" data-reveal>
+          {t("join.roles.title")}
+        </h2>
+        <div class="hv-join-roles">
+          {
+            ROLES.map((role) => {
+              const title = t(role.titleKey);
+              return (
+                <article class="hv-card hv-join-role" id={role.id} data-reveal>
+                  <div class="hv-join-role__main">
+                    <h3 class="hv-join-role__title">{title}</h3>
+                    <p class="hv-join-role__meta">
+                      <span>{t(role.areaKey)}</span>
+                      <span class="hv-join-role__dot" aria-hidden="true">
+                        ·
+                      </span>
+                      <span>{t("join.mode.remote")}</span>
+                    </p>
+                    <p class="hv-join-role__desc">{t(role.descKey)}</p>
+                    <p class="hv-join-role__skills">{t(role.skillsKey)}</p>
+                  </div>
+                  <a class="hv-btn hv-btn--ghost hv-join-role__apply" href={applyHref(title)}>
+                    {t("join.apply")}
+                  </a>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 開放式申請＋如何聯繫 -->
+    <section class="hv-section hv-join-open" aria-labelledby="join-open">
+      <div class="hv-container hv-join-open__grid">
+        <div class="hv-join-open__block" data-reveal>
+          <h2 id="join-open" class="hv-join__h2">{t("join.open.title")}</h2>
+          <p class="hv-join-open__body">{t("join.open.body")}</p>
+        </div>
+        <div class="hv-join-open__block" data-reveal>
+          <h2 class="hv-join__h2">{t("join.how.title")}</h2>
+          <p class="hv-join-open__body">{t("join.how.body")}</p>
+          <div class="hv-join-open__cta">
+            <a class="hv-btn hv-btn--primary" href={`mailto:${CONTACT_EMAIL}`}>
+              {CONTACT_EMAIL}
+            </a>
+            <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
+              {t("footer.github")}
+              <span aria-hidden="true">↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hv-join__h2 {
+    font-size: var(--hv-text-xl);
+    line-height: var(--hv-leading-tight);
+    color: var(--hv-text-bright);
+  }
+
+  .hv-join-roles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-join-role {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-8);
+    padding: var(--hv-space-8);
+    scroll-margin-top: 88px;
+  }
+  .hv-join-role__title {
+    font-size: var(--hv-text-lg);
+    color: var(--hv-text-bright);
+  }
+  .hv-join-role__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--hv-space-2);
+    font-size: var(--hv-text-sm);
+    color: var(--hv-accent);
+  }
+  .hv-join-role__dot {
+    color: var(--hv-text-dim);
+  }
+  .hv-join-role__desc {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-sm);
+    max-width: 62ch;
+  }
+  .hv-join-role__skills {
+    margin-top: var(--hv-space-3);
+    font-size: var(--hv-text-xs);
+    letter-spacing: 0.04em;
+    color: var(--hv-text-dim);
+  }
+  .hv-join-role__apply {
+    flex-shrink: 0;
+  }
+
+  .hv-join-open {
+    border-top: 1px solid var(--hv-border);
+    background: var(--hv-bg-deep);
+  }
+  .hv-join-open__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+  .hv-join-open__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-muted);
+    max-width: 48ch;
+  }
+  .hv-join-open__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-6);
+  }
+
+  @media (max-width: 860px) {
+    .hv-join-role {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .hv-join-open__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

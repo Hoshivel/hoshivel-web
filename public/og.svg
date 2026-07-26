@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Hoshivel — 以星為帆，駛向未竟之境">
+  <defs>
+    <linearGradient id="og-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dbe4ff" />
+      <stop offset="0.55" stop-color="#9db4ff" />
+      <stop offset="1" stop-color="#c9b8ff" />
+    </linearGradient>
+    <radialGradient id="og-halo" cx="0.5" cy="0.02" r="1">
+      <stop offset="0" stop-color="#9db4ff" stop-opacity="0.14" />
+      <stop offset="0.6" stop-color="#9db4ff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- 底色與頂部光暈 -->
+  <rect width="1200" height="630" fill="#05060a" />
+  <rect width="1200" height="630" fill="url(#og-halo)" />
+
+  <!-- 星帆星座（右上） -->
+  <g stroke="#9db4ff" stroke-opacity="0.22" stroke-width="1.2" fill="none">
+    <polyline points="760,470 880,395 1005,340 1120,270" />
+    <polyline points="760,470 830,330 940,240 1120,270" />
+  </g>
+  <g fill="#d3ddff">
+    <circle cx="760" cy="470" r="3.4" />
+    <circle cx="880" cy="395" r="2.4" opacity="0.75" />
+    <circle cx="1005" cy="340" r="4"  />
+    <circle cx="1120" cy="270" r="3.2" />
+    <circle cx="830" cy="330" r="2.2" opacity="0.75" />
+    <circle cx="940" cy="240" r="2.6" opacity="0.85" />
+    <circle cx="1060" cy="120" r="2" opacity="0.6" />
+    <circle cx="700" cy="160" r="1.8" opacity="0.5" />
+    <circle cx="920" cy="540" r="1.8" opacity="0.5" />
+    <circle cx="1150" cy="470" r="2" opacity="0.55" />
+  </g>
+
+  <!-- 品牌標記：軌道＋四芒星＋帆點（96px，於文字區上方） -->
+  <g transform="translate(96 130) scale(3)">
+    <ellipse cx="16" cy="16" rx="13.5" ry="5.2" fill="none" stroke="url(#og-grad)" stroke-width="1" opacity="0.45" transform="rotate(-24 16 16)" />
+    <path d="M16 4.5 C 17.2 10.2 21.8 14.8 27.5 16 C 21.8 17.2 17.2 21.8 16 27.5 C 14.8 21.8 10.2 17.2 4.5 16 C 10.2 14.8 14.8 10.2 16 4.5 Z" fill="url(#og-grad)" />
+    <circle cx="26.6" cy="10.4" r="1.7" fill="#e6c88e" />
+  </g>
+
+  <!-- 字標與標語 -->
+  <text x="96" y="330" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-weight="800" font-size="88" letter-spacing="6" fill="url(#og-grad)">Hoshivel</text>
+  <text x="99" y="408" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-weight="500" font-size="34" letter-spacing="10" fill="#e4e8f0">以星為帆，駛向未竟之境</text>
+  <text x="99" y="455" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-weight="400" font-size="21" letter-spacing="3" fill="#8d94a8">Stars for sails, bound for worlds unmade</text>
+
+  <!-- 底線與網域 -->
+  <rect x="96" y="520" width="1008" height="1" fill="#38404f" />
+  <text x="96" y="568" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-weight="500" font-size="21" letter-spacing="6" fill="#8d94a8">HOSHIVEL.OHA.LI</text>
+  <text x="1104" y="568" text-anchor="end" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-weight="500" font-size="21" letter-spacing="4" fill="#8d94a8">碎界 SHATTERED REALMS · HOSHI ID</text>
+</svg>

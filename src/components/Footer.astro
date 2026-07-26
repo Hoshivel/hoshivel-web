@@ -1,0 +1,148 @@
+---
+/*
+  站尾 Footer —— brand（full 鎖定組）＋ 三欄（作品 / 組織 / 語言）＋ 基線列。
+  作品欄連到各作品（外部站標 ↗ 與 a11y 註記）；組織欄為站內頁與 GitHub。
+*/
+import Wordmark from "@/components/brand/Wordmark.astro";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import { PRODUCTS } from "@/lib/products";
+import { GITHUB_URL } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+  path?: string;
+}
+const { locale, path = "/" } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+
+const works = PRODUCTS.map((p) => ({
+  label: t(p.nameKey),
+  href: p.url ?? localizedPath(locale, `/works#${p.id}`),
+  external: p.url !== null,
+}));
+
+const org = [
+  { label: t("nav.about"), href: localizedPath(locale, "/about") },
+  { label: t("nav.news"), href: localizedPath(locale, "/news") },
+  { label: t("nav.join"), href: localizedPath(locale, "/join") },
+];
+---
+
+<footer class="hv-footer">
+  <div class="hv-container hv-footer__inner">
+    <div class="hv-footer__brand">
+      <Wordmark locale={locale} variant="full" />
+      <p class="hv-footer__summary">{t("footer.summary")}</p>
+    </div>
+
+    <nav class="hv-footer__col" aria-label={t("footer.worksLabel")}>
+      <span class="hv-eyebrow">{t("footer.worksLabel")}</span>
+      {
+        works.map((w) =>
+          w.external ? (
+            <a
+              class="hv-footer__link"
+              href={w.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {w.label}
+              <span aria-hidden="true"> ↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          ) : (
+            <a class="hv-footer__link" href={w.href}>
+              {w.label}
+            </a>
+          ),
+        )
+      }
+    </nav>
+
+    <nav class="hv-footer__col" aria-label={t("footer.orgLabel")}>
+      <span class="hv-eyebrow">{t("footer.orgLabel")}</span>
+      {org.map((o) => <a class="hv-footer__link" href={o.href}>{o.label}</a>)}
+      <a class="hv-footer__link" href={GITHUB_URL} target="_blank" rel="noopener">
+        {t("footer.github")}<span aria-hidden="true"> ↗</span>
+        <span class="hv-visually-hidden">{t("a11y.external")}</span>
+      </a>
+    </nav>
+
+    <div class="hv-footer__col">
+      <span class="hv-eyebrow">{t("footer.langLabel")}</span>
+      <LanguageSwitcher locale={locale} path={path} />
+    </div>
+  </div>
+
+  <div class="hv-container hv-footer__base">
+    <p class="hv-footer__rights">
+      <span class="hv-glyph-mark hv-footer__mark" aria-hidden="true"></span>
+      © {year} {t("footer.rights")}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .hv-footer {
+    border-top: 1px solid var(--hv-border);
+    background: var(--hv-bg-deep);
+    padding-block: var(--hv-space-16) var(--hv-space-8);
+  }
+  .hv-footer__inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr auto;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .hv-footer__summary {
+    margin-top: var(--hv-space-4);
+    max-width: 34ch;
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-sm);
+  }
+  .hv-footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+  .hv-footer__link {
+    color: var(--hv-text-muted);
+    font-size: var(--hv-text-sm);
+    transition: color var(--hv-dur-fast) var(--hv-ease-out);
+    width: fit-content;
+  }
+  .hv-footer__link:hover {
+    color: var(--hv-text-bright);
+  }
+  .hv-footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: var(--hv-space-12);
+    padding-top: var(--hv-space-6);
+    border-top: 1px solid var(--hv-border);
+    color: var(--hv-text-dim);
+    font-size: var(--hv-text-xs);
+  }
+  .hv-footer__rights {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .hv-footer__mark {
+    color: var(--hv-gold);
+  }
+
+  @media (max-width: 760px) {
+    .hv-footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hv-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
