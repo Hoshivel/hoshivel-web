@@ -1,14 +1,19 @@
 ---
 /*
-  首頁 —— 門戶的門面。
-  節奏：Hero（星座＋宣言）→ 作品 → 最新動態 → 理念一句 → 加入我們。
-  動效只有 reveal 進場與星座呼吸微光；大氣來自留白與排版。
+  首頁 —— 紙墨朱編輯部版式。
+  節奏：Hero（明體宣言＋直書落款）→ 〇一 作品 → 〇二 新聞 → 理念一句 → 〇三 同行。
+  沒有背景美術、沒有發光——大氣由留白、字重與一方朱印承擔。
 */
 import Layout from "@/layouts/Layout.astro";
-import Constellation from "@/components/Constellation.astro";
+import Mark from "@/components/brand/Mark.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import NewsCard from "@/components/NewsCard.astro";
-import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import {
+  useTranslations,
+  localizedPath,
+  sectionNum,
+  type Locale,
+} from "@/i18n/utils";
 import { PRODUCTS } from "@/lib/products";
 import { getNewsForLocale } from "@/lib/news";
 
@@ -18,38 +23,60 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
+/** 直書落款欄：漢字語境限定（拉丁字直排不成體統）。 */
+const vertical = locale !== "en";
+/** 直書時逗號改間隔號（直排的頓點更雅）。 */
+const verticalMotto = t("site.tagline").replaceAll("，", "・");
 ---
 
 <Layout locale={locale}>
   <main id="main">
-    <!-- Hero：星座之下的宣言 -->
+    <!-- Hero：紙上的宣言 -->
     <section class="hv-hero">
-      <div class="hv-hero__sky" aria-hidden="true">
-        <Constellation />
-      </div>
       <div class="hv-container hv-hero__inner">
-        <p class="hv-eyebrow" data-reveal>{t("home.hero.eyebrow")}</p>
-        <h1 class="hv-hero__title" data-reveal>
-          {t("home.hero.titleA")}<br />
-          <span class="hv-gradient-text">{t("home.hero.titleB")}</span>
-        </h1>
-        <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
-        <div class="hv-hero__cta" data-reveal>
-          <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
-            {t("cta.works")}
-          </a>
-          <a class="hv-btn hv-btn--ghost" href={localizedPath(locale, "/about")}>
-            {t("cta.about")}
-          </a>
+        <div class="hv-hero__main">
+          <p class="hv-eyebrow" data-reveal>{t("home.hero.eyebrow")}</p>
+          <h1 class="hv-hero__title hv-display" data-reveal>
+            {t("home.hero.titleA")}<br />
+            <span class="hv-hero__title-b">{t("home.hero.titleB")}</span>
+          </h1>
+          <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
+          <div class="hv-hero__cta" data-reveal>
+            <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
+              {t("cta.works")}
+            </a>
+            <a class="hv-btn hv-btn--ghost" href={localizedPath(locale, "/about")}>
+              {t("cta.about")}
+            </a>
+          </div>
         </div>
+
+        {
+          vertical && (
+            <div class="hv-hero__side" aria-hidden="true" data-reveal>
+              <span class="hv-hero__vertical">
+                {verticalMotto.split("").map((ch) => (
+                  <b>{ch}</b>
+                ))}
+              </span>
+              <Mark size={30} />
+            </div>
+          )
+        }
+      </div>
+      <div class="hv-container">
+        <hr class="hv-rule" />
       </div>
     </section>
 
-    <!-- 作品 -->
+    <!-- 〇一 作品 -->
     <section class="hv-section">
       <div class="hv-container">
         <div class="hv-section-head">
-          <p class="hv-eyebrow" data-reveal>{t("home.works.eyebrow")}</p>
+          <p class="hv-eyebrow" data-reveal>
+            <span class="hv-eyebrow__num">{sectionNum(locale, 1)}</span>
+            {t("home.works.eyebrow")}
+          </p>
           <h2 data-reveal>{t("home.works.title")}</h2>
           <p class="hv-lead" data-reveal>{t("home.works.lead")}</p>
         </div>
@@ -59,12 +86,15 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- 最新動態 -->
+    <!-- 〇二 新聞 -->
     <section class="hv-section hv-home-news">
       <div class="hv-container">
         <div class="hv-home-news__head">
           <div class="hv-section-head">
-            <p class="hv-eyebrow" data-reveal>{t("home.news.eyebrow")}</p>
+            <p class="hv-eyebrow" data-reveal>
+              <span class="hv-eyebrow__num">{sectionNum(locale, 2)}</span>
+              {t("home.news.eyebrow")}
+            </p>
             <h2 data-reveal>{t("home.news.title")}</h2>
           </div>
           <a class="hv-more" href={localizedPath(locale, "/news")} data-reveal>
@@ -77,11 +107,11 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- 理念一句 -->
+    <!-- 理念一句（間奏，不編號） -->
     <section class="hv-section hv-home-belief">
       <div class="hv-container hv-narrow">
         <blockquote class="hv-home-belief__quote" data-reveal>
-          <p>{t("home.belief.quote")}</p>
+          <p class="hv-display">{t("home.belief.quote")}</p>
           <footer>
             <a class="hv-home-belief__source" href={localizedPath(locale, "/about")}>
               {t("home.belief.source")}
@@ -91,12 +121,16 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- 加入我們 -->
+    <!-- 〇三 加入我們 -->
     <section class="hv-section hv-home-join">
       <div class="hv-container">
-        <div class="hv-home-join__card hv-card" data-reveal>
+        <div class="hv-home-join__card" data-reveal>
           <div>
-            <h2 class="hv-home-join__title">{t("home.join.title")}</h2>
+            <p class="hv-eyebrow">
+              <span class="hv-eyebrow__num">{sectionNum(locale, 3)}</span>
+              {t("nav.join")}
+            </p>
+            <h2 class="hv-home-join__title hv-display">{t("home.join.title")}</h2>
             <p class="hv-lead hv-home-join__lead">{t("home.join.lead")}</p>
           </div>
           <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/join")}>
@@ -111,47 +145,66 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
 <style>
   /* ---- Hero ---- */
   .hv-hero {
-    position: relative;
-    overflow: hidden;
-    /* 大氣：接近整屏的留白高度 */
-    padding-block: clamp(6rem, 16vh, 11rem) clamp(5rem, 14vh, 10rem);
-    background:
-      radial-gradient(
-        120% 90% at 50% -10%,
-        rgba(157, 180, 255, 0.08),
-        transparent 60%
-      ),
-      var(--hv-night);
-    border-bottom: 1px solid var(--hv-border);
-  }
-  .hv-hero__sky {
-    position: absolute;
-    inset: 0;
-    z-index: var(--hv-z-bg);
-    pointer-events: none;
+    padding-top: clamp(4.5rem, 12vh, 8.5rem);
   }
   .hv-hero__inner {
-    position: relative;
-    z-index: var(--hv-z-content);
+    display: flex;
+    align-items: stretch;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-bottom: clamp(3.5rem, 9vh, 6.5rem);
+  }
+  .hv-hero__main {
+    flex: 1;
   }
   .hv-hero__title {
     margin-top: var(--hv-space-6);
     font-size: var(--hv-text-display);
-    line-height: var(--hv-leading-tight);
-    letter-spacing: 0.01em;
-    color: var(--hv-text-bright);
-    max-width: 16ch;
+    /* 換行由 <br> 控制；CJK 下 ch 單位失真，不設 max-width */
+  }
+  .hv-hero__title-b {
+    color: var(--hv-vermilion);
   }
   .hv-hero__lead {
     margin-top: var(--hv-space-6);
-    max-width: 44ch;
-    font-size: var(--hv-text-base);
+    max-width: 46ch;
   }
   .hv-hero__cta {
     display: flex;
     flex-wrap: wrap;
     gap: var(--hv-space-4);
     margin-top: var(--hv-space-8);
+  }
+
+  /* 直書落款欄：細線 + 直排標語 + 朱印（畫軸署名的位置） */
+  .hv-hero__side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--hv-space-4);
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+    border-left: 1px solid var(--hv-hairline);
+  }
+  /*
+    直排：逐字一行（Chromium 對 flex 內 orthogonal flow 的量測不可靠，
+    不用 writing-mode，逐字堆疊最穩）。
+  */
+  .hv-hero__vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--hv-font-display);
+    font-size: var(--hv-text-lg);
+    line-height: 1;
+    color: var(--hv-ink-soft);
+  }
+  .hv-hero__vertical b {
+    font-weight: 500;
+  }
+  @media (max-width: 860px) {
+    .hv-hero__side {
+      display: none;
+    }
   }
 
   /* ---- 作品 ---- */
@@ -167,10 +220,10 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     }
   }
 
-  /* ---- 最新動態 ---- */
+  /* ---- 新聞：暖紙帶 ---- */
   .hv-home-news {
-    background: var(--hv-bg-deep);
-    border-block: 1px solid var(--hv-border);
+    background: var(--hv-paper-warm);
+    border-block: 1px solid var(--hv-hairline);
   }
   .hv-home-news__head {
     display: flex;
@@ -191,33 +244,44 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
   }
 
   /* ---- 理念一句 ---- */
+  .hv-home-belief {
+    padding-bottom: var(--hv-space-16);
+  }
   .hv-home-belief__quote {
     text-align: center;
   }
   .hv-home-belief__quote > p {
     font-size: var(--hv-text-xl);
-    line-height: 1.5;
-    color: var(--hv-text-bright);
+    line-height: 1.6;
+  }
+  /* 引號改用長槓：編輯部的括線 */
+  .hv-home-belief__quote > p::before,
+  .hv-home-belief__quote > p::after {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    margin-inline: auto;
+    background: var(--hv-vermilion);
   }
   .hv-home-belief__quote > p::before {
-    content: var(--hv-glyph-mark);
-    display: block;
     margin-bottom: var(--hv-space-6);
-    color: var(--hv-gold);
-    font-size: 1rem;
+  }
+  .hv-home-belief__quote > p::after {
+    margin-top: var(--hv-space-6);
   }
   .hv-home-belief__source {
     display: inline-block;
-    margin-top: var(--hv-space-6);
+    margin-top: var(--hv-space-4);
     font-size: var(--hv-text-sm);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     transition: color var(--hv-dur-fast) var(--hv-ease-out);
-  }
-  .hv-home-belief__source:hover {
-    color: var(--hv-accent);
   }
   .hv-home-belief__source::before {
     content: "—— ";
+  }
+  .hv-home-belief__source:hover {
+    color: var(--hv-vermilion);
   }
 
   /* ---- 加入我們 ---- */
@@ -230,17 +294,14 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     justify-content: space-between;
     gap: var(--hv-space-8);
     padding: clamp(2rem, 5vw, 3.5rem);
-    background:
-      radial-gradient(
-        90% 140% at 100% 0%,
-        rgba(157, 180, 255, 0.09),
-        transparent 55%
-      ),
-      var(--hv-surface-1);
+    border: 1px solid var(--hv-hairline);
+    border-left: 3px solid var(--hv-vermilion);
+    border-radius: var(--hv-radius-lg);
+    background: var(--hv-card);
   }
   .hv-home-join__title {
+    margin-top: var(--hv-space-4);
     font-size: var(--hv-text-xl);
-    color: var(--hv-text-bright);
   }
   .hv-home-join__lead {
     margin-top: var(--hv-space-3);

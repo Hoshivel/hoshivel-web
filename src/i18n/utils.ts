@@ -83,3 +83,14 @@ export function formatDate(locale: Locale, date: Date): string {
     day: "numeric",
   }).format(date);
 }
+
+const KANJI_NUM = ["一", "二", "三", "四", "五", "六", "七", "八", "九"] as const;
+
+/**
+ * 章節編號（眉標用的編輯部記號）。
+ * 中文以漢字（〇一、〇二…），英文以雙位數（01、02…）。
+ */
+export function sectionNum(locale: Locale, n: number): string {
+  if (locale === "en") return String(n).padStart(2, "0");
+  return `〇${KANJI_NUM[n - 1] ?? String(n)}`;
+}

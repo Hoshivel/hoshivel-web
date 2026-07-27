@@ -1,12 +1,12 @@
 ---
 /*
-  加入我們 —— 開放角色（卡列）→ 開放式申請 → 如何聯繫。
-  每個角色卡：職稱／範疇／模式 → 描述 → 期待的能力 → mailto 應徵
+  加入我們 —— 開放角色（紙卡列）→ 開放式申請 → 如何聯繫。
+  角色卡：明體職稱／範疇／模式 → 描述 → 期待的能力 → mailto 應徵
   （主旨自動帶職稱，降低申請摩擦）。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
-import { useTranslations, type Locale } from "@/i18n/utils";
+import { useTranslations, sectionNum, type Locale } from "@/i18n/utils";
 import { ROLES } from "@/lib/roles";
 import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site";
 
@@ -23,6 +23,7 @@ const applyHref = (roleTitle: string) =>
 <Layout locale={locale} title={t("nav.join")} description={t("join.lead")}>
   <main id="main">
     <PageHero
+      num={sectionNum(locale, 4)}
       eyebrow={t("join.eyebrow")}
       title={t("join.title")}
       lead={t("join.lead")}
@@ -31,7 +32,7 @@ const applyHref = (roleTitle: string) =>
     <!-- 開放角色 -->
     <section class="hv-section" aria-labelledby="join-roles">
       <div class="hv-container">
-        <h2 id="join-roles" class="hv-join__h2" data-reveal>
+        <h2 id="join-roles" class="hv-join__h2 hv-display" data-reveal>
           {t("join.roles.title")}
         </h2>
         <div class="hv-join-roles">
@@ -41,7 +42,7 @@ const applyHref = (roleTitle: string) =>
               return (
                 <article class="hv-card hv-join-role" id={role.id} data-reveal>
                   <div class="hv-join-role__main">
-                    <h3 class="hv-join-role__title">{title}</h3>
+                    <h3 class="hv-join-role__title hv-display">{title}</h3>
                     <p class="hv-join-role__meta">
                       <span>{t(role.areaKey)}</span>
                       <span class="hv-join-role__dot" aria-hidden="true">
@@ -63,15 +64,15 @@ const applyHref = (roleTitle: string) =>
       </div>
     </section>
 
-    <!-- 開放式申請＋如何聯繫 -->
+    <!-- 開放式申請＋如何聯繫：暖紙帶 -->
     <section class="hv-section hv-join-open" aria-labelledby="join-open">
       <div class="hv-container hv-join-open__grid">
-        <div class="hv-join-open__block" data-reveal>
-          <h2 id="join-open" class="hv-join__h2">{t("join.open.title")}</h2>
+        <div data-reveal>
+          <h2 id="join-open" class="hv-join__h2 hv-display">{t("join.open.title")}</h2>
           <p class="hv-join-open__body">{t("join.open.body")}</p>
         </div>
-        <div class="hv-join-open__block" data-reveal>
-          <h2 class="hv-join__h2">{t("join.how.title")}</h2>
+        <div data-reveal>
+          <h2 class="hv-join__h2 hv-display">{t("join.how.title")}</h2>
           <p class="hv-join-open__body">{t("join.how.body")}</p>
           <div class="hv-join-open__cta">
             <a class="hv-btn hv-btn--primary" href={`mailto:${CONTACT_EMAIL}`}>
@@ -92,8 +93,6 @@ const applyHref = (roleTitle: string) =>
 <style>
   .hv-join__h2 {
     font-size: var(--hv-text-xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
 
   .hv-join-roles {
@@ -108,11 +107,10 @@ const applyHref = (roleTitle: string) =>
     justify-content: space-between;
     gap: var(--hv-space-8);
     padding: var(--hv-space-8);
-    scroll-margin-top: 88px;
+    scroll-margin-top: 90px;
   }
   .hv-join-role__title {
     font-size: var(--hv-text-lg);
-    color: var(--hv-text-bright);
   }
   .hv-join-role__meta {
     display: flex;
@@ -121,30 +119,31 @@ const applyHref = (roleTitle: string) =>
     gap: 0.5rem;
     margin-top: var(--hv-space-2);
     font-size: var(--hv-text-sm);
-    color: var(--hv-accent);
+    font-weight: 600;
+    color: var(--hv-vermilion);
   }
   .hv-join-role__dot {
-    color: var(--hv-text-dim);
+    color: var(--hv-ink-faint);
   }
   .hv-join-role__desc {
     margin-top: var(--hv-space-4);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-sm);
     max-width: 62ch;
   }
   .hv-join-role__skills {
     margin-top: var(--hv-space-3);
     font-size: var(--hv-text-xs);
-    letter-spacing: 0.04em;
-    color: var(--hv-text-dim);
+    letter-spacing: 0.05em;
+    color: var(--hv-ink-faint);
   }
   .hv-join-role__apply {
     flex-shrink: 0;
   }
 
   .hv-join-open {
-    border-top: 1px solid var(--hv-border);
-    background: var(--hv-bg-deep);
+    background: var(--hv-paper-warm);
+    border-top: 1px solid var(--hv-hairline);
   }
   .hv-join-open__grid {
     display: grid;
@@ -153,7 +152,7 @@ const applyHref = (roleTitle: string) =>
   }
   .hv-join-open__body {
     margin-top: var(--hv-space-4);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     max-width: 48ch;
   }
   .hv-join-open__cta {

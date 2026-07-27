@@ -1,11 +1,11 @@
 ---
 /*
   作品頁 —— 每件作品一個完整段落（錨點 = 作品 id）。
-  結構：字符記號＋名稱／類型／狀態 → 摘要 → 三項特點 → 入口。
+  結構：識別色小方記＋明體名／類型／狀態 → 摘要 → 三項特點（髮絲清單）→ 入口。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
-import { useTranslations, type Locale } from "@/i18n/utils";
+import { useTranslations, sectionNum, type Locale } from "@/i18n/utils";
 import { PRODUCTS } from "@/lib/products";
 
 interface Props {
@@ -18,6 +18,7 @@ const t = useTranslations(locale);
 <Layout locale={locale} title={t("nav.works")} description={t("works.lead")}>
   <main id="main">
     <PageHero
+      num={sectionNum(locale, 1)}
       eyebrow={t("works.eyebrow")}
       title={t("works.title")}
       lead={t("works.lead")}
@@ -33,17 +34,19 @@ const t = useTranslations(locale);
             aria-labelledby={`${p.id}-title`}
           >
             <div class="hv-work__head" data-reveal>
-              <span class="hv-work__glyph" aria-hidden="true">
-                {p.glyph}
-              </span>
+              <span class="hv-work__chip" aria-hidden="true" />
               <div>
-                <h2 id={`${p.id}-title`} class="hv-work__name">
+                <h2 id={`${p.id}-title`} class="hv-work__name hv-display">
                   {t(p.nameKey)}
-                  <span class="hv-work__latin">{t(p.latinKey)}</span>
+                  {t(p.latinKey).toLowerCase() !== t(p.nameKey).toLowerCase() && (
+                    <span class="hv-work__latin">{t(p.latinKey)}</span>
+                  )}
                 </h2>
                 <p class="hv-work__kind">{t(p.kindKey)}</p>
               </div>
-              <span class="hv-work__status">{t(p.statusKey)}</span>
+              <span class="hv-badge hv-work__status" class:list={{ "hv-badge--live": p.live }}>
+                {t(p.statusKey)}
+              </span>
             </div>
 
             <p class="hv-work__desc" data-reveal>
@@ -51,15 +54,18 @@ const t = useTranslations(locale);
             </p>
 
             <ul class="hv-work__features">
-              {p.featureKeys.map((f) => (
+              {p.featureKeys.map((f, i) => (
                 <li class="hv-work__feature" data-reveal>
+                  <span class="hv-work__feature-num" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   {t(f)}
                 </li>
               ))}
             </ul>
 
-            <div class="hv-work__foot" data-reveal>
-              {p.url ? (
+            {p.url ? (
+              <div class="hv-work__foot" data-reveal>
                 <a
                   class="hv-btn hv-btn--primary"
                   href={p.url}
@@ -70,11 +76,8 @@ const t = useTranslations(locale);
                   <span aria-hidden="true">↗</span>
                   <span class="hv-visually-hidden">{t("a11y.external")}</span>
                 </a>
-              ) : null}
-              {p.noteKey ? (
-                <p class="hv-work__note">{t(p.noteKey)}</p>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </section>
         ))
       }
@@ -84,13 +87,12 @@ const t = useTranslations(locale);
 
 <style>
   .hv-work {
-    /* 比全站 section 稍緊：兩件作品相鄰，過大留白會斷了「同一片星空」的連續感 */
-    padding-block: clamp(4rem, 8vw, 7rem);
+    padding-block: clamp(3.5rem, 7vw, 6rem);
     /* sticky header 下的錨點落點 */
-    scroll-margin-top: 88px;
+    scroll-margin-top: 90px;
   }
   .hv-work + .hv-work {
-    border-top: 1px solid var(--hv-border);
+    border-top: 1px solid var(--hv-hairline);
   }
 
   .hv-work__head {
@@ -103,10 +105,12 @@ const t = useTranslations(locale);
   .hv-work__head > div {
     flex: 1 1 260px;
   }
-  .hv-work__glyph {
-    font-size: 2.2rem;
-    line-height: 1;
-    color: var(--work-accent);
+  .hv-work__chip {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.6rem;
+    border-radius: var(--hv-radius-sm);
+    background: var(--work-accent);
   }
   .hv-work__name {
     display: flex;
@@ -114,66 +118,59 @@ const t = useTranslations(locale);
     align-items: baseline;
     gap: 0.7rem;
     font-size: var(--hv-text-2xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
   .hv-work__latin {
+    font-family: var(--hv-font-sans);
     font-size: var(--hv-text-xs);
     font-weight: 600;
     letter-spacing: var(--hv-tracking-wide);
-    color: var(--hv-text-dim);
+    color: var(--hv-ink-faint);
   }
   .hv-work__kind {
     margin-top: var(--hv-space-2);
-    color: color-mix(in srgb, var(--work-accent) 78%, var(--hv-text));
+    color: var(--work-accent);
+    font-weight: 600;
     font-size: var(--hv-text-sm);
   }
   .hv-work__status {
     margin-left: auto;
     flex-shrink: 0;
-    padding: 0.3rem 0.75rem;
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius-pill);
-    font-size: var(--hv-text-xs);
-    color: var(--hv-text-muted);
-    background: rgba(255, 255, 255, 0.02);
   }
 
   .hv-work__desc {
-    margin-top: var(--hv-space-8);
+    margin-top: var(--hv-space-6);
     max-width: 62ch;
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-base);
   }
 
+  /* 特點：編號髮絲清單（不做卡片——紙面上列清單就好） */
   .hv-work__features {
     list-style: none;
     padding: 0;
     margin-top: var(--hv-space-8);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--hv-space-4);
+    max-width: 720px;
   }
   .hv-work__feature {
-    position: relative;
-    padding: var(--hv-space-6);
-    padding-top: calc(var(--hv-space-6) + 0.4rem);
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius);
-    background: var(--hv-surface-1);
-    color: var(--hv-text);
+    display: flex;
+    gap: var(--hv-space-6);
+    align-items: baseline;
+    padding-block: var(--hv-space-4);
+    border-top: 1px solid var(--hv-hairline);
+    color: var(--hv-ink);
     font-size: var(--hv-text-sm);
-    line-height: 1.7;
+    line-height: 1.75;
   }
-  .hv-work__feature::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: var(--hv-space-6);
-    width: 2.2rem;
-    height: 2px;
-    background: var(--work-accent);
-    opacity: 0.85;
+  .hv-work__feature:last-child {
+    border-bottom: 1px solid var(--hv-hairline);
+  }
+  .hv-work__feature-num {
+    font-family: var(--hv-font-display);
+    font-weight: 600;
+    color: var(--work-accent);
+    font-size: var(--hv-text-xs);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
   }
 
   .hv-work__foot {
@@ -183,15 +180,8 @@ const t = useTranslations(locale);
     gap: var(--hv-space-6);
     margin-top: var(--hv-space-8);
   }
-  .hv-work__note {
-    color: var(--hv-text-dim);
-    font-size: var(--hv-text-sm);
-  }
 
   @media (max-width: 860px) {
-    .hv-work__features {
-      grid-template-columns: 1fr;
-    }
     .hv-work__status {
       margin-left: 0;
     }

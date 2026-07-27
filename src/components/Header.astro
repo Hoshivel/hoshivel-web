@@ -1,8 +1,8 @@
 ---
 /*
-  站首 Header —— sticky 毛玻璃列。
+  站首 Header —— 紙面 sticky 列，髮絲下框。
   brand（連首頁）＋ 頁面導覽（作品/新聞/關於/加入我們）＋ 語言切換。
-  目前頁以 aria-current="page" 標示（樣式跟著 aria 走，UX 與 a11y 同源）。
+  目前頁以 aria-current="page" 標示（朱色短線；樣式跟著 aria 走）。
   行動裝置（≤760px）：導覽收進 hamburger 下拉；可存取切換
   （aria-expanded / aria-controls；Esc / 外點 / 點連結關閉）。
 */
@@ -34,7 +34,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
 <header class="hv-header">
   <div class="hv-container hv-header__inner">
     <a class="hv-header__brand" href={home} aria-label={t("a11y.home")}>
-      <Wordmark locale={locale} variant="compact" glow />
+      <Wordmark locale={locale} variant="compact" />
     </a>
 
     <nav class="hv-header__nav" id="hv-primary-nav" aria-label={t("a11y.menu")}>
@@ -75,8 +75,8 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     z-index: var(--hv-z-overlay);
     padding: 0.5rem 0.9rem;
     border-radius: var(--hv-radius);
-    background: var(--hv-surface-3);
-    color: var(--hv-text-bright);
+    background: var(--hv-ink-bg);
+    color: var(--hv-paper-on-ink);
     transform: translateY(-160%);
     transition: transform var(--hv-dur-fast) var(--hv-ease-out);
   }
@@ -88,16 +88,16 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     position: sticky;
     top: 0;
     z-index: var(--hv-z-header);
-    border-bottom: 1px solid var(--hv-border);
-    background: var(--hv-scrim);
-    -webkit-backdrop-filter: var(--hv-blur);
-    backdrop-filter: var(--hv-blur);
+    border-bottom: 1px solid var(--hv-hairline);
+    background: color-mix(in srgb, var(--hv-paper) 92%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
   .hv-header__inner {
     display: flex;
     align-items: center;
     gap: 1rem;
-    min-height: 64px;
+    min-height: 66px;
   }
   .hv-header__brand {
     display: inline-flex;
@@ -106,39 +106,40 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
   .hv-header__nav {
     display: flex;
     align-items: center;
-    gap: clamp(0.85rem, 2.4vw, 2rem);
+    gap: clamp(0.85rem, 2.4vw, 2.1rem);
     margin-inline: auto;
   }
   .hv-header__link {
     position: relative;
     font-size: var(--hv-text-sm);
-    color: var(--hv-text-muted);
+    letter-spacing: 0.06em;
+    color: var(--hv-ink-soft);
     transition: color var(--hv-dur-fast) var(--hv-ease-out);
   }
+  /* 底線：朱色短線，自中心展開 */
   .hv-header__link::after {
     content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.45rem;
-    height: 1px;
-    background: var(--hv-accent);
-    transform: scaleX(0);
-    transform-origin: left;
+    left: 50%;
+    bottom: -0.5rem;
+    width: 1.2em;
+    height: 2px;
+    background: var(--hv-vermilion);
+    transform: translateX(-50%) scaleX(0);
     transition: transform var(--hv-dur) var(--hv-ease-out);
   }
   .hv-header__link:hover {
-    color: var(--hv-text-bright);
+    color: var(--hv-ink-strong);
   }
   .hv-header__link:hover::after {
-    transform: scaleX(1);
+    transform: translateX(-50%) scaleX(1);
   }
-  /* 目前頁：亮字＋常駐底線 */
+  /* 目前頁：墨字＋常駐朱線 */
   .hv-header__link[aria-current="page"] {
-    color: var(--hv-text-bright);
+    color: var(--hv-ink-strong);
   }
   .hv-header__link[aria-current="page"]::after {
-    transform: scaleX(1);
+    transform: translateX(-50%) scaleX(1);
   }
   .hv-header__actions {
     display: flex;
@@ -155,11 +156,11 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     width: 40px;
     height: 40px;
     border-radius: var(--hv-radius);
-    color: var(--hv-text);
+    color: var(--hv-ink);
   }
   .hv-header__menu-btn:hover {
-    color: var(--hv-text-bright);
-    background: rgba(255, 255, 255, 0.04);
+    color: var(--hv-ink-strong);
+    background: rgba(23, 24, 28, 0.05);
   }
   .hv-burger,
   .hv-burger::before,
@@ -214,21 +215,20 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
       gap: 0;
       margin: 0;
       padding: 0.25rem var(--hv-gutter) 0.75rem;
-      /* 近乎不透明：不支援 backdrop-filter 的環境也要可讀 */
-      background: rgba(5, 6, 10, 0.96);
-      -webkit-backdrop-filter: var(--hv-blur);
-      backdrop-filter: var(--hv-blur);
-      border-bottom: 1px solid var(--hv-border);
+      /* 實面紙色：任何環境都可讀 */
+      background: var(--hv-paper);
+      border-bottom: 1px solid var(--hv-hairline);
+      box-shadow: var(--hv-shadow-2);
       display: none;
     }
     .hv-header__nav[data-open] {
       display: flex;
     }
     .hv-header__link {
-      padding: 0.8rem 0;
+      padding: 0.85rem 0;
       font-size: var(--hv-text-base);
-      color: var(--hv-text);
-      border-bottom: 1px solid var(--hv-border);
+      color: var(--hv-ink);
+      border-bottom: 1px solid var(--hv-hairline);
     }
     .hv-header__link:last-child {
       border-bottom: 0;
@@ -237,7 +237,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
       display: none;
     }
     .hv-header__link[aria-current="page"] {
-      color: var(--hv-accent);
+      color: var(--hv-vermilion);
     }
   }
 </style>

@@ -1,10 +1,10 @@
 ---
 /*
-  Hoshivel 字標鎖定組（Mark + 名稱）。
+  Hoshivel 字標鎖定組（第二版）—— 朱印 + 明體名。
   variant：
-    - mark    —— 只有星標（Mark 帶 aria-label）
-    - compact —— 星標 + 名稱（header 用）
-    - full    —— 星標 + 名稱 + 標語（footer / OG 用）
+    - mark    —— 只有印（Mark 帶 aria-label）
+    - compact —— 印 + 名稱（header 用）
+    - full    —— 印 + 名稱 + 標語（footer / OG 用）
 */
 import Mark from "./Mark.astro";
 import { useTranslations, type Locale } from "@/i18n/utils";
@@ -13,29 +13,30 @@ interface Props {
   locale: Locale;
   variant?: "mark" | "compact" | "full";
   size?: number;
-  glow?: boolean;
   class?: string;
+  /** 墨面（footer）上的反白配色。 */
+  onInk?: boolean;
 }
 const {
   locale,
   variant = "compact",
   size,
-  glow = false,
   class: className,
+  onInk = false,
 } = Astro.props;
 
 const t = useTranslations(locale);
 const name = t("site.name");
 const tagline = t("site.tagline");
-const markSize = size ?? (variant === "full" ? 40 : 26);
+const markSize = size ?? (variant === "full" ? 38 : 26);
 ---
 
-<span class:list={["hv-wordmark", `is-${variant}`, className]}>
-  <Mark size={markSize} glow={glow} title={variant === "mark" ? name : undefined} />
+<span class:list={["hv-wordmark", `is-${variant}`, { "on-ink": onInk }, className]}>
+  <Mark size={markSize} onInk={onInk} title={variant === "mark" ? name : undefined} />
   {
     variant !== "mark" && (
       <span class="hv-wordmark__text">
-        <span class="hv-wordmark__name hv-gradient-text">{name}</span>
+        <span class="hv-wordmark__name">{name}</span>
         {variant === "full" && <span class="hv-wordmark__tagline">{tagline}</span>}
       </span>
     )
@@ -46,10 +47,10 @@ const markSize = size ?? (variant === "full" ? 40 : 26);
   .hv-wordmark {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   .hv-wordmark.is-full {
-    gap: 0.7rem;
+    gap: 0.75rem;
   }
   .hv-wordmark__text {
     display: inline-flex;
@@ -57,18 +58,26 @@ const markSize = size ?? (variant === "full" ? 40 : 26);
     line-height: 1;
   }
   .hv-wordmark__name {
-    font-family: var(--hv-font-sans);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    font-size: 1.12rem;
+    font-family: var(--hv-font-display);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 1.18rem;
+    color: var(--hv-ink-strong);
   }
   .hv-wordmark.is-full .hv-wordmark__name {
     font-size: 1.45rem;
   }
   .hv-wordmark__tagline {
-    color: var(--hv-text-muted);
-    letter-spacing: 0.18em;
+    color: var(--hv-ink-soft);
+    letter-spacing: 0.2em;
     font-size: 0.62rem;
-    margin-top: 0.3rem;
+    margin-top: 0.35rem;
+  }
+  /* 墨面（footer）反白 */
+  .hv-wordmark.on-ink .hv-wordmark__name {
+    color: var(--hv-paper-on-ink);
+  }
+  .hv-wordmark.on-ink .hv-wordmark__tagline {
+    color: var(--hv-muted-on-ink);
   }
 </style>

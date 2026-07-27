@@ -13,7 +13,7 @@ export const prerender = true;
 const LOGICAL_PAGES = ["/", "/works", "/about", "/join", "/news"];
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = (site?.href ?? "https://hoshivel.oha.li/").replace(/\/$/, "");
+  const origin = (site?.href ?? "https://hoshivel.com/").replace(/\/$/, "");
   const abs = (p: string) => `${origin}${p}`;
 
   // 新聞內頁的邏輯路徑（各語系皆有該 slug 的頁面——缺譯已回退）

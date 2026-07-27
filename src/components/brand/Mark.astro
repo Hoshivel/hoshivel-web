@@ -1,68 +1,61 @@
 ---
 /*
-  Hoshivel 品牌標記 —— 四芒星＋軌道＋帆點（SVG 向量，可縮放）。
-  語彙：「以星為帆」——星（四芒）為仰望，軌道上的金色小點是航行中的帆。
+  Hoshivel 品牌標記（第二版）—— 朱印。
+  方正的朱紅印面，鏤白四芒星：星是名（hoshi），印是署名的手。
+  純幾何、無發光無漸層——印章蓋在紙上，不需要光。
   title 有值 → role="img" + aria-label；無值 → aria-hidden（純裝飾）。
 */
 interface Props {
   size?: number;
-  glow?: boolean;
   title?: string;
   class?: string;
+  /** 墨面（footer）上使用時反白邊。 */
+  onInk?: boolean;
 }
-const { size = 32, glow = false, title, class: className } = Astro.props;
+const { size = 32, title, class: className, onInk = false } = Astro.props;
 
-// 每個實例獨立漸層 id，避免同頁多個 Mark 撞 id
-const gid = `hv-mark-grad-${Math.random().toString(36).slice(2, 8)}`;
 const a11y = title
   ? { role: "img" as const, "aria-label": title }
   : { "aria-hidden": "true" as const };
 ---
 
 <svg
-  class:list={["hv-mark", { "is-glow": glow }, className]}
+  class:list={["hv-mark", { "on-ink": onInk }, className]}
   width={size}
   height={size}
   viewBox="0 0 32 32"
   xmlns="http://www.w3.org/2000/svg"
   {...a11y}
 >
-  <defs>
-    <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#dbe4ff"></stop>
-      <stop offset="0.55" stop-color="#9db4ff"></stop>
-      <stop offset="1" stop-color="#c9b8ff"></stop>
-    </linearGradient>
-  </defs>
-  <!-- 軌道：細環，微傾（帆的航道） -->
-  <ellipse
-    cx="16"
-    cy="16"
-    rx="13.5"
-    ry="5.2"
+  <!-- 印面 -->
+  <rect x="1.5" y="1.5" width="29" height="29" rx="5" fill="#b23a26"></rect>
+  <!-- 印框（內縮細線，印章的邊） -->
+  <rect
+    x="4.5"
+    y="4.5"
+    width="23"
+    height="23"
+    rx="3"
     fill="none"
-    stroke={`url(#${gid})`}
-    stroke-width="1"
-    opacity="0.45"
-    transform="rotate(-24 16 16)"></ellipse>
-  <!-- 四芒星：內凹弧邊（starlight） -->
+    stroke="#fdfbf5"
+    stroke-opacity="0.55"
+    stroke-width="1"></rect>
+  <!-- 鏤白四芒星 -->
   <path
-    d="M16 4.5
-       C 17.2 10.2 21.8 14.8 27.5 16
-       C 21.8 17.2 17.2 21.8 16 27.5
-       C 14.8 21.8 10.2 17.2 4.5 16
-       C 10.2 14.8 14.8 10.2 16 4.5 Z"
-    fill={`url(#${gid})`}></path>
-  <!-- 帆點：航行於軌道上的金色小點 -->
-  <circle cx="26.6" cy="10.4" r="1.7" fill="#e6c88e"></circle>
+    d="M16 7.5
+       C 16.9 11.8 20.2 15.1 24.5 16
+       C 20.2 16.9 16.9 20.2 16 24.5
+       C 15.1 20.2 11.8 16.9 7.5 16
+       C 11.8 15.1 15.1 11.8 16 7.5 Z"
+    fill="#fdfbf5"></path>
 </svg>
 
 <style>
   .hv-mark {
     display: block;
-    overflow: visible;
   }
-  .hv-mark.is-glow {
-    filter: drop-shadow(0 0 10px rgba(157, 180, 255, 0.45));
+  .hv-mark.on-ink {
+    /* 墨面上印章微亮一階，維持存在感 */
+    filter: brightness(1.08);
   }
 </style>

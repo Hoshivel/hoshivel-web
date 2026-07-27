@@ -18,8 +18,8 @@ html {
 
 body {
   font-family: var(--hv-font-sans);
-  background: var(--hv-bg);
-  color: var(--hv-text);
+  background: var(--hv-paper);
+  color: var(--hv-ink);
   line-height: var(--hv-leading);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -46,13 +46,13 @@ button {
   cursor: pointer;
 }
 :focus-visible {
-  outline: 2px solid var(--hv-accent);
+  outline: 2px solid var(--hv-vermilion);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 ::selection {
-  background: rgba(157, 180, 255, 0.28);
-  color: var(--hv-text-bright);
+  background: rgba(178, 58, 38, 0.18);
+  color: var(--hv-ink-strong);
 }
 
 /* ---- utilities ---- */
@@ -78,143 +78,182 @@ button {
   border: 0;
 }
 
-/* 漸層字：保留給品牌時刻（字標 / Hero 一句），不氾濫 */
-.hv-gradient-text {
-  background: var(--hv-wordmark-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 /* 區塊節奏：統一的上下留白 */
 .hv-section {
   padding-block: var(--hv-section-pad);
 }
 
-/* 眉標：小型全大寫追蹤標籤（家族簽名），前綴星金記號 */
-.hv-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  font-size: var(--hv-text-xs);
-  letter-spacing: var(--hv-tracking-wider);
-  text-transform: uppercase;
-  color: var(--hv-text-muted);
-}
-.hv-eyebrow::before {
-  content: var(--hv-glyph-mark);
-  color: var(--hv-gold);
-  font-size: 0.9em;
-  letter-spacing: 0;
+/* 標題字（明體）：全站 heading 的共同骨架 */
+.hv-display {
+  font-family: var(--hv-font-display);
+  font-weight: 600;
+  letter-spacing: var(--hv-tracking);
+  color: var(--hv-ink-strong);
+  line-height: var(--hv-leading-tight);
 }
 
-/* 區塊標題組：eyebrow + 大標 + 導語（全站一致的資訊節奏） */
+/*
+  眉標：章節編號（朱・明體）＋ 標籤。
+  編輯部的簽名記號——取代第一版的 ✦ 星符。
+*/
+.hv-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.7em;
+  font-size: var(--hv-text-xs);
+  letter-spacing: var(--hv-tracking-wider);
+  color: var(--hv-ink-soft);
+}
+.hv-eyebrow__num {
+  font-family: var(--hv-font-display);
+  font-weight: 600;
+  color: var(--hv-vermilion);
+  letter-spacing: 0.08em;
+}
+
+/* 導語 */
+.hv-lead {
+  color: var(--hv-ink-soft);
+  font-size: var(--hv-text-base);
+}
+
+/* 區塊標題組：eyebrow + 大標 + 導語 */
 .hv-section-head {
   max-width: 640px;
 }
 .hv-section-head > h2 {
   margin-top: var(--hv-space-4);
+  font-family: var(--hv-font-display);
+  font-weight: 600;
   font-size: var(--hv-text-2xl);
   line-height: var(--hv-leading-tight);
-  letter-spacing: 0.01em;
-  color: var(--hv-text-bright);
+  letter-spacing: var(--hv-tracking);
+  color: var(--hv-ink-strong);
 }
 .hv-section-head > .hv-lead {
   margin-top: var(--hv-space-4);
 }
-.hv-lead {
-  color: var(--hv-text-muted);
-  font-size: var(--hv-text-base);
-}
 
-/* 按鈕基元 */
+/*
+  按鈕基元：方正（近直角）、墨面／線框——與姊妹站的圓膠囊相反。
+  hover 過渡到朱：全站唯一的「亮色時刻」。
+*/
 .hv-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.68rem 1.35rem;
-  border-radius: var(--hv-radius-pill);
+  padding: 0.72rem 1.5rem;
+  border-radius: var(--hv-radius);
   font-size: var(--hv-text-sm);
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   line-height: 1;
   white-space: nowrap;
   transition:
-    transform var(--hv-dur-fast) var(--hv-ease-out),
-    box-shadow var(--hv-dur-fast) var(--hv-ease-out),
-    border-color var(--hv-dur-fast) var(--hv-ease-out),
     background-color var(--hv-dur-fast) var(--hv-ease-out),
-    color var(--hv-dur-fast) var(--hv-ease-out);
-}
-.hv-btn:hover {
-  transform: translateY(-1px);
+    border-color var(--hv-dur-fast) var(--hv-ease-out),
+    color var(--hv-dur-fast) var(--hv-ease-out),
+    transform var(--hv-dur-fast) var(--hv-ease-out);
 }
 .hv-btn:active {
-  transform: translateY(0);
+  transform: translateY(1px);
 }
 .hv-btn--primary {
-  color: #0a0c12;
-  background: linear-gradient(120deg, var(--hv-accent-soft), var(--hv-accent));
-  box-shadow: var(--hv-glow-soft);
+  color: var(--hv-paper-on-ink);
+  background: var(--hv-ink-bg);
+  border: 1px solid var(--hv-ink-bg);
 }
 .hv-btn--primary:hover {
-  box-shadow: 0 0 36px rgba(157, 180, 255, 0.3);
+  background: var(--hv-vermilion);
+  border-color: var(--hv-vermilion);
+  color: #fdf6f1;
 }
 .hv-btn--ghost {
-  color: var(--hv-text);
-  border: 1px solid var(--hv-border-strong);
-  background: rgba(255, 255, 255, 0.02);
+  color: var(--hv-ink);
+  border: 1px solid var(--hv-hairline-strong);
+  background: transparent;
 }
 .hv-btn--ghost:hover {
-  border-color: var(--hv-accent);
-  color: var(--hv-text-bright);
+  border-color: var(--hv-vermilion);
+  color: var(--hv-vermilion);
 }
 
-/* 文字連結（帶箭頭的「更多」連結） */
+/* 文字連結（帶箭頭的「更多」）：墨字→hover 朱 */
 .hv-more {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   font-size: var(--hv-text-sm);
   font-weight: 600;
-  color: var(--hv-accent);
-  transition: gap var(--hv-dur-fast) var(--hv-ease-out);
+  color: var(--hv-ink);
+  border-bottom: 1px solid var(--hv-hairline-strong);
+  padding-bottom: 0.15rem;
+  transition:
+    color var(--hv-dur-fast) var(--hv-ease-out),
+    border-color var(--hv-dur-fast) var(--hv-ease-out);
 }
 .hv-more::after {
   content: "→";
   transition: transform var(--hv-dur-fast) var(--hv-ease-out);
 }
+.hv-more:hover {
+  color: var(--hv-vermilion);
+  border-color: var(--hv-vermilion);
+}
 .hv-more:hover::after {
   transform: translateX(3px);
 }
 
-/* 卡片基元：面板 + 細邊 + 節制的 hover 浮起 */
+/* 卡片基元：紙面卡＋髮絲框；hover 框轉墨、微升 */
 .hv-card {
   position: relative;
-  border: 1px solid var(--hv-border);
+  border: 1px solid var(--hv-hairline);
   border-radius: var(--hv-radius-lg);
-  background: var(--hv-surface-1);
+  background: var(--hv-card);
   transition:
-    transform var(--hv-dur) var(--hv-ease-out),
     border-color var(--hv-dur) var(--hv-ease-out),
+    transform var(--hv-dur) var(--hv-ease-out),
     box-shadow var(--hv-dur) var(--hv-ease-out);
 }
 .hv-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--hv-border-strong);
+  border-color: var(--hv-ink-soft);
+  transform: translateY(-2px);
   box-shadow: var(--hv-shadow-2);
 }
 
-/* 品牌字符（裝飾性；語意交給 aria-label） */
-.hv-glyph-mark::before {
-  content: var(--hv-glyph-mark);
+/* 髮絲分隔線 */
+.hv-rule {
+  height: 1px;
+  background: var(--hv-hairline);
+  border: 0;
+}
+
+/* 狀態徽章：線框小籤；帶「運行中」朱點的變體 */
+.hv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--hv-hairline-strong);
+  border-radius: var(--hv-radius-sm);
+  font-size: var(--hv-text-xs);
+  letter-spacing: 0.06em;
+  color: var(--hv-ink-soft);
+  background: var(--hv-card);
+  white-space: nowrap;
+}
+.hv-badge--live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--hv-vermilion);
 }
 
 /*
   reveal-on-scroll 基線：進場淡入 + 上移（門戶唯一的捲動動效）。
-  只有 <html class="hv-js">（head 內聯腳本盡早加上）時才預先隱藏，
-  無 JS 環境內容一律直接可見。
+  只有 <html class="hv-js"> 時才預先隱藏，無 JS 環境內容一律直接可見。
 */
 html.hv-js [data-reveal] {
   opacity: 0;

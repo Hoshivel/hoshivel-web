@@ -1,7 +1,9 @@
 # Session：Hoshivel 官方門戶（從零建站）
 
 - 建立：2026-07-26
-- 狀態：**完成待驗收**（全站建置完畢、build 綠、桌面/行動截圖目視通過；待使用者視覺簽核）
+- 狀態：**已被 v2 取代**（v1 深空星光風被需求方否決——「不要仿照 SR 的風格」；
+  整版重做見 `2026-07-27-portal-redesign.md`。本檔留作 v1 架構決策的紀錄，
+  其中技術架構（Astro/i18n/collections）沿用至 v2，視覺與文案已全面重做。）
 - 進度摘要：空倉 → 完整三語門戶（首頁/作品/新聞×3/關於/加入我們/404/sitemap/OG）。
   `npm run build` 綠（strict TS、0 error 0 warning）。
 - 相關：branch `claude/hoshivel-official-portal-883quc`；姊妹站 sr-web 同分支加了 footer 回鏈

@@ -1,12 +1,12 @@
 ---
 /*
   關於頁 —— 我們是誰 → 名字的由來 → 我們相信（三條）→ 聯繫。
-  敘事節奏以窄欄正文為主，價值觀用三卡；聯繫收在最後。
+  紙面敘事：左標題右正文；名字由來配朱印；價值觀以編號髮絲欄呈現。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
 import Mark from "@/components/brand/Mark.astro";
-import { useTranslations, type Locale } from "@/i18n/utils";
+import { useTranslations, sectionNum, type Locale } from "@/i18n/utils";
 import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
 
 interface Props {
@@ -25,6 +25,7 @@ const values = [
 <Layout locale={locale} title={t("about.title")} description={t("about.lead")}>
   <main id="main">
     <PageHero
+      num={sectionNum(locale, 3)}
       eyebrow={t("about.eyebrow")}
       title={t("about.title")}
       lead={t("about.lead")}
@@ -33,7 +34,7 @@ const values = [
     <!-- 我們是誰 -->
     <section class="hv-section hv-about-who" aria-labelledby="about-who">
       <div class="hv-container hv-about-who__grid">
-        <h2 id="about-who" class="hv-about__h2" data-reveal>
+        <h2 id="about-who" class="hv-about__h2 hv-display" data-reveal>
           {t("about.who.title")}
         </h2>
         <div class="hv-about-who__body">
@@ -43,33 +44,35 @@ const values = [
       </div>
     </section>
 
-    <!-- 名字的由來 -->
+    <!-- 名字的由來：朱印落款卡 -->
     <section class="hv-about-name" aria-labelledby="about-name">
       <div class="hv-container">
         <div class="hv-about-name__card" data-reveal>
-          <Mark size={44} glow />
+          <Mark size={46} />
           <div>
-            <h2 id="about-name" class="hv-about__h2">{t("about.name.title")}</h2>
+            <h2 id="about-name" class="hv-about__h2 hv-display">
+              {t("about.name.title")}
+            </h2>
             <p class="hv-about-name__body">{t("about.name.body")}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 我們相信 -->
+    <!-- 我們相信：編號髮絲欄 -->
     <section class="hv-section" aria-labelledby="about-values">
       <div class="hv-container">
-        <h2 id="about-values" class="hv-about__h2" data-reveal>
+        <h2 id="about-values" class="hv-about__h2 hv-display" data-reveal>
           {t("about.values.title")}
         </h2>
         <div class="hv-about-values">
           {
             values.map((v, i) => (
-              <div class="hv-card hv-about-values__item" data-reveal>
+              <div class="hv-about-values__item" data-reveal>
                 <span class="hv-about-values__index" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
+                  {sectionNum(locale, i + 1)}
                 </span>
-                <h3 class="hv-about-values__name">{v.name}</h3>
+                <h3 class="hv-about-values__name hv-display">{v.name}</h3>
                 <p class="hv-about-values__desc">{v.desc}</p>
               </div>
             ))
@@ -78,10 +81,10 @@ const values = [
       </div>
     </section>
 
-    <!-- 聯繫 -->
+    <!-- 聯繫：暖紙帶收尾 -->
     <section class="hv-section hv-about-contact" aria-labelledby="about-contact">
       <div class="hv-container hv-narrow hv-about-contact__inner">
-        <h2 id="about-contact" class="hv-about__h2" data-reveal>
+        <h2 id="about-contact" class="hv-about__h2 hv-display" data-reveal>
           {t("about.contact.title")}
         </h2>
         <p class="hv-lead" data-reveal>{t("about.contact.body")}</p>
@@ -103,11 +106,9 @@ const values = [
 <style>
   .hv-about__h2 {
     font-size: var(--hv-text-xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
 
-  /* 我們是誰：左標題右正文的紙面節奏 */
+  /* 我們是誰：左標題右正文 */
   .hv-about-who__grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -117,63 +118,59 @@ const values = [
     display: flex;
     flex-direction: column;
     gap: var(--hv-space-6);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-base);
     max-width: 62ch;
   }
 
-  /* 名字的由來：星標＋窄卡 */
+  /* 名字的由來：朱印 + 紙卡 */
   .hv-about-name__card {
     display: flex;
     align-items: flex-start;
     gap: var(--hv-space-8);
     padding: clamp(2rem, 5vw, 3.5rem);
-    border: 1px solid var(--hv-border);
+    border: 1px solid var(--hv-hairline);
     border-radius: var(--hv-radius-lg);
-    background:
-      radial-gradient(
-        70% 120% at 0% 0%,
-        rgba(157, 180, 255, 0.07),
-        transparent 60%
-      ),
-      var(--hv-surface-1);
+    background: var(--hv-card);
   }
   .hv-about-name__body {
     margin-top: var(--hv-space-4);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     max-width: 58ch;
   }
 
-  /* 我們相信：三卡 */
+  /* 我們相信：三欄，各以髮絲頂線與編號開頭 */
   .hv-about-values {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--hv-space-6);
+    gap: clamp(1.5rem, 4vw, 3rem);
     margin-top: var(--hv-space-8);
   }
   .hv-about-values__item {
-    padding: var(--hv-space-8);
+    padding-top: var(--hv-space-6);
+    border-top: 1px solid var(--hv-hairline-strong);
   }
   .hv-about-values__index {
+    font-family: var(--hv-font-display);
+    font-weight: 600;
     font-size: var(--hv-text-xs);
-    letter-spacing: var(--hv-tracking-wider);
-    color: var(--hv-gold);
+    letter-spacing: 0.12em;
+    color: var(--hv-vermilion);
   }
   .hv-about-values__name {
     margin-top: var(--hv-space-4);
     font-size: var(--hv-text-lg);
-    color: var(--hv-text-bright);
   }
   .hv-about-values__desc {
     margin-top: var(--hv-space-3);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-sm);
   }
 
   /* 聯繫 */
   .hv-about-contact {
-    border-top: 1px solid var(--hv-border);
-    background: var(--hv-bg-deep);
+    background: var(--hv-paper-warm);
+    border-top: 1px solid var(--hv-hairline);
   }
   .hv-about-contact__inner {
     text-align: center;

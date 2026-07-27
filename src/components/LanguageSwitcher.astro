@@ -19,12 +19,14 @@ interface Props {
   /** 邏輯路徑（不含 locale 前綴），預設首頁。 */
   path?: string;
   class?: string;
+  /** 墨面（footer）上的反白配色。 */
+  onInk?: boolean;
 }
-const { locale, path = "/", class: className } = Astro.props;
+const { locale, path = "/", class: className, onInk = false } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<nav class:list={["hv-lang", className]} aria-label={t("a11y.langMenu")}>
+<nav class:list={["hv-lang", { "on-ink": onInk }, className]} aria-label={t("a11y.langMenu")}>
   {
     LOCALES.map((l) => {
       const active = l === locale;
@@ -47,30 +49,48 @@ const t = useTranslations(locale);
   .hv-lang {
     display: inline-flex;
     align-items: center;
-    gap: 0.15rem;
-    padding: 0.2rem;
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius-pill);
-    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--hv-hairline-strong);
+    border-radius: var(--hv-radius);
+    overflow: hidden;
   }
   .hv-lang__item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 1.9rem;
-    padding: 0.22rem 0.5rem;
-    border-radius: var(--hv-radius-pill);
+    min-width: 2rem;
+    padding: 0.28rem 0.55rem;
     font-size: var(--hv-text-xs);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     transition:
       color var(--hv-dur-fast) var(--hv-ease-out),
       background-color var(--hv-dur-fast) var(--hv-ease-out);
   }
+  .hv-lang__item + .hv-lang__item {
+    border-left: 1px solid var(--hv-hairline);
+  }
   .hv-lang__item:hover {
-    color: var(--hv-text-bright);
+    color: var(--hv-ink-strong);
   }
   .hv-lang__item.is-active {
-    color: var(--hv-text-bright);
-    background: rgba(157, 180, 255, 0.16);
+    color: var(--hv-paper-on-ink);
+    background: var(--hv-ink-bg);
+  }
+
+  /* 墨面（footer）反白 */
+  .hv-lang.on-ink {
+    border-color: var(--hv-hairline-on-ink);
+  }
+  .hv-lang.on-ink .hv-lang__item {
+    color: var(--hv-muted-on-ink);
+  }
+  .hv-lang.on-ink .hv-lang__item + .hv-lang__item {
+    border-left-color: var(--hv-hairline-on-ink);
+  }
+  .hv-lang.on-ink .hv-lang__item:hover {
+    color: var(--hv-paper-on-ink);
+  }
+  .hv-lang.on-ink .hv-lang__item.is-active {
+    color: var(--hv-ink-strong);
+    background: var(--hv-paper-on-ink);
   }
 </style>

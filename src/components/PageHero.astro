@@ -1,49 +1,46 @@
 ---
 /*
-  子頁頁首 —— eyebrow + 大標 + 導語，統一的資訊節奏。
-  簡潔立大氣：大量留白＋一條漸層髮絲線收尾。
+  子頁頁首 —— 編號眉標 + 明體大標 + 導語；髮絲線收尾。
+  紙面編輯部的統一資訊節奏。
 */
 interface Props {
   eyebrow: string;
   title: string;
   lead?: string;
+  /** 章節編號（〇一 / 01；由頁面以 sectionNum() 算好傳入）。 */
+  num?: string;
 }
-const { eyebrow, title, lead } = Astro.props;
+const { eyebrow, title, lead, num } = Astro.props;
 ---
 
 <div class="hv-page-hero">
   <div class="hv-container">
-    <p class="hv-eyebrow" data-reveal>{eyebrow}</p>
-    <h1 class="hv-page-hero__title" data-reveal>{title}</h1>
+    <p class="hv-eyebrow" data-reveal>
+      {num && <span class="hv-eyebrow__num">{num}</span>}
+      {eyebrow}
+    </p>
+    <h1 class="hv-page-hero__title hv-display" data-reveal>{title}</h1>
     {lead && <p class="hv-lead hv-page-hero__lead" data-reveal>{lead}</p>}
   </div>
-  <div class="hv-page-hero__rule" aria-hidden="true"></div>
+  <div class="hv-container">
+    <hr class="hv-rule hv-page-hero__rule" />
+  </div>
 </div>
 
 <style>
   .hv-page-hero {
-    padding-top: clamp(4rem, 9vw, 7rem);
+    padding-top: clamp(3.5rem, 8vw, 6rem);
   }
   .hv-page-hero__title {
     margin-top: var(--hv-space-4);
-    max-width: 22ch;
+    max-width: 24ch;
     font-size: var(--hv-text-2xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
   .hv-page-hero__lead {
     margin-top: var(--hv-space-4);
     max-width: 56ch;
   }
   .hv-page-hero__rule {
-    height: 1px;
-    margin-top: clamp(2.5rem, 6vw, 4.5rem);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--hv-border-strong) 20%,
-      var(--hv-border-strong) 80%,
-      transparent
-    );
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
   }
 </style>

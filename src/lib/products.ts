@@ -16,14 +16,12 @@ export interface Product {
   statusKey: UIKey;
   descKey: UIKey;
   featureKeys: UIKey[];
-  /** 附註（可選；如「入口整合於作品內」）。 */
-  noteKey?: UIKey;
   /** 對外站點；null = 尚無獨立入口（不渲染外部按鈕）。 */
   url: string | null;
-  /** 作品識別色（tokens.css 中的 CSS 變數名）。 */
+  /** 狀態徽章是否帶「運行中」朱點。 */
+  live: boolean;
+  /** 作品識別色（tokens.css 中的 CSS 變數名；僅小記號使用）。 */
   accentVar: string;
-  /** 裝飾字符（無美術資產時的識別；aria-hidden）。 */
-  glyph: string;
 }
 
 export const PRODUCTS: Product[] = [
@@ -36,8 +34,8 @@ export const PRODUCTS: Product[] = [
     descKey: "p.sr.desc",
     featureKeys: ["p.sr.f1", "p.sr.f2", "p.sr.f3"],
     url: SR_URL,
+    live: true,
     accentVar: "--hv-p-sr",
-    glyph: "◈",
   },
   {
     id: "hoshi-id",
@@ -47,9 +45,8 @@ export const PRODUCTS: Product[] = [
     statusKey: "p.id.status",
     descKey: "p.id.desc",
     featureKeys: ["p.id.f1", "p.id.f2", "p.id.f3"],
-    noteKey: "p.id.note",
     url: HOSHI_ID_URL,
+    live: true,
     accentVar: "--hv-p-id",
-    glyph: "◉",
   },
 ];

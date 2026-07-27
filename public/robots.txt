@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hoshivel.oha.li/sitemap.xml
+Sitemap: https://hoshivel.com/sitemap.xml

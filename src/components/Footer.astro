@@ -1,7 +1,7 @@
 ---
 /*
-  站尾 Footer —— brand（full 鎖定組）＋ 三欄（作品 / 組織 / 語言）＋ 基線列。
-  作品欄連到各作品（外部站標 ↗ 與 a11y 註記）；組織欄為站內頁與 GitHub。
+  站尾 Footer —— 墨面收尾（全站唯一的深色區塊，把紙面「壓住」）。
+  brand（full 鎖定組）＋ 三欄（作品 / 組織 / 語言）＋ 基線列。
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
@@ -33,12 +33,12 @@ const org = [
 <footer class="hv-footer">
   <div class="hv-container hv-footer__inner">
     <div class="hv-footer__brand">
-      <Wordmark locale={locale} variant="full" />
+      <Wordmark locale={locale} variant="full" onInk />
       <p class="hv-footer__summary">{t("footer.summary")}</p>
     </div>
 
     <nav class="hv-footer__col" aria-label={t("footer.worksLabel")}>
-      <span class="hv-eyebrow">{t("footer.worksLabel")}</span>
+      <span class="hv-footer__label">{t("footer.worksLabel")}</span>
       {
         works.map((w) =>
           w.external ? (
@@ -62,7 +62,7 @@ const org = [
     </nav>
 
     <nav class="hv-footer__col" aria-label={t("footer.orgLabel")}>
-      <span class="hv-eyebrow">{t("footer.orgLabel")}</span>
+      <span class="hv-footer__label">{t("footer.orgLabel")}</span>
       {org.map((o) => <a class="hv-footer__link" href={o.href}>{o.label}</a>)}
       <a class="hv-footer__link" href={GITHUB_URL} target="_blank" rel="noopener">
         {t("footer.github")}<span aria-hidden="true"> ↗</span>
@@ -71,23 +71,20 @@ const org = [
     </nav>
 
     <div class="hv-footer__col">
-      <span class="hv-eyebrow">{t("footer.langLabel")}</span>
-      <LanguageSwitcher locale={locale} path={path} />
+      <span class="hv-footer__label">{t("footer.langLabel")}</span>
+      <LanguageSwitcher locale={locale} path={path} onInk />
     </div>
   </div>
 
   <div class="hv-container hv-footer__base">
-    <p class="hv-footer__rights">
-      <span class="hv-glyph-mark hv-footer__mark" aria-hidden="true"></span>
-      © {year} {t("footer.rights")}
-    </p>
+    <p class="hv-footer__rights">© {year} {t("footer.rights")}</p>
   </div>
 </footer>
 
 <style>
   .hv-footer {
-    border-top: 1px solid var(--hv-border);
-    background: var(--hv-bg-deep);
+    background: var(--hv-ink-bg);
+    color: var(--hv-paper-on-ink);
     padding-block: var(--hv-space-16) var(--hv-space-8);
   }
   .hv-footer__inner {
@@ -99,7 +96,7 @@ const org = [
   .hv-footer__summary {
     margin-top: var(--hv-space-4);
     max-width: 34ch;
-    color: var(--hv-text-muted);
+    color: var(--hv-muted-on-ink);
     font-size: var(--hv-text-sm);
   }
   .hv-footer__col {
@@ -108,14 +105,23 @@ const org = [
     gap: 0.65rem;
     align-items: flex-start;
   }
+  .hv-footer__label {
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
+    color: var(--hv-muted-on-ink);
+    margin-bottom: 0.2rem;
+  }
   .hv-footer__link {
-    color: var(--hv-text-muted);
+    color: var(--hv-paper-on-ink);
     font-size: var(--hv-text-sm);
-    transition: color var(--hv-dur-fast) var(--hv-ease-out);
+    opacity: 0.85;
+    transition: opacity var(--hv-dur-fast) var(--hv-ease-out),
+      color var(--hv-dur-fast) var(--hv-ease-out);
     width: fit-content;
   }
   .hv-footer__link:hover {
-    color: var(--hv-text-bright);
+    opacity: 1;
+    color: #fff;
   }
   .hv-footer__base {
     display: flex;
@@ -124,17 +130,10 @@ const org = [
     gap: 0.75rem;
     margin-top: var(--hv-space-12);
     padding-top: var(--hv-space-6);
-    border-top: 1px solid var(--hv-border);
-    color: var(--hv-text-dim);
+    border-top: 1px solid var(--hv-hairline-on-ink);
+    color: var(--hv-muted-on-ink);
     font-size: var(--hv-text-xs);
-  }
-  .hv-footer__rights {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .hv-footer__mark {
-    color: var(--hv-gold);
+    letter-spacing: 0.06em;
   }
 
   @media (max-width: 760px) {

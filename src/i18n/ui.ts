@@ -56,9 +56,9 @@ export const LOCALE_SHORT: Record<Locale, string> = {
 // zh-Hant 為鍵的權威來源；其餘語言以 Record<UIKey, string> 強制對齊。
 const zhHant = {
   "site.name": "Hoshivel",
-  "site.tagline": "以星為帆，駛向未竟之境",
+  "site.tagline": "少做，做好，做久",
   "site.summary":
-    "Hoshivel 是一個獨立遊戲與網路服務開發組織，打造架空世界觀回合制策略遊戲《碎界 Shattered Realms》與通用帳號平臺 Hoshi ID。",
+    "Hoshivel 是一個獨立遊戲與網路服務開發組織，打造架空世界觀回合制策略遊戲《碎界 Shattered Realms》與通用帳戶服務 Hoshi ID。",
 
   "nav.works": "作品",
   "nav.news": "新聞",
@@ -68,6 +68,7 @@ const zhHant = {
   "cta.works": "探索作品",
   "cta.about": "認識我們",
   "cta.visit": "前往官網",
+  "cta.detail": "作品詳情",
   "cta.allNews": "所有新聞",
   "cta.join": "查看招募資訊",
 
@@ -77,7 +78,7 @@ const zhHant = {
   "a11y.menu": "選單",
   "a11y.external": "（外部連結，另開新視窗）",
 
-  "footer.summary": "以星為帆，打造想長久陪伴玩家的遊戲與服務。",
+  "footer.summary": "一間獨立工作室，把遊戲與服務當作品慢慢做。",
   "footer.worksLabel": "作品",
   "footer.orgLabel": "組織",
   "footer.langLabel": "語言",
@@ -86,24 +87,23 @@ const zhHant = {
 
   // 首頁 Hero
   "home.hero.eyebrow": "獨立遊戲與網路服務開發組織",
-  "home.hero.titleA": "以星為帆，",
-  "home.hero.titleB": "駛向未竟之境。",
+  "home.hero.titleA": "少做，做好，做久——",
+  "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
-    "我們是 Hoshivel——一支小而專注的團隊，打造想長久陪伴玩家的遊戲與服務。少做一點，做好一點。",
+    "Hoshivel 是一間獨立小工作室：做架空世界的回合策略遊戲《碎界》，也做讓一個帳號通行所有作品的 Hoshi ID。",
 
   // 首頁 作品
   "home.works.eyebrow": "作品",
-  "home.works.title": "兩件作品，同一片星空",
+  "home.works.title": "兩件作品，一個署名",
   "home.works.lead":
-    "從架空世界的回合策略，到通行所有作品的單一帳號——每一件，都以長期經營為前提。",
+    "從架空世界的回合策略，到通行所有作品的單一帳戶——每一件，都以長期經營為前提。",
 
   // 首頁 新聞
   "home.news.eyebrow": "新聞",
   "home.news.title": "最新動態",
 
   // 首頁 理念一句 + 加入我們
-  "home.belief.quote":
-    "快的事情交給世界，慢的事情留給我們——把一件作品，做成一個可以回去的地方。",
+  "home.belief.quote": "快的事情交給世界，慢的事情留給我們。",
   "home.belief.source": "Hoshivel 的做事方式",
   "home.join.title": "與我們同行",
   "home.join.lead":
@@ -128,14 +128,13 @@ const zhHant = {
   // 作品：Hoshi ID
   "p.id.name": "Hoshi ID",
   "p.id.latin": "UNIVERSAL ACCOUNT",
-  "p.id.kind": "Hoshivel 通用帳號平臺",
-  "p.id.status": "隨作品陸續整合",
+  "p.id.kind": "通用帳戶 · OpenID Connect 身份服務",
+  "p.id.status": "已上線 · 碎界已接入",
   "p.id.desc":
-    "一個帳號，通行 Hoshivel 旗下所有作品與服務。身分、進度與設定跨作品同步——登入一次，處處抵達。",
-  "p.id.f1": "單一帳號，通行 Hoshivel 全部作品",
-  "p.id.f2": "跨作品的身分與資料同步",
-  "p.id.f3": "以隱私與安全為先的設計",
-  "p.id.note": "Hoshi ID 的入口整合於各作品之內，暫不設獨立入口。",
+    "一個 Hoshi ID，通行每一個 Hoshivel 世界。登入、安全工作階段與已連接服務由帳戶中心集中管理；各作品只保存自己的遊戲資料，帳號的事交給 Hoshi ID。",
+  "p.id.f1": "單一帳號、單一登入（OpenID Connect），一次註冊通行全部作品",
+  "p.id.f2": "帳戶中心：個人檔案、安全工作階段、已連接服務與登入紀錄",
+  "p.id.f3": "安全為先：短效憑證、Refresh Token 輪替與重用偵測",
 
   // 關於頁
   "about.eyebrow": "關於",
@@ -143,7 +142,7 @@ const zhHant = {
   "about.lead": "一支小而專注的團隊，用長期的眼光打造遊戲與服務。",
   "about.who.title": "我們是誰",
   "about.who.body1":
-    "Hoshivel 是一個獨立開發組織，目前打造兩件作品：架空世界觀回合制策略遊戲《碎界 Shattered Realms》，以及通用帳號平臺 Hoshi ID。",
+    "Hoshivel 是一個獨立開發組織，目前打造兩件作品：架空世界觀回合制策略遊戲《碎界 Shattered Realms》，以及通用帳戶服務 Hoshi ID。",
   "about.who.body2":
     "我們刻意保持小：小的團隊、少的作品、長的時間表。這讓我們可以把每一個細節做到自己滿意，再交到玩家手上。",
   "about.name.title": "名字的由來",
@@ -201,7 +200,7 @@ const zhHant = {
   "news.readMore": "閱讀全文",
 
   // 404
-  "notfound.title": "這片星域尚未繪入星圖",
+  "notfound.title": "這一頁尚未寫成",
   "notfound.body": "你要找的頁面不存在，或已移往別處。",
   "notfound.back": "回首頁",
 } satisfies Record<string, string>;
@@ -210,9 +209,9 @@ export type UIKey = keyof typeof zhHant;
 
 const zhCN: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "以星为帆，驶向未竟之境",
+  "site.tagline": "少做，做好，做久",
   "site.summary":
-    "Hoshivel 是一个独立游戏与网络服务开发组织，打造架空世界观回合制策略游戏《碎界 Shattered Realms》与通用账号平台 Hoshi ID。",
+    "Hoshivel 是一个独立游戏与网络服务开发组织，打造架空世界观回合制策略游戏《碎界 Shattered Realms》与通用账户服务 Hoshi ID。",
 
   "nav.works": "作品",
   "nav.news": "新闻",
@@ -222,6 +221,7 @@ const zhCN: Record<UIKey, string> = {
   "cta.works": "探索作品",
   "cta.about": "认识我们",
   "cta.visit": "前往官网",
+  "cta.detail": "作品详情",
   "cta.allNews": "所有新闻",
   "cta.join": "查看招募信息",
 
@@ -231,7 +231,7 @@ const zhCN: Record<UIKey, string> = {
   "a11y.menu": "菜单",
   "a11y.external": "（外部链接，新窗口打开）",
 
-  "footer.summary": "以星为帆，打造想长久陪伴玩家的游戏与服务。",
+  "footer.summary": "一间独立工作室，把游戏与服务当作品慢慢做。",
   "footer.worksLabel": "作品",
   "footer.orgLabel": "组织",
   "footer.langLabel": "语言",
@@ -239,21 +239,20 @@ const zhCN: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "独立游戏与网络服务开发组织",
-  "home.hero.titleA": "以星为帆，",
-  "home.hero.titleB": "驶向未竟之境。",
+  "home.hero.titleA": "少做，做好，做久——",
+  "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
-    "我们是 Hoshivel——一支小而专注的团队，打造想长久陪伴玩家的游戏与服务。少做一点，做好一点。",
+    "Hoshivel 是一间独立小工作室：做架空世界的回合策略游戏《碎界》，也做让一个账号通行所有作品的 Hoshi ID。",
 
   "home.works.eyebrow": "作品",
-  "home.works.title": "两件作品，同一片星空",
+  "home.works.title": "两件作品，一个署名",
   "home.works.lead":
-    "从架空世界的回合策略，到通行所有作品的单一账号——每一件，都以长期经营为前提。",
+    "从架空世界的回合策略，到通行所有作品的单一账户——每一件，都以长期经营为前提。",
 
   "home.news.eyebrow": "新闻",
   "home.news.title": "最新动态",
 
-  "home.belief.quote":
-    "快的事情交给世界，慢的事情留给我们——把一件作品，做成一个可以回去的地方。",
+  "home.belief.quote": "快的事情交给世界，慢的事情留给我们。",
   "home.belief.source": "Hoshivel 的做事方式",
   "home.join.title": "与我们同行",
   "home.join.lead":
@@ -275,21 +274,20 @@ const zhCN: Record<UIKey, string> = {
 
   "p.id.name": "Hoshi ID",
   "p.id.latin": "UNIVERSAL ACCOUNT",
-  "p.id.kind": "Hoshivel 通用账号平台",
-  "p.id.status": "随作品陆续整合",
+  "p.id.kind": "通用账户 · OpenID Connect 身份服务",
+  "p.id.status": "已上线 · 碎界已接入",
   "p.id.desc":
-    "一个账号，通行 Hoshivel 旗下所有作品与服务。身份、进度与设置跨作品同步——登录一次，处处抵达。",
-  "p.id.f1": "单一账号，通行 Hoshivel 全部作品",
-  "p.id.f2": "跨作品的身份与数据同步",
-  "p.id.f3": "以隐私与安全为先的设计",
-  "p.id.note": "Hoshi ID 的入口整合于各作品之内，暂不设独立入口。",
+    "一个 Hoshi ID，通行每一个 Hoshivel 世界。登录、安全会话与已连接服务由账户中心集中管理；各作品只保存自己的游戏数据，账号的事交给 Hoshi ID。",
+  "p.id.f1": "单一账号、单点登录（OpenID Connect），一次注册通行全部作品",
+  "p.id.f2": "账户中心：个人资料、安全会话、已连接服务与登录记录",
+  "p.id.f3": "安全为先：短效凭证、Refresh Token 轮替与重用检测",
 
   "about.eyebrow": "关于",
   "about.title": "关于 Hoshivel",
   "about.lead": "一支小而专注的团队，用长期的眼光打造游戏与服务。",
   "about.who.title": "我们是谁",
   "about.who.body1":
-    "Hoshivel 是一个独立开发组织，目前打造两件作品：架空世界观回合制策略游戏《碎界 Shattered Realms》，以及通用账号平台 Hoshi ID。",
+    "Hoshivel 是一个独立开发组织，目前打造两件作品：架空世界观回合制策略游戏《碎界 Shattered Realms》，以及通用账户服务 Hoshi ID。",
   "about.who.body2":
     "我们刻意保持小：小的团队、少的作品、长的时间表。这让我们可以把每一个细节做到自己满意，再交到玩家手上。",
   "about.name.title": "名字的由来",
@@ -341,16 +339,16 @@ const zhCN: Record<UIKey, string> = {
   "news.back": "返回新闻",
   "news.readMore": "阅读全文",
 
-  "notfound.title": "这片星域尚未绘入星图",
+  "notfound.title": "这一页尚未写成",
   "notfound.body": "你要找的页面不存在，或已移往别处。",
   "notfound.back": "回首页",
 };
 
 const en: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "Stars for sails, bound for worlds unmade",
+  "site.tagline": "Build less, build well, build to last",
   "site.summary":
-    "Hoshivel is an independent organization building games and online services — the turn-based strategy game Shattered Realms and the unified account platform Hoshi ID.",
+    "Hoshivel is an independent organization building games and online services — the turn-based strategy game Shattered Realms and the universal account service Hoshi ID.",
 
   "nav.works": "Works",
   "nav.news": "News",
@@ -360,6 +358,7 @@ const en: Record<UIKey, string> = {
   "cta.works": "Explore our works",
   "cta.about": "About us",
   "cta.visit": "Visit site",
+  "cta.detail": "Details",
   "cta.allNews": "All news",
   "cta.join": "See open roles",
 
@@ -370,7 +369,7 @@ const en: Record<UIKey, string> = {
   "a11y.external": "(external link, opens in a new tab)",
 
   "footer.summary":
-    "Stars for sails — building games and services meant to stay with their players.",
+    "An independent studio, making games and services the slow way.",
   "footer.worksLabel": "Works",
   "footer.orgLabel": "Organization",
   "footer.langLabel": "Language",
@@ -378,21 +377,21 @@ const en: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "Independent games & online services",
-  "home.hero.titleA": "Stars for sails,",
-  "home.hero.titleB": "bound for worlds unmade.",
+  "home.hero.titleA": "Build less, build well, build to last —",
+  "home.hero.titleB": "making works worth returning to.",
   "home.hero.lead":
-    "We are Hoshivel — a small, focused team crafting games and services meant to stay with their players. Build less; build it well.",
+    "Hoshivel is a small independent studio. We make Shattered Realms, a turn-based strategy game set in an original world, and Hoshi ID, one account for everything we build.",
 
   "home.works.eyebrow": "Works",
-  "home.works.title": "Two works, one sky",
+  "home.works.title": "Two works, one signature",
   "home.works.lead":
-    "From turn-based strategy in a shattered world to a single account for everything we make — each one built to last.",
+    "From turn-based strategy in an original world to a single account for everything we make — each one built to last.",
 
   "home.news.eyebrow": "News",
   "home.news.title": "Latest updates",
 
   "home.belief.quote":
-    "Let the world keep the fast things; we keep the slow ones — making each work a place worth returning to.",
+    "Let the world keep the fast things; we keep the slow ones.",
   "home.belief.source": "How Hoshivel works",
   "home.join.title": "Walk with us",
   "home.join.lead":
@@ -416,15 +415,13 @@ const en: Record<UIKey, string> = {
 
   "p.id.name": "Hoshi ID",
   "p.id.latin": "UNIVERSAL ACCOUNT",
-  "p.id.kind": "Hoshivel's unified account platform",
-  "p.id.status": "Rolling out across our works",
+  "p.id.kind": "Universal account · OpenID Connect identity service",
+  "p.id.status": "Live · Shattered Realms connected",
   "p.id.desc":
-    "One account for every Hoshivel work and service. Identity, progress and settings that follow you — sign in once, arrive everywhere.",
-  "p.id.f1": "One account for all of Hoshivel",
-  "p.id.f2": "Identity and data that sync across works",
-  "p.id.f3": "Designed privacy- and security-first",
-  "p.id.note":
-    "Hoshi ID lives inside each work — no separate portal for now.",
+    "One Hoshi ID, every Hoshivel world. Sign-in, secure sessions and connected services live in one account center; each work keeps only its own game data — the account is Hoshi ID's job.",
+  "p.id.f1": "One account, single sign-on (OpenID Connect) — register once, enter every work",
+  "p.id.f2": "Account center: profile, secure sessions, connected services and sign-in history",
+  "p.id.f3": "Security first: short-lived tokens, refresh rotation and reuse detection",
 
   "about.eyebrow": "About",
   "about.title": "About Hoshivel",
@@ -432,7 +429,7 @@ const en: Record<UIKey, string> = {
     "A small, focused team building games and services with the long view.",
   "about.who.title": "Who we are",
   "about.who.body1":
-    "Hoshivel is an independent development organization. We currently build two works: Shattered Realms, a turn-based strategy game set in an original shattered world, and Hoshi ID, our unified account platform.",
+    "Hoshivel is an independent development organization. We currently build two works: Shattered Realms, a turn-based strategy game set in an original shattered world, and Hoshi ID, our universal account service.",
   "about.who.body2":
     "We stay deliberately small: a small team, few works, long timelines. It lets us finish every detail to our own standard before it reaches players.",
   "about.name.title": "The name",
@@ -489,7 +486,7 @@ const en: Record<UIKey, string> = {
   "news.back": "Back to news",
   "news.readMore": "Read more",
 
-  "notfound.title": "This region is not on the star chart",
+  "notfound.title": "This page has not been written yet",
   "notfound.body": "The page you're looking for doesn't exist, or has moved.",
   "notfound.back": "Back to home",
 };

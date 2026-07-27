@@ -1,7 +1,7 @@
 ---
 /*
-  作品卡（首頁用）—— 識別色頂線 + 字符記號 + 名稱 / 類型 / 摘要 / 入口。
-  整卡可點（連到作品頁對應段落）；外部入口另附。
+  作品卡（首頁用）—— 紙面卡：識別色小方記 + 名稱 / 類型 / 摘要 / 入口。
+  識別色只出現在小方記與類型字，不染整卡（紙面要乾淨）。
 */
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 import type { Product } from "@/lib/products";
@@ -13,6 +13,10 @@ interface Props {
 const { locale, product } = Astro.props;
 const t = useTranslations(locale);
 const detailHref = localizedPath(locale, `/works#${product.id}`);
+const name = t(product.nameKey);
+const latin = t(product.latinKey);
+/** 名稱本身已是拉丁字時（en 語系），副標重複就不顯示。 */
+const showLatin = latin.toLowerCase() !== name.toLowerCase();
 ---
 
 <article
@@ -21,17 +25,21 @@ const detailHref = localizedPath(locale, `/works#${product.id}`);
   data-reveal
 >
   <a class="hv-product-card__cover" href={detailHref}>
-    <span class="hv-product-card__glyph" aria-hidden="true">{product.glyph}</span>
-    <span class="hv-product-card__status">{t(product.statusKey)}</span>
-    <h3 class="hv-product-card__name">
-      {t(product.nameKey)}
-      <span class="hv-product-card__latin">{t(product.latinKey)}</span>
+    <div class="hv-product-card__top">
+      <span class="hv-product-card__chip" aria-hidden="true"></span>
+      <span class="hv-badge" class:list={{ "hv-badge--live": product.live }}>
+        {t(product.statusKey)}
+      </span>
+    </div>
+    <h3 class="hv-product-card__name hv-display">
+      {name}
+      {showLatin && <span class="hv-product-card__latin">{latin}</span>}
     </h3>
     <p class="hv-product-card__kind">{t(product.kindKey)}</p>
     <p class="hv-product-card__desc">{t(product.descKey)}</p>
   </a>
   <div class="hv-product-card__foot">
-    <a class="hv-more" href={detailHref}>{t("nav.works")}</a>
+    <a class="hv-more" href={detailHref}>{t("cta.detail")}</a>
     {
       product.url && (
         <a
@@ -53,43 +61,24 @@ const detailHref = localizedPath(locale, `/works#${product.id}`);
   .hv-product-card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-  }
-  /* 識別色頂線：作品的簽名 */
-  .hv-product-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--card-accent), transparent 70%);
-    opacity: 0.9;
-  }
-  .hv-product-card:hover {
-    border-color: color-mix(in srgb, var(--card-accent) 45%, var(--hv-border));
   }
   .hv-product-card__cover {
     display: block;
     padding: var(--hv-space-8);
     flex: 1;
   }
-  .hv-product-card__glyph {
-    display: block;
-    font-size: 1.8rem;
-    line-height: 1;
-    color: var(--card-accent);
+  .hv-product-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-4);
   }
-  .hv-product-card__status {
-    position: absolute;
-    top: var(--hv-space-6);
-    right: var(--hv-space-6);
-    padding: 0.28rem 0.7rem;
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius-pill);
-    font-size: var(--hv-text-xs);
-    color: var(--hv-text-muted);
-    background: rgba(255, 255, 255, 0.02);
+  /* 識別色小方記：印章的遠親 */
+  .hv-product-card__chip {
+    width: 14px;
+    height: 14px;
+    border-radius: var(--hv-radius-sm);
+    background: var(--card-accent);
   }
   .hv-product-card__name {
     margin-top: var(--hv-space-6);
@@ -98,23 +87,23 @@ const detailHref = localizedPath(locale, `/works#${product.id}`);
     align-items: baseline;
     gap: 0.6rem;
     font-size: var(--hv-text-xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
   .hv-product-card__latin {
+    font-family: var(--hv-font-sans);
     font-size: var(--hv-text-xs);
     font-weight: 600;
     letter-spacing: var(--hv-tracking-wide);
-    color: var(--hv-text-dim);
+    color: var(--hv-ink-faint);
   }
   .hv-product-card__kind {
     margin-top: var(--hv-space-2);
     font-size: var(--hv-text-sm);
-    color: color-mix(in srgb, var(--card-accent) 78%, var(--hv-text));
+    font-weight: 600;
+    color: var(--card-accent);
   }
   .hv-product-card__desc {
     margin-top: var(--hv-space-4);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-sm);
     max-width: 52ch;
   }
@@ -124,9 +113,9 @@ const detailHref = localizedPath(locale, `/works#${product.id}`);
     justify-content: space-between;
     gap: var(--hv-space-4);
     padding: var(--hv-space-4) var(--hv-space-8) var(--hv-space-6);
-    border-top: 1px solid var(--hv-border);
+    border-top: 1px solid var(--hv-hairline);
   }
   .hv-product-card__visit {
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 1.1rem;
   }
 </style>

@@ -2,9 +2,16 @@
 
 Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi ID）、新聞、關於、加入我們。
 
-設計基調：**簡潔但不簡陋，以留白與排版立大氣**。門戶不堆特效（家族的旗艦動效屬 sr-web）——
-全站唯一的捲動動效是 reveal-on-scroll，唯一的氛圍元素是純 SVG 星座（「星帆」）；
-效能、可讀性與可存取性即體驗。
+## 設計語言：「紙墨朱」
+
+**三站三面貌**——sr-web 是深空紫的旗艦動效站、Hoshi ID 是夜藍青金的明朝體帳戶站，
+門戶走第三極：**暖紙、墨字、唯一的朱紅**。編輯部式的日光面貌：組織是白日的工房，
+作品才是那些夜空。
+
+- 標題明體（serif）、內文黑體（sans）；方正近直角的按鈕與卡片（姊妹站皆為圓膠囊）
+- 品牌標記＝**朱印**（朱紅印面鏤白四芒星——星是名 hoshi，印是署名的手）
+- 章節以漢字編號（〇一、〇二…；en 為 01、02…）；首頁 Hero 帶直書落款欄
+- 動效只有 reveal-on-scroll 與 hover；無背景美術、無發光、無漸層字
 
 ## 技術棧
 
@@ -32,18 +39,19 @@ npm run preview  # 預覽建置產物
 | 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，三語逐鍵對齊） |
 | 組織連結／信箱 | `src/lib/site.ts` |
 
-## 部署（hoshivel.oha.li）
+## 部署（hoshivel.com）
 
 `npm run build` → `dist/` 純靜態（HTML／CSS／少量 JS／`og.png`／`sitemap.xml`／`robots.txt`），
 上傳任何靜態主機即可。
 
-**上線前待確認的佔位值**（皆為單點修改）：
+**上線前待確認的假定值**（皆為單點修改）：
 
-1. **網域**：`astro.config.mjs` 的 `site` 目前假定 `https://hoshivel.oha.li`
-   （canonical / hreflang / sitemap 全跟著它），另 `public/robots.txt` 的 Sitemap 行同步改。
-2. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@oha.li`）。
-3. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL`（目前 `null`＝不顯示外部按鈕；
-   日後有獨立入口填 URL 即自動長出）。
+1. **網域**：`astro.config.mjs` 的 `site` 設 `https://hoshivel.com`——依 hoshi-identity
+   `docs/deployment.md` 的 `id.hoshivel.com` 推定；若另有安排改此一行
+   （canonical / hreflang / sitemap 全跟著它），`public/robots.txt` 的 Sitemap 行同步改。
+2. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL` 設 `https://id.hoshivel.com`
+   （同上推定）；設為 `null` 可隱藏外部按鈕。
+3. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
 4. **職缺**：`src/lib/roles.ts` 為首發範例（美術／前端／後端），請按實際需求調整。
 
 ## OG 分享圖
@@ -61,4 +69,5 @@ python3 -c "from PIL import Image; Image.open('og-full.png').convert('RGB').crop
 ## 家族慣例
 
 沿用 ShatteredRealms 家族：正體中文文件、`docs/plan.md` 權威計畫、`sessions/` 會話日誌、
-雲端每階段推送。姊妹站：[sr-web](https://sr.oha.li)（《碎界》官方門面，Astro + 旗艦動效）。
+雲端每階段推送。姊妹站：[sr-web](https://sr.oha.li)（《碎界》官方門面）、
+hoshi-identity（Hoshi ID 帳戶服務）。**各站各有面貌，互不套用彼此的視覺語言。**

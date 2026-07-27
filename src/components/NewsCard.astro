@@ -1,6 +1,6 @@
 ---
 /*
-  新聞卡（列表項）—— 日期 / 標籤 + 標題 + 摘要 + 閱讀連結。
+  新聞卡（列表項）—— 日期 / 標籤 + 明體標題 + 摘要 + 閱讀連結。
   整卡可點；<time> 帶 datetime，日期依語言慣例呈現。
 */
 import {
@@ -27,7 +27,7 @@ const iso = post.data.date.toISOString().slice(0, 10);
       <time datetime={iso}>{formatDate(locale, post.data.date)}</time>
       {post.data.tag && <span class="hv-news-card__tag">{post.data.tag}</span>}
     </p>
-    <h3 class="hv-news-card__title">{post.data.title}</h3>
+    <h3 class="hv-news-card__title hv-display">{post.data.title}</h3>
     <p class="hv-news-card__summary">{post.data.summary}</p>
     <span class="hv-more" aria-hidden="true">{t("news.readMore")}</span>
   </a>
@@ -47,29 +47,26 @@ const iso = post.data.date.toISOString().slice(0, 10);
     align-items: center;
     gap: 0.75rem;
     font-size: var(--hv-text-xs);
-    color: var(--hv-text-dim);
-    letter-spacing: 0.04em;
+    color: var(--hv-ink-faint);
+    letter-spacing: 0.05em;
   }
   .hv-news-card__meta time {
     white-space: nowrap;
   }
   .hv-news-card__tag {
-    padding: 0.14rem 0.6rem;
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius-pill);
-    color: var(--hv-text-muted);
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--hv-hairline-strong);
+    border-radius: var(--hv-radius-sm);
+    color: var(--hv-ink-soft);
   }
   .hv-news-card__title {
     font-size: var(--hv-text-lg);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
   }
   .hv-news-card__summary {
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
     font-size: var(--hv-text-sm);
   }
   .hv-news-card__link .hv-more {
     margin-top: auto;
-    padding-top: var(--hv-space-2);
   }
 </style>

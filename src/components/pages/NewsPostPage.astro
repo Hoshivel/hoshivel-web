@@ -1,7 +1,7 @@
 ---
 /*
   新聞內頁 —— 標題組（日期／標籤）＋ Markdown 內文 ＋ 返回連結。
-  內文樣式以 :global 作用於渲染後的 Markdown。
+  內文樣式以 :global 作用於渲染後的 Markdown；標題明體、內文黑體。
 */
 import Layout from "@/layouts/Layout.astro";
 import { render } from "astro:content";
@@ -33,10 +33,12 @@ const backHref = localizedPath(locale, "/news");
             <time datetime={iso}>{formatDate(locale, post.data.date)}</time>
             {post.data.tag && <span class="hv-post__tag">{post.data.tag}</span>}
           </p>
-          <h1 class="hv-post__title" data-reveal>{post.data.title}</h1>
+          <h1 class="hv-post__title hv-display" data-reveal>{post.data.title}</h1>
           <p class="hv-lead" data-reveal>{post.data.summary}</p>
         </div>
-        <div class="hv-post__rule" aria-hidden="true"></div>
+        <div class="hv-container hv-narrow">
+          <hr class="hv-rule hv-post__rule" />
+        </div>
       </header>
 
       <div class="hv-container hv-narrow">
@@ -44,7 +46,7 @@ const backHref = localizedPath(locale, "/news");
           <Content />
         </div>
         <p class="hv-post__back">
-          <a class="hv-more hv-post__back-link" href={backHref}>{t("news.back")}</a>
+          <a class="hv-more" href={backHref}>{t("news.back")}</a>
         </p>
       </div>
     </article>
@@ -53,27 +55,25 @@ const backHref = localizedPath(locale, "/news");
 
 <style>
   .hv-post__head {
-    padding-top: clamp(4rem, 9vw, 7rem);
+    padding-top: clamp(3.5rem, 8vw, 6rem);
   }
   .hv-post__meta {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     font-size: var(--hv-text-xs);
-    color: var(--hv-text-dim);
-    letter-spacing: 0.04em;
+    color: var(--hv-ink-faint);
+    letter-spacing: 0.05em;
   }
   .hv-post__tag {
-    padding: 0.14rem 0.6rem;
-    border: 1px solid var(--hv-border);
-    border-radius: var(--hv-radius-pill);
-    color: var(--hv-text-muted);
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--hv-hairline-strong);
+    border-radius: var(--hv-radius-sm);
+    color: var(--hv-ink-soft);
   }
   .hv-post__title {
     margin-top: var(--hv-space-4);
     font-size: var(--hv-text-2xl);
-    line-height: var(--hv-leading-tight);
-    color: var(--hv-text-bright);
     max-width: 26ch;
   }
   .hv-post__head .hv-lead {
@@ -81,43 +81,34 @@ const backHref = localizedPath(locale, "/news");
     max-width: 56ch;
   }
   .hv-post__rule {
-    height: 1px;
-    margin-top: clamp(2.5rem, 6vw, 4rem);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--hv-border-strong) 20%,
-      var(--hv-border-strong) 80%,
-      transparent
-    );
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
   }
 
   .hv-post__body {
     padding-block: var(--hv-space-12);
-    color: var(--hv-text);
     font-size: var(--hv-text-base);
   }
   /* Markdown 內文（渲染後的元素以 :global 指定） */
   .hv-post__body :global(p) {
     margin-block: var(--hv-space-4);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
   }
   .hv-post__body :global(p:first-child) {
-    color: var(--hv-text);
+    color: var(--hv-ink);
   }
   .hv-post__body :global(strong) {
-    color: var(--hv-text-bright);
-    font-weight: 600;
+    color: var(--hv-ink-strong);
+    font-weight: 650;
   }
   .hv-post__body :global(a) {
-    color: var(--hv-accent);
+    color: var(--hv-vermilion);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(157, 180, 255, 0.4);
+    text-decoration-color: rgba(178, 58, 38, 0.35);
     transition: text-decoration-color var(--hv-dur-fast) var(--hv-ease-out);
   }
   .hv-post__body :global(a:hover) {
-    text-decoration-color: var(--hv-accent);
+    text-decoration-color: var(--hv-vermilion);
   }
   .hv-post__body :global(ul),
   .hv-post__body :global(ol) {
@@ -126,22 +117,28 @@ const backHref = localizedPath(locale, "/news");
     display: flex;
     flex-direction: column;
     gap: var(--hv-space-3);
-    color: var(--hv-text-muted);
+    color: var(--hv-ink-soft);
   }
   .hv-post__body :global(li::marker) {
-    color: var(--hv-gold);
+    color: var(--hv-vermilion);
   }
   .hv-post__body :global(h2),
   .hv-post__body :global(h3) {
     margin-top: var(--hv-space-8);
-    color: var(--hv-text-bright);
+    font-family: var(--hv-font-display);
+    color: var(--hv-ink-strong);
     line-height: var(--hv-leading-tight);
   }
   .hv-post__body :global(blockquote) {
     margin-block: var(--hv-space-6);
     padding-left: var(--hv-space-4);
-    border-left: 2px solid var(--hv-accent);
-    color: var(--hv-text-muted);
+    border-left: 2px solid var(--hv-vermilion);
+    color: var(--hv-ink-soft);
+  }
+  .hv-post__body :global(em) {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--hv-ink);
   }
 
   .hv-post__back {

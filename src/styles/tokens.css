@@ -1,65 +1,62 @@
 /*
-  Hoshivel 官方門戶 —— 設計 tokens
-  基調：與家族（sr-web）同源的深空底色，但門戶更沉穩收斂——
-  少發光、多留白，以排版與節奏立大氣，不以特效取勝。
+  Hoshivel 官方門戶 —— 設計 tokens（第二版：紙墨朱）
+  三站三面貌：sr-web 深空紫、Hoshi ID 夜藍青金，門戶走第三極——
+  暖紙、墨字、唯一的朱紅。編輯部式的日光面貌：組織是白日的工房，
+  作品才是那些夜空。
   全站唯一色彩／動效來源；元件一律引用變數，不寫裸 hex。
 */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* ---- 底層 night → base ---- */
-  --hv-night: #05060a;
-  --hv-bg: #0a0c12;
-  --hv-bg-deep: #070810;
+  /* ---- 紙 paper ---- */
+  --hv-paper: #f6f3ea; /* 底 */
+  --hv-paper-warm: #efeadd; /* 深一階：區塊交替 */
+  --hv-card: #fdfbf5; /* 卡面 */
 
-  /* ---- 面板 surfaces ---- */
-  --hv-surface-1: #10131b;
-  --hv-surface-2: #151924;
-  --hv-surface-3: #1b202e;
+  /* ---- 墨 ink ---- */
+  --hv-ink: #26282d; /* 正文 */
+  --hv-ink-strong: #17181c; /* 大標 */
+  --hv-ink-soft: #5d6067; /* 次要 */
+  --hv-ink-faint: #8e9096; /* 弱化（僅大字或非必要資訊） */
 
-  /* ---- 邊框 ---- */
-  --hv-border: #262b38;
-  --hv-border-strong: #38404f;
+  /* ---- 朱 vermilion（唯一強調色，小面積使用）---- */
+  --hv-vermilion: #b23a26;
+  --hv-vermilion-deep: #942e1d;
+  --hv-vermilion-wash: #f3e2dc; /* 朱的淡染（標籤底） */
 
-  /* ---- 文字 ---- */
-  --hv-text: #e4e8f0;
-  --hv-text-bright: #f2f4fa;
-  --hv-text-muted: #8d94a8;
-  --hv-text-dim: #656e85;
+  /* ---- 線 hairlines ---- */
+  --hv-hairline: #ddd6c4;
+  --hv-hairline-strong: #beb69f;
 
-  /* ---- 強調 accents ---- */
-  --hv-accent: #9db4ff; /* 星光長春花藍：品牌主色（承 sr 家族色相，更柔） */
-  --hv-accent-soft: #c3d2ff;
-  --hv-gold: #e6c88e; /* 星金：小面積點綴（眉標記號、星點），節制使用 */
+  /* ---- 墨面（footer / 反白區）---- */
+  --hv-ink-bg: #22242a;
+  --hv-ink-bg-deep: #1a1c21;
+  --hv-paper-on-ink: #e9e5d9;
+  --hv-muted-on-ink: #9d9a90;
+  --hv-hairline-on-ink: #3a3d45;
 
-  /* ---- 作品識別色（卡片頂線 / 記號）---- */
-  --hv-p-sr: #8fa9ff; /* 碎界 Shattered Realms（同其官網主色） */
-  --hv-p-id: #7fd8c0; /* Hoshi ID（薄荷：身分／信任） */
-
-  /* ---- 漸層（僅品牌時刻使用：字標、Hero 一句）---- */
-  --hv-wordmark-grad: linear-gradient(120deg, #dbe4ff, #9db4ff 55%, #c9b8ff);
-
-  /* ---- 星點 / 星座線 ---- */
-  --hv-star: #d3ddff;
-  --hv-constellation-line: rgba(157, 180, 255, 0.16);
-
-  /* ---- 微光（唯一的發光預算：主 CTA 與品牌標）---- */
-  --hv-glow-soft: 0 0 32px rgba(157, 180, 255, 0.18);
+  /* ---- 作品識別（僅小記號使用；不染整卡）---- */
+  --hv-p-sr: #4c5a9e; /* 碎界：靛 */
+  --hv-p-id: #1f7a70; /* Hoshi ID：松綠 */
 
   /* ---- 字型 typography ---- */
+  /* 標題走明體（serif）：紙上見風骨；內文走黑體（sans）：小字可讀 */
+  --hv-font-display: "Noto Serif TC", "Songti TC", "Yu Mincho", "PMingLiU",
+    Georgia, "Times New Roman", serif;
   --hv-font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
     "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  --hv-tracking-wide: 0.14em;
-  --hv-tracking-wider: 0.3em;
+  --hv-tracking: 0.02em;
+  --hv-tracking-wide: 0.12em;
+  --hv-tracking-wider: 0.24em;
 
   /* ---- 版面 layout ---- */
   --hv-maxw: 1120px;
   --hv-maxw-narrow: 720px;
   --hv-gutter: clamp(1.25rem, 4.5vw, 3.5rem);
-  --hv-radius-sm: 8px;
-  --hv-radius: 14px;
-  --hv-radius-lg: 20px;
-  --hv-radius-pill: 999px;
+  /* 方正近直角：與兩個姊妹站的圓膠囊拉開 */
+  --hv-radius-sm: 3px;
+  --hv-radius: 6px;
+  --hv-radius-lg: 10px;
 
   /* ---- 間距尺度（8pt 為基）---- */
   --hv-space-1: 0.25rem;
@@ -71,41 +68,32 @@
   --hv-space-12: 3rem;
   --hv-space-16: 4rem;
   --hv-space-24: 6rem;
-  /* 區塊上下留白：門戶以留白立大氣 */
-  --hv-section-pad: clamp(4.5rem, 11vw, 9.5rem);
+  /* 區塊上下留白：紙面以留白立大氣 */
+  --hv-section-pad: clamp(4.5rem, 10vw, 8.5rem);
 
   /* ---- 字級尺度 fluid type scale ---- */
   --hv-text-xs: clamp(0.72rem, 1.6vw, 0.8rem);
   --hv-text-sm: clamp(0.83rem, 1.8vw, 0.93rem);
-  --hv-text-base: clamp(0.96rem, 2vw, 1.06rem);
-  --hv-text-lg: clamp(1.12rem, 2.6vw, 1.32rem);
-  --hv-text-xl: clamp(1.35rem, 3.2vw, 1.85rem);
-  --hv-text-2xl: clamp(1.8rem, 4.6vw, 2.7rem);
-  --hv-text-display: clamp(2.5rem, 7.5vw, 4.6rem);
-  --hv-leading-tight: 1.18;
-  --hv-leading: 1.75;
+  --hv-text-base: clamp(0.96rem, 2vw, 1.05rem);
+  --hv-text-lg: clamp(1.12rem, 2.6vw, 1.3rem);
+  --hv-text-xl: clamp(1.35rem, 3.2vw, 1.8rem);
+  --hv-text-2xl: clamp(1.75rem, 4.4vw, 2.6rem);
+  --hv-text-display: clamp(2.4rem, 6.5vw, 4.25rem);
+  --hv-leading-tight: 1.22;
+  --hv-leading: 1.85;
 
-  /* ---- 高度 / 陰影 ---- */
-  --hv-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --hv-shadow-2: 0 10px 30px rgba(0, 0, 0, 0.4);
-  --hv-ring-accent: 0 0 0 1px rgba(157, 180, 255, 0.45);
+  /* ---- 陰影（紙上輕、少用）---- */
+  --hv-shadow-1: 0 1px 2px rgba(23, 24, 28, 0.06);
+  --hv-shadow-2: 0 10px 30px rgba(23, 24, 28, 0.08);
 
-  /* ---- 毛玻璃 ---- */
-  --hv-blur: saturate(140%) blur(14px);
-  --hv-scrim: rgba(5, 6, 10, 0.72);
-
-  /* ---- 品牌字符（無美術資產時的識別；裝飾性）---- */
-  --hv-glyph-mark: "✦"; /* Hoshivel 星標 */
-  --hv-glyph-dot: "·";
-
-  /* ---- 動效（節制：進場 / hover / 星光呼吸，僅此而已）---- */
+  /* ---- 動效（節制：進場 / hover，僅此而已）---- */
   --hv-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --hv-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --hv-dur-fast: 160ms;
-  --hv-dur: 400ms;
-  --hv-dur-slow: 760ms;
-  --hv-reveal-shift: 22px;
-  --hv-reveal-stagger: 70ms;
+  --hv-dur-fast: 150ms;
+  --hv-dur: 360ms;
+  --hv-dur-slow: 700ms;
+  --hv-reveal-shift: 18px;
+  --hv-reveal-stagger: 65ms;
 
   /* ---- z 層 ---- */
   --hv-z-bg: 0;
