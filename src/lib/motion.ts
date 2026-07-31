@@ -1,7 +1,7 @@
 /*
   Hoshivel 官方門戶 —— 動效工具。
-  門戶只保留一種捲動動效：reveal-on-scroll（進場淡入上移）。
-  一切以 prefers-reduced-motion 為基線；偵測到就直接全部呈現。
+  兩件事而已：reveal-on-scroll（進場淡入上移）與星空微視差。
+  一切以 prefers-reduced-motion 為基線；偵測到就直接全部呈現、不動。
 */
 
 const RM_QUERY = "(prefers-reduced-motion: reduce)";
@@ -68,4 +68,33 @@ export function initScrollReveal(options: ScrollRevealOptions = {}): () => void 
   );
   for (const el of els) io.observe(el);
   return () => io.disconnect();
+}
+
+/**
+ * 星空微視差：把捲動位置寫進 `--hv-sky-y`，遠近兩層以不同係數位移
+ * （係數在 Starfield 的 CSS 裡，這裡只提供數值）。
+ * - rAF 節流，一幀最多寫一次；passive 監聽不擋捲動。
+ * - reduced-motion 或找不到星空 → 不掛任何監聽。
+ * @returns cleanup 函式（移除監聽）。
+ */
+export function initSkyParallax(): () => void {
+  if (typeof document === "undefined") return () => {};
+
+  const sky = document.querySelector<HTMLElement>(".hv-sky");
+  if (!sky || prefersReducedMotion()) return () => {};
+
+  let ticking = false;
+  const apply = () => {
+    ticking = false;
+    sky.style.setProperty("--hv-sky-y", `${window.scrollY}px`);
+  };
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  };
+
+  apply();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  return () => window.removeEventListener("scroll", onScroll);
 }

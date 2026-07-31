@@ -1,7 +1,8 @@
 ---
 /*
-  站尾 Footer —— 墨面收尾（全站唯一的深色區塊，把紙面「壓住」）。
-  brand（full 鎖定組）＋ 三欄（作品 / 組織 / 語言）＋ 基線列。
+  站尾 Footer —— 地平線。
+  全站唯一不透星光的實面：星空到此為止，下面是地。
+  上緣一道極淡的暖光（地平線最後的光），再是 brand ＋ 三欄 ＋ 基線列。
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
@@ -33,7 +34,7 @@ const org = [
 <footer class="hv-footer">
   <div class="hv-container hv-footer__inner">
     <div class="hv-footer__brand">
-      <Wordmark locale={locale} variant="full" onInk />
+      <Wordmark locale={locale} variant="full" />
       <p class="hv-footer__summary">{t("footer.summary")}</p>
     </div>
 
@@ -72,22 +73,54 @@ const org = [
 
     <div class="hv-footer__col">
       <span class="hv-footer__label">{t("footer.langLabel")}</span>
-      <LanguageSwitcher locale={locale} path={path} onInk />
+      <LanguageSwitcher locale={locale} path={path} />
     </div>
   </div>
 
   <div class="hv-container hv-footer__base">
     <p class="hv-footer__rights">© {year} {t("footer.rights")}</p>
+    <p class="hv-catalog">HOSHIVEL.COM</p>
   </div>
 </footer>
 
 <style>
   .hv-footer {
-    background: var(--hv-ink-bg);
-    color: var(--hv-paper-on-ink);
+    position: relative;
+    background: var(--hv-void);
+    color: var(--hv-text);
     padding-block: var(--hv-space-16) var(--hv-space-8);
+    border-top: 1px solid var(--hv-line);
   }
+  /* 地平線最後的光 */
+  .hv-footer::before {
+    content: "";
+    position: absolute;
+    inset: -1px 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--hv-line-gold) 38%,
+      rgba(240, 205, 148, 0.55) 50%,
+      var(--hv-line-gold) 62%,
+      transparent
+    );
+  }
+  .hv-footer::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 120px;
+    background: radial-gradient(
+      70% 100% at 50% 0%,
+      rgba(240, 205, 148, 0.06),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
   .hv-footer__inner {
+    position: relative;
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr auto;
     gap: clamp(1.5rem, 5vw, 4rem);
@@ -96,7 +129,7 @@ const org = [
   .hv-footer__summary {
     margin-top: var(--hv-space-4);
     max-width: 34ch;
-    color: var(--hv-muted-on-ink);
+    color: var(--hv-text-soft);
     font-size: var(--hv-text-sm);
   }
   .hv-footer__col {
@@ -108,30 +141,28 @@ const org = [
   .hv-footer__label {
     font-size: var(--hv-text-xs);
     letter-spacing: var(--hv-tracking-wider);
-    color: var(--hv-muted-on-ink);
+    color: var(--hv-text-faint);
     margin-bottom: 0.2rem;
   }
   .hv-footer__link {
-    color: var(--hv-paper-on-ink);
+    color: var(--hv-text);
     font-size: var(--hv-text-sm);
-    opacity: 0.85;
-    transition: opacity var(--hv-dur-fast) var(--hv-ease-out),
-      color var(--hv-dur-fast) var(--hv-ease-out);
     width: fit-content;
+    transition: color var(--hv-dur-fast) var(--hv-ease-out);
   }
   .hv-footer__link:hover {
-    opacity: 1;
-    color: #fff;
+    color: var(--hv-gold);
   }
   .hv-footer__base {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.75rem;
     margin-top: var(--hv-space-12);
     padding-top: var(--hv-space-6);
-    border-top: 1px solid var(--hv-hairline-on-ink);
-    color: var(--hv-muted-on-ink);
+    border-top: 1px solid var(--hv-line);
+    color: var(--hv-text-faint);
     font-size: var(--hv-text-xs);
     letter-spacing: 0.06em;
   }

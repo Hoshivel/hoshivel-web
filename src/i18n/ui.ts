@@ -3,7 +3,7 @@
 
   慣例沿用家族（sr-web）：zh-Hant 為主語言與鍵的權威來源；
   zh-CN / en 逐鍵齊備（型別強制完整，缺鍵編譯不過）。
-  品牌語彙：「以星為帆」——hoshi（星）＋ velum（帆）。
+  品牌名 Hoshivel 一律整詞使用：不拆字、不解字源、不加註解。
 */
 
 export const LOCALES = ["zh-Hant", "zh-CN", "en"] as const;
@@ -87,7 +87,7 @@ const zhHant = {
 
   // 首頁 Hero
   "home.hero.eyebrow": "獨立遊戲與網路服務開發組織",
-  "home.hero.titleA": "少做，做好，做久——",
+  "home.hero.titleA": "少做，做好，做久",
   "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
     "Hoshivel 是一間獨立小工作室：做架空世界的回合策略遊戲《碎界》，也做讓一個帳號通行所有作品的 Hoshi ID。",
@@ -97,6 +97,10 @@ const zhHant = {
   "home.works.title": "兩件作品，一個署名",
   "home.works.lead":
     "從架空世界的回合策略，到通行所有作品的單一帳戶——每一件，都以長期經營為前提。",
+
+  // 首頁 星圖（Hero 圖版）
+  "home.chart.title": "HOSHIVEL 星圖",
+  "home.chart.note": "圖上的亮星，是我們正在打造的作品——點一顆看看。",
 
   // 首頁 新聞
   "home.news.eyebrow": "新聞",
@@ -145,9 +149,9 @@ const zhHant = {
     "Hoshivel 是一個獨立開發組織，目前打造兩件作品：架空世界觀回合制策略遊戲《碎界 Shattered Realms》，以及通用帳戶服務 Hoshi ID。",
   "about.who.body2":
     "我們刻意保持小：小的團隊、少的作品、長的時間表。這讓我們可以把每一個細節做到自己滿意，再交到玩家手上。",
-  "about.name.title": "名字的由來",
-  "about.name.body":
-    "Hoshivel，取「星」（ほし，hoshi）與拉丁語「帆」（velum）合成——以星為帆。星是我們仰望的作品，帆是把仰望化作航行的手藝。",
+  "about.now.title": "現在正在做的事",
+  "about.now.body":
+    "《碎界》仍在開發，官網已上線；Hoshi ID 已上線，並且是碎界現在的登入方式。我們同時只讓少數幾件事往前走——做完一件，再開下一件。",
   "about.values.title": "我們相信",
   "about.v1.name": "少而精",
   "about.v1.desc":
@@ -200,7 +204,7 @@ const zhHant = {
   "news.readMore": "閱讀全文",
 
   // 404
-  "notfound.title": "這一頁尚未寫成",
+  "notfound.title": "這片夜空還沒有這顆星",
   "notfound.body": "你要找的頁面不存在，或已移往別處。",
   "notfound.back": "回首頁",
 } satisfies Record<string, string>;
@@ -239,7 +243,7 @@ const zhCN: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "独立游戏与网络服务开发组织",
-  "home.hero.titleA": "少做，做好，做久——",
+  "home.hero.titleA": "少做，做好，做久",
   "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
     "Hoshivel 是一间独立小工作室：做架空世界的回合策略游戏《碎界》，也做让一个账号通行所有作品的 Hoshi ID。",
@@ -248,6 +252,9 @@ const zhCN: Record<UIKey, string> = {
   "home.works.title": "两件作品，一个署名",
   "home.works.lead":
     "从架空世界的回合策略，到通行所有作品的单一账户——每一件，都以长期经营为前提。",
+
+  "home.chart.title": "HOSHIVEL 星图",
+  "home.chart.note": "图上的亮星，是我们正在打造的作品——点一颗看看。",
 
   "home.news.eyebrow": "新闻",
   "home.news.title": "最新动态",
@@ -290,9 +297,9 @@ const zhCN: Record<UIKey, string> = {
     "Hoshivel 是一个独立开发组织，目前打造两件作品：架空世界观回合制策略游戏《碎界 Shattered Realms》，以及通用账户服务 Hoshi ID。",
   "about.who.body2":
     "我们刻意保持小：小的团队、少的作品、长的时间表。这让我们可以把每一个细节做到自己满意，再交到玩家手上。",
-  "about.name.title": "名字的由来",
-  "about.name.body":
-    "Hoshivel，取「星」（ほし，hoshi）与拉丁语「帆」（velum）合成——以星为帆。星是我们仰望的作品，帆是把仰望化作航行的手艺。",
+  "about.now.title": "现在正在做的事",
+  "about.now.body":
+    "《碎界》仍在开发，官网已上线；Hoshi ID 已上线，并且是碎界现在的登录方式。我们同时只让少数几件事往前走——做完一件，再开下一件。",
   "about.values.title": "我们相信",
   "about.v1.name": "少而精",
   "about.v1.desc": "不追逐数量。每一件作品，都值得被完整地做完、久久地维护。",
@@ -339,7 +346,7 @@ const zhCN: Record<UIKey, string> = {
   "news.back": "返回新闻",
   "news.readMore": "阅读全文",
 
-  "notfound.title": "这一页尚未写成",
+  "notfound.title": "这片夜空还没有这颗星",
   "notfound.body": "你要找的页面不存在，或已移往别处。",
   "notfound.back": "回首页",
 };
@@ -387,6 +394,10 @@ const en: Record<UIKey, string> = {
   "home.works.lead":
     "From turn-based strategy in an original world to a single account for everything we make — each one built to last.",
 
+  "home.chart.title": "THE HOSHIVEL CHART",
+  "home.chart.note":
+    "The bright stars are the works we're building — pick one and look closer.",
+
   "home.news.eyebrow": "News",
   "home.news.title": "Latest updates",
 
@@ -432,9 +443,9 @@ const en: Record<UIKey, string> = {
     "Hoshivel is an independent development organization. We currently build two works: Shattered Realms, a turn-based strategy game set in an original shattered world, and Hoshi ID, our universal account service.",
   "about.who.body2":
     "We stay deliberately small: a small team, few works, long timelines. It lets us finish every detail to our own standard before it reaches players.",
-  "about.name.title": "The name",
-  "about.name.body":
-    "Hoshivel joins hoshi (星, star) with the Latin velum — a sail. Stars for sails: the works we look up to, and the craft that turns looking up into sailing.",
+  "about.now.title": "What we're working on",
+  "about.now.body":
+    "Shattered Realms is still in development, with its site live; Hoshi ID is live and is how you sign in to Shattered Realms today. We only ever move a few things forward at once — finish one, then start the next.",
   "about.values.title": "What we believe",
   "about.v1.name": "Less, but better",
   "about.v1.desc":
@@ -486,7 +497,7 @@ const en: Record<UIKey, string> = {
   "news.back": "Back to news",
   "news.readMore": "Read more",
 
-  "notfound.title": "This page has not been written yet",
+  "notfound.title": "No star at these coordinates",
   "notfound.body": "The page you're looking for doesn't exist, or has moved.",
   "notfound.back": "Back to home",
 };

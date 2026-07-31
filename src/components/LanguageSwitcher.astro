@@ -19,14 +19,12 @@ interface Props {
   /** 邏輯路徑（不含 locale 前綴），預設首頁。 */
   path?: string;
   class?: string;
-  /** 墨面（footer）上的反白配色。 */
-  onInk?: boolean;
 }
-const { locale, path = "/", class: className, onInk = false } = Astro.props;
+const { locale, path = "/", class: className } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<nav class:list={["hv-lang", { "on-ink": onInk }, className]} aria-label={t("a11y.langMenu")}>
+<nav class:list={["hv-lang", className]} aria-label={t("a11y.langMenu")}>
   {
     LOCALES.map((l) => {
       const active = l === locale;
@@ -49,7 +47,7 @@ const t = useTranslations(locale);
   .hv-lang {
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--hv-hairline-strong);
+    border: 1px solid var(--hv-line-strong);
     border-radius: var(--hv-radius);
     overflow: hidden;
   }
@@ -60,37 +58,20 @@ const t = useTranslations(locale);
     min-width: 2rem;
     padding: 0.28rem 0.55rem;
     font-size: var(--hv-text-xs);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
     transition:
       color var(--hv-dur-fast) var(--hv-ease-out),
       background-color var(--hv-dur-fast) var(--hv-ease-out);
   }
   .hv-lang__item + .hv-lang__item {
-    border-left: 1px solid var(--hv-hairline);
+    border-left: 1px solid var(--hv-line);
   }
   .hv-lang__item:hover {
-    color: var(--hv-ink-strong);
+    color: var(--hv-starlight);
+    background: rgba(176, 198, 240, 0.06);
   }
   .hv-lang__item.is-active {
-    color: var(--hv-paper-on-ink);
-    background: var(--hv-ink-bg);
-  }
-
-  /* 墨面（footer）反白 */
-  .hv-lang.on-ink {
-    border-color: var(--hv-hairline-on-ink);
-  }
-  .hv-lang.on-ink .hv-lang__item {
-    color: var(--hv-muted-on-ink);
-  }
-  .hv-lang.on-ink .hv-lang__item + .hv-lang__item {
-    border-left-color: var(--hv-hairline-on-ink);
-  }
-  .hv-lang.on-ink .hv-lang__item:hover {
-    color: var(--hv-paper-on-ink);
-  }
-  .hv-lang.on-ink .hv-lang__item.is-active {
-    color: var(--hv-ink-strong);
-    background: var(--hv-paper-on-ink);
+    color: #14171f;
+    background: var(--hv-gold);
   }
 </style>

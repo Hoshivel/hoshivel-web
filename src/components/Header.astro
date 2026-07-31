@@ -1,8 +1,8 @@
 ---
 /*
-  站首 Header —— 紙面 sticky 列，髮絲下框。
+  站首 Header —— 夜色玻璃 sticky 列，髮絲下框。
   brand（連首頁）＋ 頁面導覽（作品/新聞/關於/加入我們）＋ 語言切換。
-  目前頁以 aria-current="page" 標示（朱色短線；樣式跟著 aria 走）。
+  目前頁以 aria-current="page" 標示（星金短線；樣式跟著 aria 走）。
   行動裝置（≤760px）：導覽收進 hamburger 下拉；可存取切換
   （aria-expanded / aria-controls；Esc / 外點 / 點連結關閉）。
 */
@@ -75,8 +75,9 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     z-index: var(--hv-z-overlay);
     padding: 0.5rem 0.9rem;
     border-radius: var(--hv-radius);
-    background: var(--hv-ink-bg);
-    color: var(--hv-paper-on-ink);
+    background: var(--hv-gold);
+    color: #14171f;
+    font-weight: 600;
     transform: translateY(-160%);
     transition: transform var(--hv-dur-fast) var(--hv-ease-out);
   }
@@ -84,14 +85,15 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     transform: translateY(0);
   }
 
+  /* 夜色玻璃：星空從底下透一點點過來 */
   .hv-header {
     position: sticky;
     top: 0;
     z-index: var(--hv-z-header);
-    border-bottom: 1px solid var(--hv-hairline);
-    background: color-mix(in srgb, var(--hv-paper) 92%, transparent);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hv-line);
+    background: color-mix(in srgb, var(--hv-night) 78%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
   .hv-header__inner {
     display: flex;
@@ -113,30 +115,30 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     position: relative;
     font-size: var(--hv-text-sm);
     letter-spacing: 0.06em;
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
     transition: color var(--hv-dur-fast) var(--hv-ease-out);
   }
-  /* 底線：朱色短線，自中心展開 */
+  /* 底線：星金短線，自中心展開 */
   .hv-header__link::after {
     content: "";
     position: absolute;
     left: 50%;
     bottom: -0.5rem;
     width: 1.2em;
-    height: 2px;
-    background: var(--hv-vermilion);
+    height: 1px;
+    background: var(--hv-gold);
     transform: translateX(-50%) scaleX(0);
     transition: transform var(--hv-dur) var(--hv-ease-out);
   }
   .hv-header__link:hover {
-    color: var(--hv-ink-strong);
+    color: var(--hv-starlight);
   }
   .hv-header__link:hover::after {
     transform: translateX(-50%) scaleX(1);
   }
-  /* 目前頁：墨字＋常駐朱線 */
+  /* 目前頁：星光字＋常駐金線 */
   .hv-header__link[aria-current="page"] {
-    color: var(--hv-ink-strong);
+    color: var(--hv-starlight);
   }
   .hv-header__link[aria-current="page"]::after {
     transform: translateX(-50%) scaleX(1);
@@ -156,11 +158,11 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     width: 40px;
     height: 40px;
     border-radius: var(--hv-radius);
-    color: var(--hv-ink);
+    color: var(--hv-text);
   }
   .hv-header__menu-btn:hover {
-    color: var(--hv-ink-strong);
-    background: rgba(23, 24, 28, 0.05);
+    color: var(--hv-starlight);
+    background: rgba(176, 198, 240, 0.08);
   }
   .hv-burger,
   .hv-burger::before,
@@ -215,10 +217,10 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
       gap: 0;
       margin: 0;
       padding: 0.25rem var(--hv-gutter) 0.75rem;
-      /* 實面紙色：任何環境都可讀 */
-      background: var(--hv-paper);
-      border-bottom: 1px solid var(--hv-hairline);
-      box-shadow: var(--hv-shadow-2);
+      /* 實面夜色：任何環境都可讀 */
+      background: var(--hv-surface-solid);
+      border-bottom: 1px solid var(--hv-line);
+      box-shadow: var(--hv-shadow-plate);
       display: none;
     }
     .hv-header__nav[data-open] {
@@ -227,8 +229,8 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     .hv-header__link {
       padding: 0.85rem 0;
       font-size: var(--hv-text-base);
-      color: var(--hv-ink);
-      border-bottom: 1px solid var(--hv-hairline);
+      color: var(--hv-text);
+      border-bottom: 1px solid var(--hv-line);
     }
     .hv-header__link:last-child {
       border-bottom: 0;
@@ -237,7 +239,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
       display: none;
     }
     .hv-header__link[aria-current="page"] {
-      color: var(--hv-vermilion);
+      color: var(--hv-gold);
     }
   }
 </style>

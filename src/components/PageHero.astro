@@ -1,22 +1,22 @@
 ---
 /*
-  子頁頁首 —— 編號眉標 + 明體大標 + 導語；髮絲線收尾。
-  紙面編輯部的統一資訊節奏。
+  子頁頁首 —— 拜耳記號眉標 + 明體大標 + 導語；星圖線收尾。
+  全站子頁的統一資訊節奏。
 */
 interface Props {
   eyebrow: string;
   title: string;
   lead?: string;
-  /** 章節編號（〇一 / 01；由頁面以 sectionNum() 算好傳入）。 */
-  num?: string;
+  /** 拜耳記號（α / β / γ…；由頁面以 bayer() 算好傳入）。 */
+  mark?: string;
 }
-const { eyebrow, title, lead, num } = Astro.props;
+const { eyebrow, title, lead, mark } = Astro.props;
 ---
 
 <div class="hv-page-hero">
   <div class="hv-container">
     <p class="hv-eyebrow" data-reveal>
-      {num && <span class="hv-eyebrow__num">{num}</span>}
+      {mark && <span class="hv-eyebrow__mark">{mark}</span>}
       {eyebrow}
     </p>
     <h1 class="hv-page-hero__title hv-display" data-reveal>{title}</h1>

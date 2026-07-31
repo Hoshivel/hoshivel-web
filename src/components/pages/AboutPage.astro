@@ -1,12 +1,12 @@
 ---
 /*
-  關於頁 —— 我們是誰 → 名字的由來 → 我們相信（三條）→ 聯繫。
-  紙面敘事：左標題右正文；名字由來配朱印；價值觀以編號髮絲欄呈現。
+  關於頁 —— 我們是誰 → 現在正在做的事 → 我們相信（三條）→ 聯繫。
+  夜面敘事：左標題右正文；現況以圖版卡標出；價值觀以編號髮絲欄呈現。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
 import Mark from "@/components/brand/Mark.astro";
-import { useTranslations, sectionNum, type Locale } from "@/i18n/utils";
+import { useTranslations, bayer, type Locale } from "@/i18n/utils";
 import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
 
 interface Props {
@@ -25,7 +25,7 @@ const values = [
 <Layout locale={locale} title={t("about.title")} description={t("about.lead")}>
   <main id="main">
     <PageHero
-      num={sectionNum(locale, 3)}
+      mark={bayer(3)}
       eyebrow={t("about.eyebrow")}
       title={t("about.title")}
       lead={t("about.lead")}
@@ -44,16 +44,16 @@ const values = [
       </div>
     </section>
 
-    <!-- 名字的由來：朱印落款卡 -->
-    <section class="hv-about-name" aria-labelledby="about-name">
+    <!-- 現在正在做的事：圖版卡 -->
+    <section class="hv-about-now" aria-labelledby="about-now">
       <div class="hv-container">
-        <div class="hv-about-name__card" data-reveal>
+        <div class="hv-about-now__card" data-reveal>
           <Mark size={46} />
           <div>
-            <h2 id="about-name" class="hv-about__h2 hv-display">
-              {t("about.name.title")}
+            <h2 id="about-now" class="hv-about__h2 hv-display">
+              {t("about.now.title")}
             </h2>
-            <p class="hv-about-name__body">{t("about.name.body")}</p>
+            <p class="hv-about-now__body">{t("about.now.body")}</p>
           </div>
         </div>
       </div>
@@ -69,8 +69,8 @@ const values = [
           {
             values.map((v, i) => (
               <div class="hv-about-values__item" data-reveal>
-                <span class="hv-about-values__index" aria-hidden="true">
-                  {sectionNum(locale, i + 1)}
+                <span class="hv-catalog hv-about-values__index" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 class="hv-about-values__name hv-display">{v.name}</h3>
                 <p class="hv-about-values__desc">{v.desc}</p>
@@ -81,7 +81,7 @@ const values = [
       </div>
     </section>
 
-    <!-- 聯繫：暖紙帶收尾 -->
+    <!-- 聯繫：夜色帶收尾 -->
     <section class="hv-section hv-about-contact" aria-labelledby="about-contact">
       <div class="hv-container hv-narrow hv-about-contact__inner">
         <h2 id="about-contact" class="hv-about__h2 hv-display" data-reveal>
@@ -118,24 +118,24 @@ const values = [
     display: flex;
     flex-direction: column;
     gap: var(--hv-space-6);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
     font-size: var(--hv-text-base);
     max-width: 62ch;
   }
 
-  /* 名字的由來：朱印 + 紙卡 */
-  .hv-about-name__card {
+  /* 現在正在做的事：星盤 + 圖版卡 */
+  .hv-about-now__card {
     display: flex;
     align-items: flex-start;
     gap: var(--hv-space-8);
     padding: clamp(2rem, 5vw, 3.5rem);
-    border: 1px solid var(--hv-hairline);
+    border: 1px solid var(--hv-line);
     border-radius: var(--hv-radius-lg);
-    background: var(--hv-card);
+    background: var(--hv-surface);
   }
-  .hv-about-name__body {
+  .hv-about-now__body {
     margin-top: var(--hv-space-4);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
     max-width: 58ch;
   }
 
@@ -148,14 +148,10 @@ const values = [
   }
   .hv-about-values__item {
     padding-top: var(--hv-space-6);
-    border-top: 1px solid var(--hv-hairline-strong);
+    border-top: 1px solid var(--hv-line-strong);
   }
   .hv-about-values__index {
-    font-family: var(--hv-font-display);
-    font-weight: 600;
-    font-size: var(--hv-text-xs);
-    letter-spacing: 0.12em;
-    color: var(--hv-vermilion);
+    color: var(--hv-gold);
   }
   .hv-about-values__name {
     margin-top: var(--hv-space-4);
@@ -163,14 +159,18 @@ const values = [
   }
   .hv-about-values__desc {
     margin-top: var(--hv-space-3);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
     font-size: var(--hv-text-sm);
   }
 
   /* 聯繫 */
   .hv-about-contact {
-    background: var(--hv-paper-warm);
-    border-top: 1px solid var(--hv-hairline);
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(11, 16, 29, 0.72) 20%
+    );
+    border-top: 1px solid var(--hv-line);
   }
   .hv-about-contact__inner {
     text-align: center;
@@ -193,7 +193,7 @@ const values = [
     .hv-about-values {
       grid-template-columns: 1fr;
     }
-    .hv-about-name__card {
+    .hv-about-now__card {
       flex-direction: column;
       gap: var(--hv-space-6);
     }

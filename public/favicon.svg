@@ -1,6 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hoshivel">
-  <!-- 朱印：印面 + 內框 + 鏤白四芒星 -->
-  <rect width="32" height="32" rx="6" fill="#b23a26" />
-  <rect x="3.5" y="3.5" width="25" height="25" rx="3.5" fill="none" stroke="#fdfbf5" stroke-opacity="0.55" stroke-width="1" />
-  <path d="M16 7 C 17 11.7 20.3 15 25 16 C 20.3 17 17 20.3 16 25 C 15 20.3 11.7 17 7 16 C 11.7 15 15 11.7 16 7 Z" fill="#fdfbf5" />
+  <!-- 星盤：夜底 + 金環 + 斜刻度 + 四芒星 -->
+  <rect width="32" height="32" rx="6" fill="#080b15" />
+  <circle cx="16" cy="16" r="11.5" fill="none" stroke="#f0cd94" stroke-opacity="0.45" stroke-width="1" />
+  <g stroke="#f0cd94" stroke-opacity="0.75" stroke-width="1" stroke-linecap="round">
+    <line x1="23.1" y1="23.1" x2="25.2" y2="25.2" />
+    <line x1="8.9" y1="23.1" x2="6.8" y2="25.2" />
+    <line x1="23.1" y1="8.9" x2="25.2" y2="6.8" />
+    <line x1="8.9" y1="8.9" x2="6.8" y2="6.8" />
+  </g>
+  <path d="M16 6.4 Q17.2 14.8 25.6 16 Q17.2 17.2 16 25.6 Q14.8 17.2 6.4 16 Q14.8 14.8 16 6.4 Z" fill="#f0cd94" />
 </svg>

@@ -57,19 +57,22 @@ const backHref = localizedPath(locale, "/news");
   .hv-post__head {
     padding-top: clamp(3.5rem, 8vw, 6rem);
   }
+  .hv-post__meta time {
+    font-family: var(--hv-font-mono);
+  }
   .hv-post__meta {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     font-size: var(--hv-text-xs);
-    color: var(--hv-ink-faint);
+    color: var(--hv-text-faint);
     letter-spacing: 0.05em;
   }
   .hv-post__tag {
     padding: 0.1rem 0.5rem;
-    border: 1px solid var(--hv-hairline-strong);
+    border: 1px solid var(--hv-line-strong);
     border-radius: var(--hv-radius-sm);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
   }
   .hv-post__title {
     margin-top: var(--hv-space-4);
@@ -91,24 +94,24 @@ const backHref = localizedPath(locale, "/news");
   /* Markdown 內文（渲染後的元素以 :global 指定） */
   .hv-post__body :global(p) {
     margin-block: var(--hv-space-4);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
   }
   .hv-post__body :global(p:first-child) {
-    color: var(--hv-ink);
+    color: var(--hv-text);
   }
   .hv-post__body :global(strong) {
-    color: var(--hv-ink-strong);
+    color: var(--hv-starlight);
     font-weight: 650;
   }
   .hv-post__body :global(a) {
-    color: var(--hv-vermilion);
+    color: var(--hv-gold);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(178, 58, 38, 0.35);
+    text-decoration-color: rgba(240, 205, 148, 0.4);
     transition: text-decoration-color var(--hv-dur-fast) var(--hv-ease-out);
   }
   .hv-post__body :global(a:hover) {
-    text-decoration-color: var(--hv-vermilion);
+    text-decoration-color: var(--hv-gold);
   }
   .hv-post__body :global(ul),
   .hv-post__body :global(ol) {
@@ -117,28 +120,28 @@ const backHref = localizedPath(locale, "/news");
     display: flex;
     flex-direction: column;
     gap: var(--hv-space-3);
-    color: var(--hv-ink-soft);
+    color: var(--hv-text-soft);
   }
   .hv-post__body :global(li::marker) {
-    color: var(--hv-vermilion);
+    color: var(--hv-gold);
   }
   .hv-post__body :global(h2),
   .hv-post__body :global(h3) {
     margin-top: var(--hv-space-8);
     font-family: var(--hv-font-display);
-    color: var(--hv-ink-strong);
+    color: var(--hv-starlight);
     line-height: var(--hv-leading-tight);
   }
   .hv-post__body :global(blockquote) {
     margin-block: var(--hv-space-6);
     padding-left: var(--hv-space-4);
-    border-left: 2px solid var(--hv-vermilion);
-    color: var(--hv-ink-soft);
+    border-left: 2px solid var(--hv-line-gold);
+    color: var(--hv-text-soft);
   }
   .hv-post__body :global(em) {
     font-style: normal;
     font-weight: 600;
-    color: var(--hv-ink);
+    color: var(--hv-text);
   }
 
   .hv-post__back {
