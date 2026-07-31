@@ -2,15 +2,15 @@
 /*
   Hoshivel 星圖 —— 首頁 Hero 的圖版（門戶的主視覺）。
 
-  一幅小小的星圖：座標網、星座連線、星表刻度；圖上最亮的幾顆星
-  就是 Hoshivel 的作品（可點，直達該作品段落）。作品即星——
-  這是門戶唯一的「主視覺」，不是裝飾素材。
+  一幅小小的星圖：座標網、星座連線、星表刻度。圖上最亮的是**作品**（可點，
+  直達該作品段落）；環標的是**服務**——不是作品，是撐著它的地基，
+  所以以軌道環而非星芒呈現。
 
   連線在載入時以 stroke-dashoffset 描出（reduced-motion 下直接完成）。
-  網格與散星 aria-hidden；只有作品星是真的連結。
+  網格與散星 aria-hidden；只有作品／服務標記是真的連結。
 */
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
-import { PRODUCTS } from "@/lib/products";
+import { WORKS, SERVICES } from "@/lib/catalog";
 
 interface Props {
   locale: Locale;
@@ -18,41 +18,63 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-/** 星座節點（viewBox 620×520）；其中三個是作品星的位置。 */
+/** 星座節點（viewBox 620×520）。 */
 const NODES = [
   { x: 96, y: 402 },
-  { x: 196, y: 330 }, // 作品 2
+  { x: 196, y: 330 }, // 服務位（環標）
   { x: 286, y: 366 },
-  { x: 392, y: 168 }, // 作品 1
+  { x: 392, y: 168 }, // 作品位 1
   { x: 498, y: 226 },
-  { x: 452, y: 372 }, // 作品 3（預留：新增作品時自動點亮）
+  { x: 452, y: 372 }, // 作品位 2（新增作品時自動點亮）
   { x: 540, y: 104 },
 ] as const;
 
 /** 作品星的節點索引與標籤靠邊方向。 */
 const WORK_SLOTS = [
   { node: 3, anchor: "end" as const },
-  { node: 1, anchor: "start" as const },
   { node: 5, anchor: "start" as const },
 ];
+/** 服務環標的節點索引。 */
+const SERVICE_SLOTS = [{ node: 1, anchor: "start" as const }];
 
-const works = PRODUCTS.slice(0, WORK_SLOTS.length).map((p, i) => {
-  const slot = WORK_SLOTS[i]!;
-  const pos = NODES[slot.node]!;
-  const dx = slot.anchor === "end" ? -17 : 17;
-  return {
-    id: p.id,
-    name: t(p.nameKey),
-    catalog: p.catalog,
-    href: localizedPath(locale, `/works#${p.id}`),
-    accentVar: p.accentVar,
-    x: pos.x,
-    y: pos.y,
-    labelX: pos.x + dx,
-    anchor: slot.anchor,
-  };
-});
-const workNodes = new Set(WORK_SLOTS.slice(0, works.length).map((s) => s.node));
+type Marker = {
+  id: string;
+  name: string;
+  label: string;
+  href: string;
+  accentVar: string;
+  x: number;
+  y: number;
+  labelX: number;
+  anchor: "start" | "end";
+  node: number;
+};
+
+const place = (
+  entries: typeof WORKS,
+  slots: { node: number; anchor: "start" | "end" }[],
+  label: (e: (typeof WORKS)[number]) => string,
+): Marker[] =>
+  entries.slice(0, slots.length).map((e, i) => {
+    const slot = slots[i]!;
+    const pos = NODES[slot.node]!;
+    return {
+      id: e.id,
+      name: t(e.nameKey),
+      label: label(e),
+      href: localizedPath(locale, `/works#${e.id}`),
+      accentVar: e.accentVar,
+      x: pos.x,
+      y: pos.y,
+      labelX: pos.x + (slot.anchor === "end" ? -17 : 17),
+      anchor: slot.anchor,
+      node: slot.node,
+    };
+  });
+
+const works = place(WORKS, WORK_SLOTS, (e) => e.catalog ?? "");
+const services = place(SERVICES, SERVICE_SLOTS, () => t("label.service"));
+const marked = new Set([...works, ...services].map((m) => m.node));
 
 /** 連線：一筆閉合的圖形 ＋ 一條伸出的臂。 */
 const FIGURE = [0, 1, 2, 5, 4, 3, 1];
@@ -118,20 +140,20 @@ const FIELD = [
       {FIELD.map((s) => <circle cx={s.x} cy={s.y} r={s.r} />)}
     </g>
 
-    <!-- 連線上的非作品節點 -->
+    <!-- 連線上的無標記節點 -->
     <g class="hv-chart__nodes" aria-hidden="true">
       {
         NODES.map((n, i) =>
-          workNodes.has(i) ? null : <circle cx={n.x} cy={n.y} r="2.6" />,
+          marked.has(i) ? null : <circle cx={n.x} cy={n.y} r="2.6" />,
         )
       }
     </g>
 
-    <!-- 作品星：可點的亮星 -->
+    <!-- 作品：亮星 -->
     {
       works.map((w) => (
         <a
-          class="hv-chart__work"
+          class="hv-chart__marker"
           href={w.href}
           style={`--star-accent: var(${w.accentVar})`}
         >
@@ -147,12 +169,43 @@ const FIELD = [
             {w.name}
           </text>
           <text
-            class="hv-chart__cat"
+            class="hv-chart__tag"
             x={w.labelX}
             y={w.y + 15}
             text-anchor={w.anchor}
           >
-            {w.catalog}
+            {w.label}
+          </text>
+        </a>
+      ))
+    }
+
+    <!-- 服務：環標（不是星芒——它撐著星，不與星爭亮） -->
+    {
+      services.map((s) => (
+        <a
+          class="hv-chart__marker is-service"
+          href={s.href}
+          style={`--star-accent: var(${s.accentVar})`}
+        >
+          <circle class="hv-chart__ring is-outer" cx={s.x} cy={s.y} r="11.5" />
+          <circle class="hv-chart__ring" cx={s.x} cy={s.y} r="6.5" />
+          <circle class="hv-chart__core is-small" cx={s.x} cy={s.y} r="2.4" />
+          <text
+            class="hv-chart__name is-small"
+            x={s.labelX}
+            y={s.y - 2}
+            text-anchor={s.anchor}
+          >
+            {s.name}
+          </text>
+          <text
+            class="hv-chart__tag"
+            x={s.labelX}
+            y={s.y + 14}
+            text-anchor={s.anchor}
+          >
+            {s.label}
           </text>
         </a>
       ))
@@ -206,10 +259,7 @@ const FIELD = [
     overflow: visible;
   }
 
-  .hv-chart__grid line {
-    stroke: var(--hv-line-strong);
-    stroke-width: 1;
-  }
+  .hv-chart__grid line,
   .hv-chart__ticks line {
     stroke: var(--hv-line-strong);
     stroke-width: 1;
@@ -241,8 +291,8 @@ const FIELD = [
     }
   }
 
-  /* 作品星 */
-  .hv-chart__work {
+  /* 標記（作品星／服務環標共用） */
+  .hv-chart__marker {
     cursor: pointer;
   }
   .hv-chart__halo {
@@ -261,9 +311,16 @@ const FIELD = [
       opacity var(--hv-dur) var(--hv-ease-out),
       transform var(--hv-dur) var(--hv-ease-out);
   }
+  .hv-chart__ring.is-outer {
+    opacity: 0.3;
+    stroke-dasharray: 3 5;
+  }
   .hv-chart__core {
     fill: var(--hv-star);
     transition: fill var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-chart__core.is-small {
+    fill: var(--star-accent);
   }
   .hv-chart__name {
     font-family: var(--hv-font-display);
@@ -273,23 +330,27 @@ const FIELD = [
     letter-spacing: 0.02em;
     transition: fill var(--hv-dur-fast) var(--hv-ease-out);
   }
-  .hv-chart__cat {
+  .hv-chart__name.is-small {
+    font-size: 14px;
+    fill: var(--hv-text);
+  }
+  .hv-chart__tag {
     font-family: var(--hv-font-mono);
     font-size: 10.5px;
     letter-spacing: 0.16em;
     fill: var(--hv-text-faint);
   }
-  .hv-chart__work:hover .hv-chart__halo {
+  .hv-chart__marker:hover .hv-chart__halo {
     opacity: 0.3;
   }
-  .hv-chart__work:hover .hv-chart__ring {
+  .hv-chart__marker:hover .hv-chart__ring {
     opacity: 1;
     transform: scale(1.18);
   }
-  .hv-chart__work:hover .hv-chart__core {
+  .hv-chart__marker:hover .hv-chart__core {
     fill: var(--hv-gold-soft);
   }
-  .hv-chart__work:hover .hv-chart__name {
+  .hv-chart__marker:hover .hv-chart__name {
     fill: var(--hv-gold);
   }
 

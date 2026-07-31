@@ -57,6 +57,23 @@ const xDefault = Astro.site
       document.documentElement.classList.add("hv-js");
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- 自訂明體：標題與字標的 LCP 依賴它，先行預載（依語言各載一支漢字面） -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/playfair-display-600.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={locale === "zh-CN"
+        ? "/fonts/noto-serif-sc-600.woff2"
+        : "/fonts/noto-serif-tc-600.woff2"}
+      crossorigin
+    />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta name="generator" content={Astro.generator} />

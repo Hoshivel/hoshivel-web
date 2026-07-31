@@ -65,6 +65,7 @@ const values = [
         <h2 id="about-values" class="hv-about__h2 hv-display" data-reveal>
           {t("about.values.title")}
         </h2>
+        <p class="hv-about-values__lead" data-reveal>{t("about.values.lead")}</p>
         <div class="hv-about-values">
           {
             values.map((v, i) => (
@@ -137,6 +138,15 @@ const values = [
     margin-top: var(--hv-space-4);
     color: var(--hv-text-soft);
     max-width: 58ch;
+  }
+
+  /* 做事方式：一句金字，領起三條價值 */
+  .hv-about-values__lead {
+    margin-top: var(--hv-space-3);
+    font-family: var(--hv-font-display);
+    font-size: var(--hv-text-lg);
+    color: var(--hv-gold);
+    letter-spacing: 0.06em;
   }
 
   /* 我們相信：三欄，各以髮絲頂線與編號開頭 */

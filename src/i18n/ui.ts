@@ -56,9 +56,14 @@ export const LOCALE_SHORT: Record<Locale, string> = {
 // zh-Hant 為鍵的權威來源；其餘語言以 Record<UIKey, string> 強制對齊。
 const zhHant = {
   "site.name": "Hoshivel",
-  "site.tagline": "少做，做好，做久",
+  /** 正式題詞（字標、頁標題後綴、OG 圖皆用它）。 */
+  "site.tagline": "讓星辰，成為世界。",
+  /** 題詞的拉丁書寫（漢字語系頁面在題詞下並排一行）。 */
+  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
+  /** 做事方式（不是題詞；用於關於頁的「我們相信」導語）。 */
+  "site.motto": "少做，做好，做久。",
   "site.summary":
-    "Hoshivel 是一個獨立遊戲與網路服務開發組織，打造架空世界觀回合制策略遊戲《碎界 Shattered Realms》與通用帳戶服務 Hoshi ID。",
+    "Hoshivel 是一個獨立遊戲與網路服務開發組織，打造架空世界觀回合制策略遊戲《碎界 Shattered Realms》，並自建通用帳戶服務 Hoshi ID 支撐它長期運行。",
 
   "nav.works": "作品",
   "nav.news": "新聞",
@@ -69,6 +74,7 @@ const zhHant = {
   "cta.about": "認識我們",
   "cta.visit": "前往官網",
   "cta.detail": "作品詳情",
+  "cta.detailService": "服務詳情",
   "cta.allNews": "所有新聞",
   "cta.join": "查看招募資訊",
 
@@ -78,8 +84,9 @@ const zhHant = {
   "a11y.menu": "選單",
   "a11y.external": "（外部連結，另開新視窗）",
 
-  "footer.summary": "一間獨立工作室，把遊戲與服務當作品慢慢做。",
+  "footer.summary": "一間獨立工作室，把一件作品慢慢做好，並自己扛起它的地基。",
   "footer.worksLabel": "作品",
+  "footer.servicesLabel": "服務",
   "footer.orgLabel": "組織",
   "footer.langLabel": "語言",
   "footer.github": "GitHub",
@@ -87,20 +94,24 @@ const zhHant = {
 
   // 首頁 Hero
   "home.hero.eyebrow": "獨立遊戲與網路服務開發組織",
-  "home.hero.titleA": "少做，做好，做久",
-  "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
-    "Hoshivel 是一間獨立小工作室：做架空世界的回合策略遊戲《碎界》，也做讓一個帳號通行所有作品的 Hoshi ID。",
+    "Hoshivel 是一間獨立小工作室：做架空世界的回合策略遊戲《碎界》；帳號的事，交給我們自建的 Hoshi ID。",
 
   // 首頁 作品
   "home.works.eyebrow": "作品",
-  "home.works.title": "兩件作品，一個署名",
+  "home.works.title": "作品只有一件，所以每一寸都算數",
   "home.works.lead":
-    "從架空世界的回合策略，到通行所有作品的單一帳戶——每一件，都以長期經營為前提。",
+    "《碎界》是我們現在全部的作品——架空世界的回合策略，以長期經營為前提，慢慢長成。",
+
+  // 首頁 服務（不是作品：支撐作品的地基）
+  "home.services.eyebrow": "服務",
+  "home.services.title": "支撐作品的服務",
+  "home.services.lead":
+    "Hoshi ID 不是產品，是地基：帳號、登入與安全工作階段集中在這裡，作品才能只管好自己的世界。",
 
   // 首頁 星圖（Hero 圖版）
   "home.chart.title": "HOSHIVEL 星圖",
-  "home.chart.note": "圖上的亮星，是我們正在打造的作品——點一顆看看。",
+  "home.chart.note": "亮星是作品，環標是支撐它的服務——點一下看看。",
 
   // 首頁 新聞
   "home.news.eyebrow": "新聞",
@@ -116,7 +127,9 @@ const zhHant = {
   // 作品頁
   "works.eyebrow": "作品",
   "works.title": "數量不多，各自成界",
-  "works.lead": "這是我們正在打造的世界。每一件都想做得長久，也值得你久留。",
+  "works.lead": "這是我們正在打造的世界，以及讓它長期運行的服務。",
+  "label.work": "作品",
+  "label.service": "服務",
 
   // 作品：碎界 Shattered Realms
   "p.sr.name": "碎界",
@@ -146,12 +159,13 @@ const zhHant = {
   "about.lead": "一支小而專注的團隊，用長期的眼光打造遊戲與服務。",
   "about.who.title": "我們是誰",
   "about.who.body1":
-    "Hoshivel 是一個獨立開發組織，目前打造兩件作品：架空世界觀回合制策略遊戲《碎界 Shattered Realms》，以及通用帳戶服務 Hoshi ID。",
+    "Hoshivel 是一個獨立開發組織。作品只有一件：架空世界觀回合制策略遊戲《碎界 Shattered Realms》；另有一項自建服務 Hoshi ID——它不是產品，是讓作品長期運行的帳戶地基。",
   "about.who.body2":
     "我們刻意保持小：小的團隊、少的作品、長的時間表。這讓我們可以把每一個細節做到自己滿意，再交到玩家手上。",
   "about.now.title": "現在正在做的事",
   "about.now.body":
     "《碎界》仍在開發，官網已上線；Hoshi ID 已上線，並且是碎界現在的登入方式。我們同時只讓少數幾件事往前走——做完一件，再開下一件。",
+  "about.values.lead": "少做，做好，做久。",
   "about.values.title": "我們相信",
   "about.v1.name": "少而精",
   "about.v1.desc":
@@ -213,9 +227,11 @@ export type UIKey = keyof typeof zhHant;
 
 const zhCN: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "少做，做好，做久",
+  "site.tagline": "让星辰，成为世界。",
+  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
+  "site.motto": "少做，做好，做久。",
   "site.summary":
-    "Hoshivel 是一个独立游戏与网络服务开发组织，打造架空世界观回合制策略游戏《碎界 Shattered Realms》与通用账户服务 Hoshi ID。",
+    "Hoshivel 是一个独立游戏与网络服务开发组织，打造架空世界观回合制策略游戏《碎界 Shattered Realms》，并自建通用账户服务 Hoshi ID 支撑它长期运行。",
 
   "nav.works": "作品",
   "nav.news": "新闻",
@@ -226,6 +242,7 @@ const zhCN: Record<UIKey, string> = {
   "cta.about": "认识我们",
   "cta.visit": "前往官网",
   "cta.detail": "作品详情",
+  "cta.detailService": "服务详情",
   "cta.allNews": "所有新闻",
   "cta.join": "查看招募信息",
 
@@ -235,26 +252,30 @@ const zhCN: Record<UIKey, string> = {
   "a11y.menu": "菜单",
   "a11y.external": "（外部链接，新窗口打开）",
 
-  "footer.summary": "一间独立工作室，把游戏与服务当作品慢慢做。",
+  "footer.summary": "一间独立工作室，把一件作品慢慢做好，并自己扛起它的地基。",
   "footer.worksLabel": "作品",
+  "footer.servicesLabel": "服务",
   "footer.orgLabel": "组织",
   "footer.langLabel": "语言",
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "独立游戏与网络服务开发组织",
-  "home.hero.titleA": "少做，做好，做久",
-  "home.hero.titleB": "作品，是值得回去的地方。",
   "home.hero.lead":
-    "Hoshivel 是一间独立小工作室：做架空世界的回合策略游戏《碎界》，也做让一个账号通行所有作品的 Hoshi ID。",
+    "Hoshivel 是一间独立小工作室：做架空世界的回合策略游戏《碎界》；账号的事，交给我们自建的 Hoshi ID。",
 
   "home.works.eyebrow": "作品",
-  "home.works.title": "两件作品，一个署名",
+  "home.works.title": "作品只有一件，所以每一寸都算数",
   "home.works.lead":
-    "从架空世界的回合策略，到通行所有作品的单一账户——每一件，都以长期经营为前提。",
+    "《碎界》是我们现在全部的作品——架空世界的回合策略，以长期经营为前提，慢慢长成。",
+
+  "home.services.eyebrow": "服务",
+  "home.services.title": "支撑作品的服务",
+  "home.services.lead":
+    "Hoshi ID 不是产品，是地基：账号、登录与安全会话集中在这里，作品才能只管好自己的世界。",
 
   "home.chart.title": "HOSHIVEL 星图",
-  "home.chart.note": "图上的亮星，是我们正在打造的作品——点一颗看看。",
+  "home.chart.note": "亮星是作品，环标是支撑它的服务——点一下看看。",
 
   "home.news.eyebrow": "新闻",
   "home.news.title": "最新动态",
@@ -267,7 +288,9 @@ const zhCN: Record<UIKey, string> = {
 
   "works.eyebrow": "作品",
   "works.title": "数量不多，各自成界",
-  "works.lead": "这是我们正在打造的世界。每一件都想做得长久，也值得你久留。",
+  "works.lead": "这是我们正在打造的世界，以及让它长期运行的服务。",
+  "label.work": "作品",
+  "label.service": "服务",
 
   "p.sr.name": "碎界",
   "p.sr.latin": "SHATTERED REALMS",
@@ -294,12 +317,13 @@ const zhCN: Record<UIKey, string> = {
   "about.lead": "一支小而专注的团队，用长期的眼光打造游戏与服务。",
   "about.who.title": "我们是谁",
   "about.who.body1":
-    "Hoshivel 是一个独立开发组织，目前打造两件作品：架空世界观回合制策略游戏《碎界 Shattered Realms》，以及通用账户服务 Hoshi ID。",
+    "Hoshivel 是一个独立开发组织。作品只有一件：架空世界观回合制策略游戏《碎界 Shattered Realms》；另有一项自建服务 Hoshi ID——它不是产品，是让作品长期运行的账户地基。",
   "about.who.body2":
     "我们刻意保持小：小的团队、少的作品、长的时间表。这让我们可以把每一个细节做到自己满意，再交到玩家手上。",
   "about.now.title": "现在正在做的事",
   "about.now.body":
     "《碎界》仍在开发，官网已上线；Hoshi ID 已上线，并且是碎界现在的登录方式。我们同时只让少数几件事往前走——做完一件，再开下一件。",
+  "about.values.lead": "少做，做好，做久。",
   "about.values.title": "我们相信",
   "about.v1.name": "少而精",
   "about.v1.desc": "不追逐数量。每一件作品，都值得被完整地做完、久久地维护。",
@@ -353,9 +377,11 @@ const zhCN: Record<UIKey, string> = {
 
 const en: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "Build less, build well, build to last",
+  "site.tagline": "Where Stars Become Worlds.",
+  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
+  "site.motto": "Build less, build well, build to last.",
   "site.summary":
-    "Hoshivel is an independent organization building games and online services — the turn-based strategy game Shattered Realms and the universal account service Hoshi ID.",
+    "Hoshivel is an independent organization building Shattered Realms, a turn-based strategy game set in an original world, backed by Hoshi ID — the account service we run to keep it standing.",
 
   "nav.works": "Works",
   "nav.news": "News",
@@ -366,6 +392,7 @@ const en: Record<UIKey, string> = {
   "cta.about": "About us",
   "cta.visit": "Visit site",
   "cta.detail": "Details",
+  "cta.detailService": "Details",
   "cta.allNews": "All news",
   "cta.join": "See open roles",
 
@@ -376,27 +403,31 @@ const en: Record<UIKey, string> = {
   "a11y.external": "(external link, opens in a new tab)",
 
   "footer.summary":
-    "An independent studio, making games and services the slow way.",
+    "An independent studio: one work, made slowly — and the groundwork under it, run by us.",
   "footer.worksLabel": "Works",
+  "footer.servicesLabel": "Service",
   "footer.orgLabel": "Organization",
   "footer.langLabel": "Language",
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "Independent games & online services",
-  "home.hero.titleA": "Build less, build well, build to last —",
-  "home.hero.titleB": "making works worth returning to.",
   "home.hero.lead":
-    "Hoshivel is a small independent studio. We make Shattered Realms, a turn-based strategy game set in an original world, and Hoshi ID, one account for everything we build.",
+    "Hoshivel is a small independent studio. We make Shattered Realms, a turn-based strategy game set in an original world; accounts are handled by Hoshi ID, the service we run ourselves.",
 
   "home.works.eyebrow": "Works",
-  "home.works.title": "Two works, one signature",
+  "home.works.title": "One work — so every inch of it counts",
   "home.works.lead":
-    "From turn-based strategy in an original world to a single account for everything we make — each one built to last.",
+    "Shattered Realms is all we build right now: turn-based strategy in an original world, grown slowly and meant to last.",
+
+  "home.services.eyebrow": "Service",
+  "home.services.title": "The service behind the work",
+  "home.services.lead":
+    "Hoshi ID isn't a product — it's the ground the work stands on: accounts, sign-in and secure sessions live there, so the game can mind its own world.",
 
   "home.chart.title": "THE HOSHIVEL CHART",
   "home.chart.note":
-    "The bright stars are the works we're building — pick one and look closer.",
+    "Bright stars are works; the ringed one is the service beneath them — take a look.",
 
   "home.news.eyebrow": "News",
   "home.news.title": "Latest updates",
@@ -411,7 +442,9 @@ const en: Record<UIKey, string> = {
   "works.eyebrow": "Works",
   "works.title": "Few in number, each a world",
   "works.lead":
-    "This is what we are building — each made to last, and worth staying in.",
+    "What we are building — and the service that keeps it running.",
+  "label.work": "WORK",
+  "label.service": "SERVICE",
 
   "p.sr.name": "Shattered Realms",
   "p.sr.latin": "SHATTERED REALMS",
@@ -440,12 +473,13 @@ const en: Record<UIKey, string> = {
     "A small, focused team building games and services with the long view.",
   "about.who.title": "Who we are",
   "about.who.body1":
-    "Hoshivel is an independent development organization. We currently build two works: Shattered Realms, a turn-based strategy game set in an original shattered world, and Hoshi ID, our universal account service.",
+    "Hoshivel is an independent development organization. We have one work: Shattered Realms, a turn-based strategy game set in an original shattered world. Alongside it we run Hoshi ID — not a product, but the account groundwork that keeps the work running.",
   "about.who.body2":
     "We stay deliberately small: a small team, few works, long timelines. It lets us finish every detail to our own standard before it reaches players.",
   "about.now.title": "What we're working on",
   "about.now.body":
     "Shattered Realms is still in development, with its site live; Hoshi ID is live and is how you sign in to Shattered Realms today. We only ever move a few things forward at once — finish one, then start the next.",
+  "about.values.lead": "Build less, build well, build to last.",
   "about.values.title": "What we believe",
   "about.v1.name": "Less, but better",
   "about.v1.desc":

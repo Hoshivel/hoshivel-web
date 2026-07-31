@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# 字體子集化的原始檔快取（scripts/subset-fonts.py 會自行下載）
+scripts/.fontcache/
+
 # dependencies
 node_modules/
 

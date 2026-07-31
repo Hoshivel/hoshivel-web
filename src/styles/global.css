@@ -1,3 +1,4 @@
+@import "./fonts.css";
 @import "./tokens.css";
 
 /* ---- reset ---- */
@@ -118,6 +119,15 @@ button {
   font-size: 1.15em;
   color: var(--hv-gold);
   letter-spacing: 0;
+}
+
+/* 服務的眉標記號：一枚小環（作品是拜耳字母，服務是環——與星圖同一套語彙） */
+.hv-eyebrow__ring {
+  width: 0.85em;
+  height: 0.85em;
+  border: 1px solid var(--hv-gold);
+  border-radius: 50%;
+  align-self: center;
 }
 
 /* 星表編號（HV—01）：等寬、寬字距，圖版上的目錄號 */

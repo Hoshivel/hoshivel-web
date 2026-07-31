@@ -1,0 +1,39 @@
+/*
+  Hoshivel 官方門戶 —— 自訂字體（自行託管，不打第三方請求）。
+
+  標題／字標＝明體：拉丁走 Playfair Display（字標的骨架就是它），
+  漢字走 Noto Serif TC／SC。三支皆為子集檔（見 scripts/subset-fonts.py），
+  只含站上會出現的字；新增新聞後跑 `npm run fonts` 重出。
+
+  兩支漢字面刻意不設 unicode-range：拉丁面沒有的字（希臘字母、全形標點、漢字）
+  由瀏覽器逐字回退到漢字面即可；各語系頁的字型堆疊只點名自己那一支，
+  正體頁不會下載簡體檔，反之亦然。
+
+  內文與編號仍走系統字（黑體／等寬）：正文用字量大，
+  自帶一套 CJK 黑體要再多幾百 KB，划不來——版面個性由明體標題承擔。
+*/
+
+@font-face {
+  font-family: "Hoshivel Display";
+  src: url("/fonts/playfair-display-600.woff2") format("woff2");
+  /* 只有一支實體字重；宣告成一段區間，避免瀏覽器合成假粗體 */
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hoshivel Han";
+  src: url("/fonts/noto-serif-tc-600.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hoshivel Han SC";
+  src: url("/fonts/noto-serif-sc-600.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}

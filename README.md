@@ -8,13 +8,18 @@ Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi 
 門戶走第三極：**古星圖銅版**——墨藍的夜、星光的字、一種星金，
 細如髮的星圖線與方正的圖版邊角。不是科幻太空，是量測用的星表圖版。
 
-核心命題：**作品即星**。門戶是 Hoshivel 的星圖，每一件作品是圖上一顆亮星。
+正式題詞：**讓星辰，成為世界。**（Where Stars Become Worlds.）
+
+核心命題：**作品即星**。門戶是 Hoshivel 的星圖，每一件作品是圖上一顆亮星；
+**服務不是作品**——Hoshi ID 這類基礎設施在圖上以環標呈現，不佔作品編號。
 
 - 全站固定星空：銀河漸層＋遠近兩層星點（建置期以固定種子生成，非 client JS）
 - 首頁主視覺＝ `WorksChart` 星圖：座標網、星座連線、刻度；亮星可點，直達作品段落
 - 品牌標記＝**星盤**（四芒星＋星盤環＋斜刻度；favicon 同版）
-- 章節以拜耳字母編號（α β γ δ，三語共用）；作品帶星表編號 `HV—01`
-- 標題明體（serif）、內文黑體（sans）、編號等寬（mono）；方正圖版（radius 2–6px）
+- 章節以拜耳字母編號（α β γ δ，三語共用）；作品帶星表編號 `HV—01`，服務帶「服務」籤
+- 品牌字體**自行託管**：標題與字標＝ Playfair Display ＋ Noto Serif TC／SC 子集
+  （見下節）；內文黑體與編號等寬走系統字
+- 方正圖版（radius 2–6px）
 - 動效節制：reveal-on-scroll、星圖連線描出、少數星呼吸、星空微視差、極罕見流星
   ——全部隨 `prefers-reduced-motion` 關閉
 
@@ -34,7 +39,24 @@ npm install
 npm run dev      # 本地開發
 npm run build    # astro check && astro build（strict TS，驗收門檻）
 npm run preview  # 預覽建置產物
+npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli）
 ```
+
+## 自訂字體
+
+標題與字標走自訂明體，**自行託管、不打第三方請求**：
+
+| 面 | 字體 | 子集大小 |
+| --- | --- | --- |
+| 拉丁（字標骨架） | Playfair Display 600 | ~12 KB |
+| 漢字（正體頁） | Noto Serif TC 600 | ~147 KB |
+| 漢字（簡體頁） | Noto Serif SC 600 | ~165 KB |
+
+`scripts/subset-fonts.py` 從 `src/i18n/ui.ts`、`src/content/news/*.md` 收集「站上真的會
+出現的字」做子集（另含一份常用字保底表），輸出到 `public/fonts/`。原始字檔（17–25 MB）
+快取於 `scripts/.fontcache/`，已 gitignore。**發新聞後若某些字掉回系統明體，跑一次
+`npm run fonts` 即可。** 兩支漢字面不設 `unicode-range`：各語系頁的堆疊只點名自己那支，
+正體頁不會下載簡體檔。
 
 ## 內容維護
 
@@ -42,7 +64,9 @@ npm run preview  # 預覽建置產物
 | --- | --- |
 | 發新聞 | `src/content/news/<slug>.<locale>.md`（三語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
 | 職缺增減 | `src/lib/roles.ts` ＋ `src/i18n/ui.ts` 的 `role.*` 鍵 |
-| 新作品 | `src/lib/products.ts`（含星表編號）＋ 字典 `p.*` 鍵 ＋ `tokens.css` 識別色；首頁星圖最多點亮三顆作品星 |
+| 新作品 | `src/lib/catalog.ts` 的 `WORKS`（含星表編號）＋ 字典 `p.*` 鍵 ＋ `tokens.css` 識別色 |
+| 新服務 | `src/lib/catalog.ts` 的 `SERVICES`（不給編號）＋ 字典 `p.*` 鍵 |
+| 站上出現新字（發新聞後） | `npm run fonts` 重出字體子集 |
 | 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，三語逐鍵對齊） |
 | 組織連結／信箱 | `src/lib/site.ts` |
 

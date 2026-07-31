@@ -1,11 +1,10 @@
 ---
 /*
-  Hoshivel 字標鎖定組（第三版）—— 星盤 + 明體名。
+  Hoshivel 字標鎖定組 —— 標記 + 明體名（末兩字母走金色，與 logo 原稿一致）。
   variant：
-    - mark    —— 只有星盤（Mark 帶 aria-label）
-    - compact —— 星盤 + 名稱（header 用）
-    - full    —— 星盤 + 名稱 + 標語（footer / OG 用）
-  全站同一片夜空，不再需要反白變體。
+    - mark    —— 只有標記（Mark 帶 aria-label）
+    - compact —— 標記 + 名稱（header 用）
+    - full    —— 標記 + 名稱 + 題詞（footer / OG 用）
 */
 import Mark from "./Mark.astro";
 import { useTranslations, type Locale } from "@/i18n/utils";
@@ -21,7 +20,11 @@ const { locale, variant = "compact", size, class: className } = Astro.props;
 const t = useTranslations(locale);
 const name = t("site.name");
 const tagline = t("site.tagline");
-const markSize = size ?? (variant === "full" ? 38 : 26);
+const markSize = size ?? (variant === "full" ? 44 : 30);
+
+// 末兩字母上金：字標本身的識別點（品牌名仍是完整一個詞，只是著色）
+const head = name.slice(0, -2);
+const tail = name.slice(-2);
 ---
 
 <span class:list={["hv-wordmark", `is-${variant}`, className]}>
@@ -29,7 +32,8 @@ const markSize = size ?? (variant === "full" ? 38 : 26);
   {
     variant !== "mark" && (
       <span class="hv-wordmark__text">
-        <span class="hv-wordmark__name">{name}</span>
+        {/* 不可換行／不可有空白：字標是一個詞 */}
+        <span class="hv-wordmark__name">{head}<span class="hv-wordmark__tail">{tail}</span></span>
         {variant === "full" && (
           <span class="hv-wordmark__tagline">{tagline}</span>
         )}
@@ -42,10 +46,10 @@ const markSize = size ?? (variant === "full" ? 38 : 26);
   .hv-wordmark {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.55rem;
   }
   .hv-wordmark.is-full {
-    gap: 0.8rem;
+    gap: 0.85rem;
   }
   .hv-wordmark__text {
     display: inline-flex;
@@ -55,17 +59,34 @@ const markSize = size ?? (variant === "full" ? 38 : 26);
   .hv-wordmark__name {
     font-family: var(--hv-font-display);
     font-weight: 600;
-    letter-spacing: 0.06em;
-    font-size: 1.18rem;
+    letter-spacing: 0.03em;
+    font-size: 1.3rem;
     color: var(--hv-starlight);
   }
   .hv-wordmark.is-full .hv-wordmark__name {
-    font-size: 1.45rem;
+    font-size: 1.6rem;
+  }
+  /* 末兩字母：金色漸層（不支援 background-clip 的環境退回實色金） */
+  .hv-wordmark__tail {
+    color: var(--hv-gold);
+    background: linear-gradient(
+      100deg,
+      var(--hv-gold-soft),
+      var(--hv-gold) 45%,
+      var(--hv-gold-deep)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    .hv-wordmark__tail {
+      color: transparent;
+    }
   }
   .hv-wordmark__tagline {
     color: var(--hv-text-faint);
-    letter-spacing: 0.2em;
-    font-size: 0.62rem;
-    margin-top: 0.4rem;
+    letter-spacing: 0.16em;
+    font-size: 0.66rem;
+    margin-top: 0.5rem;
   }
 </style>

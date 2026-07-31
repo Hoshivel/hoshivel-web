@@ -1,18 +1,33 @@
 ---
 /*
-  作品頁 —— 星表：每件作品一則完整條目（錨點 = 作品 id）。
-  結構：星表編號＋識別色星記＋明體名／類型／狀態 → 摘要 → 三項特點（髮絲清單）→ 入口。
+  作品頁 —— 星表：作品在前（各一則完整條目），服務另立一節在後。
+  服務不是產品：不給星表編號、以環標記號呈現，但同樣有完整條目。
+  結構：記號＋編號／籤＋明體名／類型／狀態 → 摘要 → 三項特點（髮絲清單）→ 入口。
+  錨點 = 條目 id。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
 import { useTranslations, bayer, type Locale } from "@/i18n/utils";
-import { PRODUCTS } from "@/lib/products";
+import { WORKS, SERVICES, type CatalogEntry } from "@/lib/catalog";
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+/** 兩節共用的條目版式（作品＝星芒＋編號；服務＝環標＋「服務」籤）。 */
+const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title: string; lead: string } }[] = [
+  { entries: WORKS, head: null },
+  {
+    entries: SERVICES,
+    head: {
+      eyebrow: t("home.services.eyebrow"),
+      title: t("home.services.title"),
+      lead: t("home.services.lead"),
+    },
+  },
+];
 ---
 
 <Layout locale={locale} title={t("nav.works")} description={t("works.lead")}>
@@ -26,7 +41,21 @@ const t = useTranslations(locale);
 
     <div class="hv-container">
       {
-        PRODUCTS.map((p) => (
+        sections.map(({ entries, head }) => (
+          <>
+            {head && (
+              <div class="hv-work-sep">
+                <div class="hv-section-head">
+                  <p class="hv-eyebrow" data-reveal>
+                    <span class="hv-eyebrow__ring" aria-hidden="true" />
+                    {head.eyebrow}
+                  </p>
+                  <h2 data-reveal>{head.title}</h2>
+                  <p class="hv-lead" data-reveal>{head.lead}</p>
+                </div>
+              </div>
+            )}
+            {entries.map((p) => (
           <section
             id={p.id}
             class="hv-work"
@@ -35,10 +64,19 @@ const t = useTranslations(locale);
           >
             <div class="hv-work__head" data-reveal>
               <span class="hv-work__mark" aria-hidden="true">
-                <svg class="hv-work__star" viewBox="0 0 24 24">
-                  <path d="M12 1 Q13 11 23 12 Q13 13 12 23 Q11 13 1 12 Q11 11 12 1 Z" />
-                </svg>
-                <span class="hv-catalog">{p.catalog}</span>
+                {p.kind === "work" ? (
+                  <svg class="hv-work__star" viewBox="0 0 24 24">
+                    <path d="M12 1 Q13 11 23 12 Q13 13 12 23 Q11 13 1 12 Q11 11 12 1 Z" />
+                  </svg>
+                ) : (
+                  <svg class="hv-work__star is-ring" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8.5" fill="none" stroke-width="2" />
+                    <circle cx="12" cy="12" r="2.6" stroke="none" />
+                  </svg>
+                )}
+                <span class="hv-catalog">
+                  {p.kind === "work" ? p.catalog : t("label.service")}
+                </span>
               </span>
               <div>
                 <h2 id={`${p.id}-title`} class="hv-work__name hv-display">
@@ -84,6 +122,8 @@ const t = useTranslations(locale);
               </div>
             ) : null}
           </section>
+            ))}
+          </>
         ))
       }
     </div>
@@ -122,6 +162,17 @@ const t = useTranslations(locale);
     height: 20px;
     fill: var(--work-accent);
     filter: drop-shadow(0 0 8px var(--work-accent));
+  }
+  .hv-work__star.is-ring {
+    stroke: var(--work-accent);
+    filter: none;
+  }
+
+  /* 服務節的標題組：與上一節之間拉開一條星圖線 */
+  .hv-work-sep {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    padding-top: clamp(3rem, 7vw, 5rem);
+    border-top: 1px solid var(--hv-line);
   }
   .hv-work__name {
     display: flex;

@@ -7,7 +7,7 @@
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
-import { PRODUCTS } from "@/lib/products";
+import { WORKS, SERVICES } from "@/lib/catalog";
 import { GITHUB_URL } from "@/lib/site";
 
 interface Props {
@@ -18,11 +18,13 @@ const { locale, path = "/" } = Astro.props;
 const t = useTranslations(locale);
 const year = new Date().getFullYear();
 
-const works = PRODUCTS.map((p) => ({
-  label: t(p.nameKey),
-  href: p.url ?? localizedPath(locale, `/works#${p.id}`),
-  external: p.url !== null,
-}));
+const link = (e: { nameKey: Parameters<typeof t>[0]; url: string | null; id: string }) => ({
+  label: t(e.nameKey),
+  href: e.url ?? localizedPath(locale, `/works#${e.id}`),
+  external: e.url !== null,
+});
+const works = WORKS.map(link);
+const services = SERVICES.map(link);
 
 const org = [
   { label: t("nav.about"), href: localizedPath(locale, "/about") },
@@ -42,6 +44,30 @@ const org = [
       <span class="hv-footer__label">{t("footer.worksLabel")}</span>
       {
         works.map((w) =>
+          w.external ? (
+            <a
+              class="hv-footer__link"
+              href={w.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {w.label}
+              <span aria-hidden="true"> ↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          ) : (
+            <a class="hv-footer__link" href={w.href}>
+              {w.label}
+            </a>
+          ),
+        )
+      }
+    </nav>
+
+    <nav class="hv-footer__col" aria-label={t("footer.servicesLabel")}>
+      <span class="hv-footer__label">{t("footer.servicesLabel")}</span>
+      {
+        services.map((w) =>
           w.external ? (
             <a
               class="hv-footer__link"
@@ -122,7 +148,7 @@ const org = [
   .hv-footer__inner {
     position: relative;
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr auto;
+    grid-template-columns: 1.5fr repeat(3, auto) auto;
     gap: clamp(1.5rem, 5vw, 4rem);
     align-items: start;
   }

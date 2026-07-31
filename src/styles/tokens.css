@@ -32,6 +32,9 @@
   --hv-gold-deep: #c99a54;
   --hv-gold-wash: rgba(240, 205, 148, 0.1);
 
+  /* ---- 軌道青 orbit（品牌標記的軌道環；不作為版面色）---- */
+  --hv-orbit: #59a0b4;
+
   /* ---- 星圖線 chart lines（髮絲，全部帶藍白）---- */
   --hv-line: rgba(176, 198, 240, 0.14);
   --hv-line-strong: rgba(176, 198, 240, 0.3);
@@ -48,9 +51,13 @@
   --hv-p-id: #6fd6c6; /* Hoshi ID：晨星青 */
 
   /* ---- 字型 typography ---- */
-  /* 標題明體（serif）＝星圖上的鐫刻標籤；內文黑體；星表編號等寬 */
-  --hv-font-display: "Noto Serif TC", "Songti TC", "Yu Mincho", "PMingLiU",
-    Georgia, "Times New Roman", serif;
+  /*
+    標題明體＝自訂字體（Playfair Display ＋ Noto Serif TC 子集，自行託管；
+    見 styles/fonts.css）；內文黑體、星表編號等寬走系統字。
+    簡體頁在檔尾以 html[lang] 換成 SC 那一支。
+  */
+  --hv-font-display: "Hoshivel Display", "Hoshivel Han", "Noto Serif TC",
+    "Songti TC", "Yu Mincho", "PMingLiU", Georgia, "Times New Roman", serif;
   --hv-font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
     "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   --hv-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -111,4 +118,10 @@
   --hv-z-content: 10;
   --hv-z-header: 100;
   --hv-z-overlay: 1000;
+}
+
+/* 簡體頁：漢字面換成 SC 子集（正體頁永遠不會下載到它，反之亦然） */
+html[lang="zh-CN"] {
+  --hv-font-display: "Hoshivel Display", "Hoshivel Han SC", "Noto Serif SC",
+    "Songti SC", "SimSun", Georgia, "Times New Roman", serif;
 }

@@ -1,15 +1,16 @@
 ---
 /*
   首頁 —— 星圖版式。
-  節奏：Hero（宣言 ＋ Hoshivel 星圖）→ α 作品 → β 新聞 → 理念一句 → γ 同行。
-  主視覺是那張星圖：作品即星，可點；其餘一律以留白與髮絲線立大氣。
+  節奏：Hero（題詞 ＋ Hoshivel 星圖）→ α 作品 → 服務 → β 新聞 → 理念一句 → γ 同行。
+  主視覺是那張星圖：作品即星、服務為環；其餘一律以留白與髮絲線立大氣。
+  服務區不編拜耳字母——它不是作品，以環標記號另立一節。
 */
 import Layout from "@/layouts/Layout.astro";
 import WorksChart from "@/components/sky/WorksChart.astro";
-import ProductCard from "@/components/ProductCard.astro";
+import EntryCard from "@/components/EntryCard.astro";
 import NewsCard from "@/components/NewsCard.astro";
 import { useTranslations, localizedPath, bayer, type Locale } from "@/i18n/utils";
-import { PRODUCTS } from "@/lib/products";
+import { WORKS, SERVICES } from "@/lib/catalog";
 import { getNewsForLocale } from "@/lib/news";
 
 interface Props {
@@ -28,9 +29,15 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
         <div class="hv-hero__main">
           <p class="hv-eyebrow" data-reveal>{t("home.hero.eyebrow")}</p>
           <h1 class="hv-hero__title hv-display" data-reveal>
-            {t("home.hero.titleA")}<br />
-            <span class="hv-hero__title-b">{t("home.hero.titleB")}</span>
+            {t("site.tagline")}
           </h1>
+          {
+            locale !== "en" && (
+              <p class="hv-hero__latin" data-reveal>
+                {t("site.taglineLatin")}
+              </p>
+            )
+          }
           <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
           <div class="hv-hero__cta" data-reveal>
             <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
@@ -63,7 +70,24 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
           <p class="hv-lead" data-reveal>{t("home.works.lead")}</p>
         </div>
         <div class="hv-home-works">
-          {PRODUCTS.map((p) => <ProductCard locale={locale} product={p} />)}
+          {WORKS.map((w) => <EntryCard locale={locale} entry={w} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- 服務（不編號：以環標記號另立一節） -->
+    <section class="hv-section hv-home-services">
+      <div class="hv-container">
+        <div class="hv-section-head">
+          <p class="hv-eyebrow" data-reveal>
+            <span class="hv-eyebrow__ring" aria-hidden="true" />
+            {t("home.services.eyebrow")}
+          </p>
+          <h2 data-reveal>{t("home.services.title")}</h2>
+          <p class="hv-lead" data-reveal>{t("home.services.lead")}</p>
+        </div>
+        <div class="hv-home-works">
+          {SERVICES.map((e) => <EntryCard locale={locale} entry={e} />)}
         </div>
       </div>
     </section>
@@ -141,14 +165,16 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
   }
   .hv-hero__title {
     margin-top: var(--hv-space-6);
-    /*
-      兩欄版式下比通用 display 級數收兩階：以最長的一句（zh 12 字）
-      能在文字欄內單行成立為準——否則尾行會只剩一兩個字。
-    */
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    /* 題詞是門面第一句：大而不溢出文字欄（zh 9 字單行成立） */
+    font-size: clamp(2.1rem, 4.6vw, 3.35rem);
     /* CJK 下 ch 單位失真，不設 max-width */
   }
-  .hv-hero__title-b {
+  /* 題詞的拉丁書寫：等寬寬字距的一行金 */
+  .hv-hero__latin {
+    margin-top: var(--hv-space-4);
+    font-family: var(--hv-font-mono);
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
     color: var(--hv-gold);
   }
   .hv-hero__lead {
@@ -169,17 +195,16 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     }
   }
 
-  /* ---- 作品 ---- */
+  /* ---- 作品 / 服務 ---- */
   .hv-home-works {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
     gap: var(--hv-space-6);
     margin-top: var(--hv-space-12);
   }
-  @media (max-width: 860px) {
-    .hv-home-works {
-      grid-template-columns: 1fr;
-    }
+  /* 服務緊接作品之後：同一段呼吸，不另起大留白 */
+  .hv-home-services {
+    padding-top: 0;
   }
 
   /* ---- 新聞：夜色帶（比站底深一階，上下髮絲線） ---- */

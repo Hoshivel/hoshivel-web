@@ -10,6 +10,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "fonts": "python3 scripts/subset-fonts.py",
     "astro": "astro"
   },
   "dependencies": {

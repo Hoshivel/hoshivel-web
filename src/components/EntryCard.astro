@@ -1,0 +1,154 @@
+---
+/*
+  星表卡（首頁用）—— 作品是亮星卡（帶星表編號），服務是環標卡（帶「服務」籤）。
+  識別色只出現在記號與類型字，不染整卡（夜面要乾淨）。
+*/
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import type { CatalogEntry } from "@/lib/catalog";
+
+interface Props {
+  locale: Locale;
+  entry: CatalogEntry;
+}
+const { locale, entry } = Astro.props;
+const t = useTranslations(locale);
+const detailHref = localizedPath(locale, `/works#${entry.id}`);
+const name = t(entry.nameKey);
+const latin = t(entry.latinKey);
+/** 名稱本身已是拉丁字時（en 語系），副標重複就不顯示。 */
+const showLatin = latin.toLowerCase() !== name.toLowerCase();
+const isWork = entry.kind === "work";
+---
+
+<article
+  class:list={["hv-plate", "hv-entry", { "is-service": !isWork }]}
+  style={`--card-accent: var(${entry.accentVar})`}
+  data-reveal
+>
+  <a class="hv-entry__cover" href={detailHref}>
+    <div class="hv-entry__top">
+      <span class="hv-entry__id">
+        {
+          isWork ? (
+            <svg class="hv-entry__glyph" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2 Q13 11 22 12 Q13 13 12 22 Q11 13 2 12 Q11 11 12 2 Z" />
+            </svg>
+          ) : (
+            <svg
+              class="hv-entry__glyph is-ring"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="8" fill="none" stroke-width="2.2" />
+              <circle cx="12" cy="12" r="2.4" stroke="none" />
+            </svg>
+          )
+        }
+        <span class="hv-catalog">
+          {isWork ? entry.catalog : t("label.service")}
+        </span>
+      </span>
+      <span class="hv-badge" class:list={{ "hv-badge--live": entry.live }}>
+        {t(entry.statusKey)}
+      </span>
+    </div>
+    <h3 class="hv-entry__name hv-display">
+      {name}
+      {showLatin && <span class="hv-entry__latin">{latin}</span>}
+    </h3>
+    <p class="hv-entry__kind">{t(entry.kindKey)}</p>
+    <p class="hv-entry__desc">{t(entry.descKey)}</p>
+  </a>
+  <div class="hv-entry__foot">
+    <a class="hv-more" href={detailHref}>
+      {t(isWork ? "cta.detail" : "cta.detailService")}
+    </a>
+    {
+      entry.url && (
+        <a
+          class="hv-btn hv-btn--ghost hv-entry__visit"
+          href={entry.url}
+          target="_blank"
+          rel="noopener"
+        >
+          {t("cta.visit")}
+          <span aria-hidden="true">↗</span>
+          <span class="hv-visually-hidden">{t("a11y.external")}</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .hv-entry {
+    display: flex;
+    flex-direction: column;
+  }
+  .hv-entry__cover {
+    display: block;
+    padding: var(--hv-space-8);
+    flex: 1;
+  }
+  .hv-entry__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-4);
+  }
+  /* 星表列首：識別色記號 ＋ 編號（作品）或「服務」籤 */
+  .hv-entry__id {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .hv-entry__glyph {
+    width: 15px;
+    height: 15px;
+    fill: var(--card-accent);
+    transition: filter var(--hv-dur) var(--hv-ease-out);
+  }
+  .hv-entry__glyph.is-ring {
+    stroke: var(--card-accent);
+  }
+  .hv-entry:hover .hv-entry__glyph {
+    filter: drop-shadow(0 0 6px var(--card-accent));
+  }
+  .hv-entry__name {
+    margin-top: var(--hv-space-6);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: var(--hv-text-xl);
+  }
+  .hv-entry__latin {
+    font-family: var(--hv-font-mono);
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wide);
+    color: var(--hv-text-faint);
+  }
+  .hv-entry__kind {
+    margin-top: var(--hv-space-2);
+    font-size: var(--hv-text-sm);
+    font-weight: 600;
+    color: var(--card-accent);
+  }
+  .hv-entry__desc {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    font-size: var(--hv-text-sm);
+    max-width: 52ch;
+  }
+  .hv-entry__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-4);
+    padding: var(--hv-space-4) var(--hv-space-8) var(--hv-space-6);
+    border-top: 1px solid var(--hv-line);
+  }
+  .hv-entry__visit {
+    padding: 0.55rem 1.1rem;
+  }
+</style>
