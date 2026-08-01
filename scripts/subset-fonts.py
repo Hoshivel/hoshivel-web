@@ -7,7 +7,8 @@ Hoshivel 官方門戶 —— 自訂字體子集化。
 做子集，產出三支 woff2（各數十 KB），置於 public/fonts/。
 
 字集來源＝倉庫內所有會被渲染的文案：
-  src/i18n/ui.ts（三語字典）、src/content/news/*.md（新聞）、src/lib/site.ts
+  src/i18n/ui.ts（三語字典）、news/*.md（新聞）、roles.config.ts（招募）、
+  src/lib/site.ts
 再加上拉丁字母、數字、常用標點與一份「未來新聞很可能用到」的常用字保底表。
 
 用法：
@@ -59,7 +60,9 @@ COMMON = (
 TEXT_GLOBS = [
     "src/i18n/ui.ts",
     "src/lib/site.ts",
-    "src/content/news/*.md",
+    # 常改的兩處都在 src 之外（見 README「內容維護」）
+    "news/*.md",
+    "roles.config.ts",
 ]
 
 

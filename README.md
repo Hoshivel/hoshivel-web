@@ -29,7 +29,9 @@ Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi 
 
 - **Astro 5**（strict TS、純靜態輸出、零 client framework——連 React 都不需要）
 - 三語 i18n：**zh-Hant 掛根 `/`**（權威語言）、`/zh-cn`、`/en`；typed 字典缺鍵編譯不過
-- 新聞走 **content collections**（`src/content/news/*.md`），發新聞＝丟一個 Markdown 檔
+- 新聞走 **content collections**，稿件放在**專案根目錄 `news/`**（與 `src/` 平級，
+  build 時讀 `./news/*.md`），發新聞＝丟一個 Markdown 檔
+- 招募職位放在**專案根目錄 `roles.config.ts`**（三語文案就地寫齊，不必動字典）
 - 設計 tokens 集中於 `src/styles/tokens.css`（`--hv-*`）；全站不寫裸 hex
 
 ## 開發
@@ -52,23 +54,31 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 | 漢字（正體頁） | Noto Serif TC 600 | ~147 KB |
 | 漢字（簡體頁） | Noto Serif SC 600 | ~165 KB |
 
-`scripts/subset-fonts.py` 從 `src/i18n/ui.ts`、`src/content/news/*.md` 收集「站上真的會
+`scripts/subset-fonts.py` 從 `src/i18n/ui.ts`、`news/*.md`、`roles.config.ts` 收集「站上真的會
 出現的字」做子集（另含一份常用字保底表），輸出到 `public/fonts/`。原始字檔（17–25 MB）
-快取於 `scripts/.fontcache/`，已 gitignore。**發新聞後若某些字掉回系統明體，跑一次
+快取於 `scripts/.fontcache/`，已 gitignore。**發新聞或改招募文案後若某些字掉回系統明體，跑一次
 `npm run fonts` 即可。** 兩支漢字面不設 `unicode-range`：各語系頁的堆疊只點名自己那支，
 正體頁不會下載簡體檔。
 
 ## 內容維護
 
+**最常改的兩件事都放在 `src/` 之外**，就在專案根目錄，改稿不必進程式碼樹：
+
 | 要改什麼 | 改哪裡 |
 | --- | --- |
-| 發新聞 | `src/content/news/<slug>.<locale>.md`（三語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
-| 職缺增減 | `src/lib/roles.ts` ＋ `src/i18n/ui.ts` 的 `role.*` 鍵 |
+| 發新聞 | **`news/<slug>.<locale>.md`**（三語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
+| 職位增減／文案 | **`roles.config.ts`**（三語就地寫齊；`open: false` 暫時下架；`kind: "hire"` 改為一般職缺） |
 | 新作品 | `src/lib/catalog.ts` 的 `WORKS`（含星表編號）＋ 字典 `p.*` 鍵 ＋ `tokens.css` 識別色 |
 | 新服務 | `src/lib/catalog.ts` 的 `SERVICES`（不給編號）＋ 字典 `p.*` 鍵 |
-| 站上出現新字（發新聞後） | `npm run fonts` 重出字體子集 |
+| 站上出現新字（發新聞或改招募後） | `npm run fonts` 重出字體子集 |
 | 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，三語逐鍵對齊） |
-| 組織連結／信箱 | `src/lib/site.ts` |
+| 組織連結／信箱／社群 | `src/lib/site.ts`（`SOCIAL_LINKS` 為社群入口的唯一來源） |
+
+### 招募：預設招合夥人
+
+門戶的預設立場是**找合夥人**，不是招聘——一起決定要做什麼、一起承擔結果。
+`roles.config.ts` 中未標 `kind` 的位置一律視為合夥人（`DEFAULT_ROLE_KIND`），
+卡上的型態籤與應徵字樣（乃至 mailto 主旨 `[Partner]` / `[Join]`）都跟著它走。
 
 ## 部署（hoshivel.com）
 
@@ -83,7 +93,9 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 2. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL` 設 `https://id.hoshivel.com`
    （同上推定）；設為 `null` 可隱藏外部按鈕。
 3. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
-4. **職缺**：`src/lib/roles.ts` 為首發範例（美術／前端／後端），請按實際需求調整。
+4. **招募位置**：`roles.config.ts` 為首發範例（美術／前端／後端合夥人），請按實際需求調整。
+5. **社群帳號**：`src/lib/site.ts` 的 `SOCIAL_LINKS`——X／YouTube／GitHub 皆為 `hoshivel`；
+   Reddit 目前指向使用者頁 `u/hoshivel`，日後若開 `r/hoshivel` 版改該行即可。
 
 ## OG 分享圖
 
@@ -103,5 +115,5 @@ rm public/og-wrap.html og-raw.png
 ## 家族慣例
 
 沿用 ShatteredRealms 家族：正體中文文件、`docs/plan.md` 權威計畫、`sessions/` 會話日誌、
-雲端每階段推送。姊妹站：[sr-web](https://sr.oha.li)（《碎界》官方門面）、
+雲端每階段推送。姊妹站：[sr-web](https://sr.hoshivel.com)（《碎界》官方門面）、
 hoshi-identity（Hoshi ID 帳戶服務）。**各站各有面貌，互不套用彼此的視覺語言。**

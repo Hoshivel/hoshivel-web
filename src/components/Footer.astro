@@ -2,13 +2,16 @@
 /*
   站尾 Footer —— 地平線。
   全站唯一不透星光的實面：星空到此為止，下面是地。
-  上緣一道極淡的暖光（地平線最後的光），再是 brand ＋ 三欄 ＋ 基線列。
+  上緣一道極淡的暖光（地平線最後的光），再是 brand（含社群圖示列）
+  ＋ 三欄 ＋ 基線列。
+  社群入口放在 brand 欄下方而非另立一欄：欄位已滿，且社群屬於「署名」
+  這一側；GitHub 因此由「組織」欄移入社群列，不重複出現。
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 import { WORKS, SERVICES } from "@/lib/catalog";
-import { GITHUB_URL } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -38,6 +41,10 @@ const org = [
     <div class="hv-footer__brand">
       <Wordmark locale={locale} variant="full" />
       <p class="hv-footer__summary">{t("footer.summary")}</p>
+      <nav class="hv-footer__social" aria-label={t("footer.socialLabel")}>
+        <span class="hv-footer__label">{t("footer.socialLabel")}</span>
+        <SocialLinks locale={locale} />
+      </nav>
     </div>
 
     <nav class="hv-footer__col" aria-label={t("footer.worksLabel")}>
@@ -91,10 +98,6 @@ const org = [
     <nav class="hv-footer__col" aria-label={t("footer.orgLabel")}>
       <span class="hv-footer__label">{t("footer.orgLabel")}</span>
       {org.map((o) => <a class="hv-footer__link" href={o.href}>{o.label}</a>)}
-      <a class="hv-footer__link" href={GITHUB_URL} target="_blank" rel="noopener">
-        {t("footer.github")}<span aria-hidden="true"> ↗</span>
-        <span class="hv-visually-hidden">{t("a11y.external")}</span>
-      </a>
     </nav>
 
     <div class="hv-footer__col">
@@ -157,6 +160,14 @@ const org = [
     max-width: 34ch;
     color: var(--hv-text-soft);
     font-size: var(--hv-text-sm);
+  }
+  /* 社群圖示列：署名之下的一行小記號 */
+  .hv-footer__social {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-top: var(--hv-space-8);
   }
   .hv-footer__col {
     display: flex;

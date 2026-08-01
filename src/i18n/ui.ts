@@ -76,7 +76,7 @@ const zhHant = {
   "cta.detail": "作品詳情",
   "cta.detailService": "服務詳情",
   "cta.allNews": "所有新聞",
-  "cta.join": "查看招募資訊",
+  "cta.join": "查看合夥人招募",
 
   "a11y.skip": "跳到主要內容",
   "a11y.langMenu": "切換語言",
@@ -88,6 +88,7 @@ const zhHant = {
   "footer.worksLabel": "作品",
   "footer.servicesLabel": "服務",
   "footer.orgLabel": "組織",
+  "footer.socialLabel": "社群",
   "footer.langLabel": "語言",
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
@@ -122,7 +123,7 @@ const zhHant = {
   "home.belief.source": "Hoshivel 的做事方式",
   "home.join.title": "與我們同行",
   "home.join.lead":
-    "Hoshivel 正在尋找同樣相信慢工出細活的人——美術、工程，或任何能把作品變得更好的角色。",
+    "Hoshivel 正在尋找同樣相信慢工出細活的合夥人——美術、工程，或任何能把作品變得更好的位置。",
 
   // 作品頁
   "works.eyebrow": "作品",
@@ -179,31 +180,23 @@ const zhHant = {
   "about.contact.title": "聯繫我們",
   "about.contact.body":
     "合作、媒體或其他事宜，歡迎透過 GitHub 或信箱與我們聯繫。",
+  "about.contact.social": "或在這些地方找到我們",
 
   // 加入我們
   "join.eyebrow": "加入我們",
-  "join.title": "我們不急著擴張，但始終為對的人留著位置",
+  "join.title": "我們不急著擴張，但始終為合夥人留著位置",
   "join.lead":
-    "Hoshivel 是遠端優先的小團隊。我們在意你想做出什麼，勝過你待過哪裡。",
-  "join.roles.title": "目前開放的角色",
+    "Hoshivel 是遠端優先的小團隊。我們找的不是雇員，是合夥人——你想做出什麼，比你待過哪裡更重要。",
+  "join.partner.title": "合夥人，是什麼意思",
+  "join.partner.body":
+    "不是把工單交給你，而是一起決定要做什麼、一起承擔做不好的後果，也一起分享做成的結果。怎麼合夥——分工、時間投入與回報方式——我們坦白地談清楚，再開始。",
+  "join.roles.title": "目前尋找的合夥人",
   "join.mode.remote": "遠端 · 彈性協作",
-  "role.art.title": "2D 美術／立繪畫師",
-  "role.art.area": "碎界 Shattered Realms",
-  "role.art.desc":
-    "為《碎界》的英雄與章節世界繪製立繪與關鍵美術——目前全站以程序化圖形佔位，等的就是你的筆。",
-  "role.art.skills": "角色立繪 · 世界觀美術 · 熱愛 2D 遊戲美術",
-  "role.fe.title": "前端／玩法工程師",
-  "role.fe.area": "碎界與官網家族",
-  "role.fe.desc":
-    "以 TypeScript 打造遊戲前端與官網體驗：從六角棋盤的互動，到靜態站的細節打磨。",
-  "role.fe.skills": "TypeScript · React 或 Astro · 在意效能與可存取性",
-  "role.be.title": "後端工程師",
-  "role.be.area": "Hoshi ID 與遊戲服務",
-  "role.be.desc":
-    "用 Go 打造帳號、分流與遊戲伺服器等長期運行的服務——小而可靠，不堆多餘相依。",
-  "role.be.skills": "Go · 分散式基礎 · 重視簡潔與可維運性",
-  "join.apply": "應徵這個角色",
-  "join.open.title": "沒有合適的角色？",
+  "join.kind.partner": "合夥人",
+  "join.kind.hire": "職缺",
+  "join.apply.partner": "應徵合夥人",
+  "join.apply.hire": "應徵這個角色",
+  "join.open.title": "沒有合適的位置？",
   "join.open.body":
     "如果你相信我們相信的事，卻不在上面的清單裡——仍然歡迎自我推薦，告訴我們你能讓哪件作品變得更好。",
   "join.how.title": "如何聯繫",
@@ -244,7 +237,7 @@ const zhCN: Record<UIKey, string> = {
   "cta.detail": "作品详情",
   "cta.detailService": "服务详情",
   "cta.allNews": "所有新闻",
-  "cta.join": "查看招募信息",
+  "cta.join": "查看合伙人招募",
 
   "a11y.skip": "跳到主要内容",
   "a11y.langMenu": "切换语言",
@@ -256,6 +249,7 @@ const zhCN: Record<UIKey, string> = {
   "footer.worksLabel": "作品",
   "footer.servicesLabel": "服务",
   "footer.orgLabel": "组织",
+  "footer.socialLabel": "社区",
   "footer.langLabel": "语言",
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
@@ -284,7 +278,7 @@ const zhCN: Record<UIKey, string> = {
   "home.belief.source": "Hoshivel 的做事方式",
   "home.join.title": "与我们同行",
   "home.join.lead":
-    "Hoshivel 正在寻找同样相信慢工出细活的人——美术、工程，或任何能把作品变得更好的角色。",
+    "Hoshivel 正在寻找同样相信慢工出细活的合伙人——美术、工程，或任何能把作品变得更好的位置。",
 
   "works.eyebrow": "作品",
   "works.title": "数量不多，各自成界",
@@ -334,30 +328,22 @@ const zhCN: Record<UIKey, string> = {
   "about.v3.desc": "架构、美术与社群，都以「多年后仍然成立」为标准来打造。",
   "about.contact.title": "联系我们",
   "about.contact.body": "合作、媒体或其他事宜，欢迎通过 GitHub 或邮箱与我们联系。",
+  "about.contact.social": "或在这些地方找到我们",
 
   "join.eyebrow": "加入我们",
-  "join.title": "我们不急着扩张，但始终为对的人留着位置",
+  "join.title": "我们不急着扩张，但始终为合伙人留着位置",
   "join.lead":
-    "Hoshivel 是远程优先的小团队。我们在意你想做出什么，胜过你待过哪里。",
-  "join.roles.title": "目前开放的角色",
+    "Hoshivel 是远程优先的小团队。我们找的不是雇员，是合伙人——你想做出什么，比你待过哪里更重要。",
+  "join.partner.title": "合伙人，是什么意思",
+  "join.partner.body":
+    "不是把工单交给你，而是一起决定要做什么、一起承担做不好的后果，也一起分享做成的结果。怎么合伙——分工、时间投入与回报方式——我们坦白地谈清楚，再开始。",
+  "join.roles.title": "目前寻找的合伙人",
   "join.mode.remote": "远程 · 弹性协作",
-  "role.art.title": "2D 美术／立绘画师",
-  "role.art.area": "碎界 Shattered Realms",
-  "role.art.desc":
-    "为《碎界》的英雄与章节世界绘制立绘与关键美术——目前全站以程序化图形占位，等的就是你的笔。",
-  "role.art.skills": "角色立绘 · 世界观美术 · 热爱 2D 游戏美术",
-  "role.fe.title": "前端／玩法工程师",
-  "role.fe.area": "碎界与官网家族",
-  "role.fe.desc":
-    "以 TypeScript 打造游戏前端与官网体验：从六角棋盘的交互，到静态站的细节打磨。",
-  "role.fe.skills": "TypeScript · React 或 Astro · 在意性能与可访问性",
-  "role.be.title": "后端工程师",
-  "role.be.area": "Hoshi ID 与游戏服务",
-  "role.be.desc":
-    "用 Go 打造账号、分流与游戏服务器等长期运行的服务——小而可靠，不堆多余依赖。",
-  "role.be.skills": "Go · 分布式基础 · 重视简洁与可运维性",
-  "join.apply": "应聘这个角色",
-  "join.open.title": "没有合适的角色？",
+  "join.kind.partner": "合伙人",
+  "join.kind.hire": "职位",
+  "join.apply.partner": "应聘合伙人",
+  "join.apply.hire": "应聘这个角色",
+  "join.open.title": "没有合适的位置？",
   "join.open.body":
     "如果你相信我们相信的事，却不在上面的清单里——仍然欢迎自我推荐，告诉我们你能让哪件作品变得更好。",
   "join.how.title": "如何联系",
@@ -394,7 +380,7 @@ const en: Record<UIKey, string> = {
   "cta.detail": "Details",
   "cta.detailService": "Details",
   "cta.allNews": "All news",
-  "cta.join": "See open roles",
+  "cta.join": "See partner roles",
 
   "a11y.skip": "Skip to main content",
   "a11y.langMenu": "Switch language",
@@ -407,6 +393,7 @@ const en: Record<UIKey, string> = {
   "footer.worksLabel": "Works",
   "footer.servicesLabel": "Service",
   "footer.orgLabel": "Organization",
+  "footer.socialLabel": "Community",
   "footer.langLabel": "Language",
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
@@ -437,7 +424,7 @@ const en: Record<UIKey, string> = {
   "home.belief.source": "How Hoshivel works",
   "home.join.title": "Walk with us",
   "home.join.lead":
-    "Hoshivel is looking for people who believe good things take time — artists, engineers, or any role that makes the work better.",
+    "Hoshivel is looking for partners who believe good things take time — artists, engineers, or any seat that makes the work better.",
 
   "works.eyebrow": "Works",
   "works.title": "Few in number, each a world",
@@ -493,31 +480,22 @@ const en: Record<UIKey, string> = {
   "about.contact.title": "Contact",
   "about.contact.body":
     "For partnerships, press or anything else, reach us on GitHub or by email.",
+  "about.contact.social": "Or find us here",
 
   "join.eyebrow": "Join us",
-  "join.title":
-    "In no hurry to grow — but always a seat for the right person",
+  "join.title": "In no hurry to grow — but always a seat for a partner",
   "join.lead":
-    "Hoshivel is a small, remote-first team. What you want to build matters more to us than where you've been.",
-  "join.roles.title": "Open roles",
+    "Hoshivel is a small, remote-first team. We aren't hiring staff; we're looking for partners — what you want to build matters more than where you've been.",
+  "join.partner.title": "What partner means here",
+  "join.partner.body":
+    "Not tickets handed to you: we decide together what to build, carry the consequences together when it falls short, and share what it earns when it works. How the partnership works — the split of work, the time you put in, and how you're rewarded — we settle plainly before starting.",
+  "join.roles.title": "Partners we're looking for",
   "join.mode.remote": "Remote · flexible",
-  "role.art.title": "2D Artist / Character Illustrator",
-  "role.art.area": "Shattered Realms",
-  "role.art.desc":
-    "Draw the hero portraits and key art of Shattered Realms — today the whole site runs on procedural placeholders, waiting for your brush.",
-  "role.art.skills": "Character illustration · World art · A love for 2D game art",
-  "role.fe.title": "Front-end / Gameplay Engineer",
-  "role.fe.area": "Shattered Realms & the web family",
-  "role.fe.desc":
-    "Build the game front-end and our web experiences in TypeScript — from hex-board interactions to the fine details of static sites.",
-  "role.fe.skills": "TypeScript · React or Astro · Care for performance and accessibility",
-  "role.be.title": "Back-end Engineer",
-  "role.be.area": "Hoshi ID & game services",
-  "role.be.desc":
-    "Build long-running services in Go — accounts, routing, game servers. Small, reliable, no excess dependencies.",
-  "role.be.skills": "Go · Distributed fundamentals · A taste for simplicity and operability",
-  "join.apply": "Apply for this role",
-  "join.open.title": "No role that fits?",
+  "join.kind.partner": "Partner",
+  "join.kind.hire": "Role",
+  "join.apply.partner": "Apply as a partner",
+  "join.apply.hire": "Apply for this role",
+  "join.open.title": "No seat that fits?",
   "join.open.body":
     "If you believe what we believe but aren't on the list — introduce yourself anyway, and tell us which work you'd make better.",
   "join.how.title": "How to reach us",

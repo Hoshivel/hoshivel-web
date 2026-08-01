@@ -2,12 +2,12 @@
 slug: shattered-realms-site
 locale: en
 title: "The Shattered Realms official site is public"
-summary: The official face of Shattered Realms is live at sr.oha.li — world, gameplay, chapters and heroes, with battles playable right in the browser.
+summary: The official face of Shattered Realms is live at sr.hoshivel.com — world, gameplay, chapters and heroes, with battles playable right in the browser.
 date: 2026-07-26T11:00:00Z
 tag: Shattered Realms
 ---
 
-The official website of *Shattered Realms* is now public at [sr.oha.li](https://sr.oha.li).
+The official website of *Shattered Realms* is now public at [sr.hoshivel.com](https://sr.hoshivel.com).
 
 Shattered Realms is a 2D turn-based strategy game set in an original world: on fragmented lands adrift in the void, board-game tactics, RPG growth, MOBA-style skills and open-world exploration fuse on a single hex board.
 
