@@ -38,7 +38,6 @@ export interface SocialLink {
 /**
  * 社群入口（唯一來源）—— 四個平台皆為 hoshivel 帳號。
  * 增減平台改這裡；順序即呈現順序。
- * 註：Reddit 目前指向使用者頁 u/hoshivel；日後若開 r/hoshivel 版，改此一行即可。
  */
 export const SOCIAL_LINKS: SocialLink[] = [
   { id: "x", label: "X", handle: "@hoshivel", url: "https://x.com/hoshivel" },
