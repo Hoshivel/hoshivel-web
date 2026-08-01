@@ -7,10 +7,11 @@
 
 為 Hoshivel（獨立遊戲與網路服務開發組織）建立官方門戶：
 
-- 呈現**作品**（《碎界 Shattered Realms》→ sr.oha.li、Hoshi ID → id.hoshivel.com）
+- 呈現**作品**（《碎界 Shattered Realms》→ sr.hoshivel.com、Hoshi ID → id.hoshivel.com）
 - **新聞**（組織與作品公告）
-- **關於**（我們是誰／名字由來／價值觀／聯繫）
-- **加入我們**（開放角色／開放式申請／聯繫方式）
+- **關於**（我們是誰／名字由來／價值觀／聯繫／社群入口）
+- **加入我們**（**預設招合夥人**／開放式申請／聯繫方式）
+- **社群入口**（X／YouTube／GitHub／Reddit，帳號一律 hoshivel）
 
 需求方要求：**簡潔但不簡陋、大氣風度；不堆特效；更注重 UX；
 且不得沿用既有站（如 sr-web）的風格——各站各有面貌。**
@@ -38,8 +39,11 @@
 | 框架 | Astro 5 靜態、零 island | 門戶無互動密度；零 JS framework＝最快載入 |
 | i18n | zh-Hant 根 / zh-cn / en，typed 字典 | 缺鍵編譯不過 |
 | 新聞 | content collections（glob loader＋`generateId` 檔名為 ID） | 發文＝丟 Markdown；多語同 slug 不互覆 |
+| 新聞稿位置 | **專案根目錄 `news/`**（與 `src/` 平級；build 時讀 `./news/*.md`） | 改稿不必進程式碼樹 |
 | 新聞缺譯 | 回退 zh-Hant（lib/news.ts） | 列表不缺項、連結永不 404 |
-| 內容/結構分離 | 文案在 `i18n/ui.ts`；結構在 `lib/products.ts`、`lib/roles.ts` | 增刪不動版面 |
+| 招募職位 | **專案根目錄 `roles.config.ts`**（三語文案就地寫齊，`src/lib/roles.ts` 只做解析） | 招募調整頻繁，單檔可改 |
+| 招募型態 | 預設 `partner`（合夥人）；個別可標 `kind: "hire"` | 門戶的預設立場是找合夥人，不是招聘 |
+| 內容/結構分離 | 介面文案在 `i18n/ui.ts`；結構在 `lib/products.ts`；組織連結／社群在 `lib/site.ts` | 增刪不動版面 |
 | 頁面複用 | `components/pages/*Page.astro` ＋ 每語系薄路由檔 | 三語零重複 |
 
 **已知陷阱（皆已修）**：
@@ -61,10 +65,20 @@
 /            首頁：Hero（明體宣言＋直書落款）→ 〇一 作品 → 〇二 新聞 → 理念一句 → 〇三 同行
 /works       作品：每件完整段落（#shattered-realms / #hoshi-id）＋編號髮絲特點清單
 /news        新聞列表；/news/<slug> 內頁
-/about       關於（〇三）；/join 加入我們（〇四）
+/about       關於（〇三）：…→ 聯繫（信箱／GitHub）＋社群圖示列
+/join        加入我們（〇四）：合夥人說明 → 開放位置 → 開放式申請
 /404         「這一頁尚未寫成」
 sitemap.xml  全頁 × 三語互標 hreflang；robots.txt 指向
 og.png       1200×630 紙墨朱版式（og.svg 為源）
+```
+
+## 常改內容的落點（皆在 src 之外／單點）
+
+```
+news/               新聞稿 <slug>.<locale>.md（與 src 平級）
+roles.config.ts     招募職位（三語文案就地寫齊；預設合夥人）
+src/lib/site.ts     網域、信箱、社群連結（SOCIAL_LINKS）
+src/i18n/ui.ts      介面文案字典（三語逐鍵對齊）
 ```
 
 ## 驗收基準

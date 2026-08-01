@@ -2,12 +2,12 @@
 slug: shattered-realms-site
 locale: zh-CN
 title: 《碎界 Shattered Realms》官方网站公开
-summary: 碎界的官方门面 sr.oha.li 上线——世界观、玩法、章节与英雄一次看，并可直接于浏览器进入战场。
+summary: 碎界的官方门面 sr.hoshivel.com 上线——世界观、玩法、章节与英雄一次看，并可直接于浏览器进入战场。
 date: 2026-07-26T11:00:00Z
 tag: 碎界
 ---
 
-《碎界 Shattered Realms》的官方网站已于 [sr.oha.li](https://sr.oha.li) 公开。
+《碎界 Shattered Realms》的官方网站已于 [sr.hoshivel.com](https://sr.hoshivel.com) 公开。
 
 碎界是一款架空世界观的 2D 回合制策略游戏：在漂浮于虚空的碎片大地上，棋类策略、RPG 成长、MOBA 技能设计与开放世界探索融于同一张六角棋盘。
 

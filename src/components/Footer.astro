@@ -1,13 +1,14 @@
 ---
 /*
   站尾 Footer —— 墨面收尾（全站唯一的深色區塊，把紙面「壓住」）。
-  brand（full 鎖定組）＋ 三欄（作品 / 組織 / 語言）＋ 基線列。
+  brand（full 鎖定組）＋ 四欄（作品 / 組織 / 社群 / 語言）＋ 基線列。
+  GitHub 歸在「社群」欄（連同 X / YouTube / Reddit），「組織」只留站內頁面。
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 import { PRODUCTS } from "@/lib/products";
-import { GITHUB_URL } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -64,10 +65,11 @@ const org = [
     <nav class="hv-footer__col" aria-label={t("footer.orgLabel")}>
       <span class="hv-footer__label">{t("footer.orgLabel")}</span>
       {org.map((o) => <a class="hv-footer__link" href={o.href}>{o.label}</a>)}
-      <a class="hv-footer__link" href={GITHUB_URL} target="_blank" rel="noopener">
-        {t("footer.github")}<span aria-hidden="true"> ↗</span>
-        <span class="hv-visually-hidden">{t("a11y.external")}</span>
-      </a>
+    </nav>
+
+    <nav class="hv-footer__col" aria-label={t("footer.socialLabel")}>
+      <span class="hv-footer__label">{t("footer.socialLabel")}</span>
+      <SocialLinks locale={locale} onInk />
     </nav>
 
     <div class="hv-footer__col">
@@ -89,8 +91,8 @@ const org = [
   }
   .hv-footer__inner {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr auto;
-    gap: clamp(1.5rem, 5vw, 4rem);
+    grid-template-columns: 1.5fr repeat(3, auto) auto;
+    gap: clamp(1.5rem, 4vw, 3.25rem);
     align-items: start;
   }
   .hv-footer__summary {
@@ -136,12 +138,20 @@ const org = [
     letter-spacing: 0.06em;
   }
 
-  @media (max-width: 760px) {
+  /* 四欄容不下時，brand 先自成一列，四欄再退成兩兩並排 */
+  @media (max-width: 1000px) {
     .hv-footer__inner {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, auto);
+      justify-content: start;
     }
     .hv-footer__brand {
       grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 760px) {
+    .hv-footer__inner {
+      grid-template-columns: 1fr 1fr;
+      justify-content: stretch;
     }
   }
 </style>

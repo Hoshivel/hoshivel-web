@@ -6,6 +6,7 @@
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
 import Mark from "@/components/brand/Mark.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
 import { useTranslations, sectionNum, type Locale } from "@/i18n/utils";
 import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
 
@@ -98,6 +99,18 @@ const values = [
             {CONTACT_EMAIL}
           </a>
         </div>
+
+        <!-- 社群入口：四個平台一列圖示 -->
+        <div data-reveal>
+          <p class="hv-about-contact__social-label">
+            {t("about.contact.social")}
+          </p>
+          <SocialLinks
+            locale={locale}
+            variant="row"
+            class="hv-about-contact__social"
+          />
+        </div>
       </div>
     </section>
   </main>
@@ -184,6 +197,15 @@ const values = [
     justify-content: center;
     gap: var(--hv-space-4);
     margin-top: var(--hv-space-8);
+  }
+  .hv-about-contact__social-label {
+    margin-top: var(--hv-space-12);
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wide);
+    color: var(--hv-ink-faint);
+  }
+  .hv-about-contact__social {
+    margin-top: var(--hv-space-4);
   }
 
   @media (max-width: 860px) {
