@@ -82,8 +82,15 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 
 ## 部署（hoshivel.com）
 
-`npm run build` → `dist/` 純靜態（HTML／CSS／少量 JS／`og.png`／`sitemap.xml`／`robots.txt`），
-上傳任何靜態主機即可。
+`npm run build` → `dist/` 純靜態（HTML／CSS／少量 JS／自託管字體／`og.png`／`sitemap.xml`／
+`robots.txt`），交給 nginx 服務即可。
+
+> **全站規範**：Hoshivel 的前端**必須**可建置為純靜態內容，因此本站**不得**引入
+> SSR adapter（`@astrojs/node` 等）或把 `output` 改成 `'server'`／`'hybrid'`——那會讓
+> 產物需要 Node.js 執行期，nginx 就服務不了。同理**不得**新增容器產物
+> （`Dockerfile`／`compose.yaml`／k8s manifest）。自託管字體也是同一條規範的延伸：
+> 建置期產出、執行期零外部請求。規範正文與檢查腳本見
+> [hoshi-standards](https://github.com/Hoshivel/hoshi-standards)。
 
 **上線前待確認的假定值**（皆為單點修改）：
 
