@@ -1,0 +1,150 @@
+---
+/*
+  新聞內頁 —— 標題組（日期／標籤）＋ Markdown 內文 ＋ 返回連結。
+  內文樣式以 :global 作用於渲染後的 Markdown；標題明體、內文黑體。
+*/
+import Layout from "@/layouts/Layout.astro";
+import { render } from "astro:content";
+import {
+  useTranslations,
+  localizedPath,
+  formatDate,
+  type Locale,
+} from "@/i18n/utils";
+import type { NewsEntry } from "@/lib/news";
+
+interface Props {
+  locale: Locale;
+  post: NewsEntry;
+}
+const { locale, post } = Astro.props;
+const t = useTranslations(locale);
+const { Content } = await render(post);
+const iso = post.data.date.toISOString().slice(0, 10);
+const backHref = localizedPath(locale, "/news");
+---
+
+<Layout locale={locale} title={post.data.title} description={post.data.summary}>
+  <main id="main">
+    <article class="hv-post">
+      <header class="hv-post__head">
+        <div class="hv-container hv-narrow">
+          <p class="hv-post__meta" data-reveal>
+            <time datetime={iso}>{formatDate(locale, post.data.date)}</time>
+            {post.data.tag && <span class="hv-post__tag">{post.data.tag}</span>}
+          </p>
+          <h1 class="hv-post__title hv-display" data-reveal>{post.data.title}</h1>
+          <p class="hv-lead" data-reveal>{post.data.summary}</p>
+        </div>
+        <div class="hv-container hv-narrow">
+          <hr class="hv-rule hv-post__rule" />
+        </div>
+      </header>
+
+      <div class="hv-container hv-narrow">
+        <div class="hv-post__body">
+          <Content />
+        </div>
+        <p class="hv-post__back">
+          <a class="hv-more" href={backHref}>{t("news.back")}</a>
+        </p>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .hv-post__head {
+    padding-top: clamp(3.5rem, 8vw, 6rem);
+  }
+  .hv-post__meta time {
+    font-family: var(--hv-font-mono);
+  }
+  .hv-post__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--hv-text-xs);
+    color: var(--hv-text-faint);
+    letter-spacing: 0.05em;
+  }
+  .hv-post__tag {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--hv-line-strong);
+    border-radius: var(--hv-radius-sm);
+    color: var(--hv-text-soft);
+  }
+  .hv-post__title {
+    margin-top: var(--hv-space-4);
+    font-size: var(--hv-text-2xl);
+    max-width: 26ch;
+  }
+  .hv-post__head .hv-lead {
+    margin-top: var(--hv-space-4);
+    max-width: 56ch;
+  }
+  .hv-post__rule {
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  }
+
+  .hv-post__body {
+    padding-block: var(--hv-space-12);
+    font-size: var(--hv-text-base);
+  }
+  /* Markdown 內文（渲染後的元素以 :global 指定） */
+  .hv-post__body :global(p) {
+    margin-block: var(--hv-space-4);
+    color: var(--hv-text-soft);
+  }
+  .hv-post__body :global(p:first-child) {
+    color: var(--hv-text);
+  }
+  .hv-post__body :global(strong) {
+    color: var(--hv-starlight);
+    font-weight: 650;
+  }
+  .hv-post__body :global(a) {
+    color: var(--hv-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(240, 205, 148, 0.4);
+    transition: text-decoration-color var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-post__body :global(a:hover) {
+    text-decoration-color: var(--hv-gold);
+  }
+  .hv-post__body :global(ul),
+  .hv-post__body :global(ol) {
+    margin-block: var(--hv-space-6);
+    padding-left: 1.4em;
+    display: flex;
+    flex-direction: column;
+    gap: var(--hv-space-3);
+    color: var(--hv-text-soft);
+  }
+  .hv-post__body :global(li::marker) {
+    color: var(--hv-gold);
+  }
+  .hv-post__body :global(h2),
+  .hv-post__body :global(h3) {
+    margin-top: var(--hv-space-8);
+    font-family: var(--hv-font-display);
+    color: var(--hv-starlight);
+    line-height: var(--hv-leading-tight);
+  }
+  .hv-post__body :global(blockquote) {
+    margin-block: var(--hv-space-6);
+    padding-left: var(--hv-space-4);
+    border-left: 2px solid var(--hv-line-gold);
+    color: var(--hv-text-soft);
+  }
+  .hv-post__body :global(em) {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--hv-text);
+  }
+
+  .hv-post__back {
+    padding-bottom: var(--hv-space-24);
+  }
+</style>

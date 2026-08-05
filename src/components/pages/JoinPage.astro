@@ -1,0 +1,228 @@
+---
+/*
+  加入我們 —— 合夥人說明 → 開放位置（圖版卡列）→ 開放式申請 → 如何聯繫。
+  Hoshivel 預設招的是合夥人（非雇員）；個別位置可在 roles.config.ts 標
+  `kind: "hire"` 改為一般職缺，卡上的型態籤與應徵字樣跟著換。
+  角色卡：明體職稱＋型態籤／範疇／模式 → 描述 → 期待的能力 → mailto 應徵
+  （主旨自動帶職稱，降低申請摩擦）。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import { useTranslations, bayer, type Locale } from "@/i18n/utils";
+import { getRoles, type RoleKind } from "@/lib/roles";
+import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const roles = getRoles(locale);
+
+/** 信件主旨以型態分流，收信端一眼可分（合夥洽談 vs. 一般應徵）。 */
+const applyHref = (kind: RoleKind, roleTitle: string) => {
+  const prefix = kind === "partner" ? "Partner" : "Join";
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[${prefix}] ${roleTitle}`)}`;
+};
+---
+
+<Layout locale={locale} title={t("nav.join")} description={t("join.lead")}>
+  <main id="main">
+    <PageHero
+      mark={bayer(4)}
+      eyebrow={t("join.eyebrow")}
+      title={t("join.title")}
+      lead={t("join.lead")}
+    />
+
+    <!-- 合夥人是什麼意思：先把關係說清楚，再談位置 -->
+    <section class="hv-partner" aria-labelledby="join-partner">
+      <div class="hv-container">
+        <div class="hv-plate hv-partner__card" data-reveal>
+          <h2 id="join-partner" class="hv-join__h2 hv-display">
+            {t("join.partner.title")}
+          </h2>
+          <p class="hv-partner__body">{t("join.partner.body")}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 開放位置 -->
+    <section class="hv-section" aria-labelledby="join-roles">
+      <div class="hv-container">
+        <h2 id="join-roles" class="hv-join__h2 hv-display" data-reveal>
+          {t("join.roles.title")}
+        </h2>
+        <div class="hv-join-roles">
+          {
+            roles.map((role) => (
+              <article class="hv-plate hv-join-role" id={role.id} data-reveal>
+                <div class="hv-join-role__main">
+                  <div class="hv-join-role__head">
+                    <h3 class="hv-join-role__title hv-display">{role.title}</h3>
+                    <span class="hv-badge hv-join-role__kind">
+                      {t(`join.kind.${role.kind}`)}
+                    </span>
+                  </div>
+                  <p class="hv-join-role__meta">
+                    <span>{role.area}</span>
+                    <span class="hv-join-role__dot" aria-hidden="true">
+                      ·
+                    </span>
+                    <span>{t("join.mode.remote")}</span>
+                  </p>
+                  <p class="hv-join-role__desc">{role.desc}</p>
+                  <p class="hv-join-role__skills">{role.skills}</p>
+                </div>
+                <a
+                  class="hv-btn hv-btn--ghost hv-join-role__apply"
+                  href={applyHref(role.kind, role.title)}
+                >
+                  {t(`join.apply.${role.kind}`)}
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 開放式申請＋如何聯繫：暖紙帶 -->
+    <section class="hv-section hv-join-open" aria-labelledby="join-open">
+      <div class="hv-container hv-join-open__grid">
+        <div data-reveal>
+          <h2 id="join-open" class="hv-join__h2 hv-display">{t("join.open.title")}</h2>
+          <p class="hv-join-open__body">{t("join.open.body")}</p>
+        </div>
+        <div data-reveal>
+          <h2 class="hv-join__h2 hv-display">{t("join.how.title")}</h2>
+          <p class="hv-join-open__body">{t("join.how.body")}</p>
+          <div class="hv-join-open__cta">
+            <a class="hv-btn hv-btn--primary" href={`mailto:${CONTACT_EMAIL}`}>
+              {CONTACT_EMAIL}
+            </a>
+            <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
+              {t("footer.github")}
+              <span aria-hidden="true">↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hv-join__h2 {
+    font-size: var(--hv-text-xl);
+  }
+
+  /* 合夥人說明：圖版卡，左緣一道金線（先立關係，再列位置） */
+  .hv-partner {
+    padding-bottom: var(--hv-space-8);
+  }
+  .hv-partner__card {
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    border-left: 2px solid var(--hv-line-gold);
+  }
+  .hv-partner__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    max-width: 68ch;
+  }
+
+  .hv-join-roles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hv-space-6);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-join-role {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-8);
+    padding: var(--hv-space-8);
+    scroll-margin-top: 90px;
+  }
+  /* 職稱＋型態籤（合夥人／職缺）同一行 */
+  .hv-join-role__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--hv-space-4);
+  }
+  .hv-join-role__title {
+    font-size: var(--hv-text-lg);
+  }
+  .hv-join-role__kind {
+    border-color: var(--hv-line-gold);
+    background: var(--hv-gold-wash);
+    color: var(--hv-gold);
+  }
+  .hv-join-role__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--hv-space-2);
+    font-size: var(--hv-text-sm);
+    font-weight: 600;
+    color: var(--hv-gold);
+  }
+  .hv-join-role__dot {
+    color: var(--hv-text-faint);
+  }
+  .hv-join-role__desc {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    font-size: var(--hv-text-sm);
+    max-width: 62ch;
+  }
+  .hv-join-role__skills {
+    margin-top: var(--hv-space-3);
+    font-size: var(--hv-text-xs);
+    letter-spacing: 0.05em;
+    color: var(--hv-text-faint);
+    font-family: var(--hv-font-mono);
+  }
+  .hv-join-role__apply {
+    flex-shrink: 0;
+  }
+
+  .hv-join-open {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(11, 16, 29, 0.72) 18%
+    );
+    border-top: 1px solid var(--hv-line);
+  }
+  .hv-join-open__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+  .hv-join-open__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    max-width: 48ch;
+  }
+  .hv-join-open__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-6);
+  }
+
+  @media (max-width: 860px) {
+    .hv-join-role {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .hv-join-open__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

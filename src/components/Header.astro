@@ -1,0 +1,273 @@
+---
+/*
+  站首 Header —— 夜色玻璃 sticky 列，髮絲下框。
+  brand（連首頁）＋ 頁面導覽（作品/新聞/關於/加入我們）＋ 語言切換。
+  目前頁以 aria-current="page" 標示（星金短線；樣式跟著 aria 走）。
+  行動裝置（≤760px）：導覽收進 hamburger 下拉；可存取切換
+  （aria-expanded / aria-controls；Esc / 外點 / 點連結關閉）。
+*/
+import Wordmark from "@/components/brand/Wordmark.astro";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+  /** 邏輯路徑（不含 locale 前綴）；用於語言切換與目前頁判斷。 */
+  path?: string;
+}
+const { locale, path = "/" } = Astro.props;
+const t = useTranslations(locale);
+const home = localizedPath(locale, "/");
+
+const nav = [
+  { path: "/works", label: t("nav.works") },
+  { path: "/news", label: t("nav.news") },
+  { path: "/about", label: t("nav.about") },
+  { path: "/join", label: t("nav.join") },
+];
+/** 目前頁（含子頁，如 /news/xxx 之於 /news）。 */
+const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
+---
+
+<a class="hv-skip" href="#main">{t("a11y.skip")}</a>
+
+<header class="hv-header">
+  <div class="hv-container hv-header__inner">
+    <a class="hv-header__brand" href={home} aria-label={t("a11y.home")}>
+      <Wordmark locale={locale} variant="compact" />
+    </a>
+
+    <nav class="hv-header__nav" id="hv-primary-nav" aria-label={t("a11y.menu")}>
+      {
+        nav.map((item) => (
+          <a
+            class="hv-header__link"
+            href={localizedPath(locale, item.path)}
+            aria-current={isCurrent(item.path) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hv-header__actions">
+      <LanguageSwitcher locale={locale} path={path} />
+      <button
+        class="hv-header__menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="hv-primary-nav"
+        aria-label={t("a11y.menu")}
+      >
+        <span class="hv-burger" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* skip link：預設隱藏，聚焦時浮現於左上 */
+  .hv-skip {
+    position: fixed;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: var(--hv-z-overlay);
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--hv-radius);
+    background: var(--hv-gold);
+    color: #14171f;
+    font-weight: 600;
+    transform: translateY(-160%);
+    transition: transform var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-skip:focus {
+    transform: translateY(0);
+  }
+
+  /* 夜色玻璃：星空從底下透一點點過來 */
+  .hv-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--hv-z-header);
+    border-bottom: 1px solid var(--hv-line);
+    background: color-mix(in srgb, var(--hv-night) 78%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .hv-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 66px;
+  }
+  .hv-header__brand {
+    display: inline-flex;
+    align-items: center;
+  }
+  .hv-header__nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.85rem, 2.4vw, 2.1rem);
+    margin-inline: auto;
+  }
+  .hv-header__link {
+    position: relative;
+    font-size: var(--hv-text-sm);
+    letter-spacing: 0.06em;
+    color: var(--hv-text-soft);
+    transition: color var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  /* 底線：星金短線，自中心展開 */
+  .hv-header__link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -0.5rem;
+    width: 1.2em;
+    height: 1px;
+    background: var(--hv-gold);
+    transform: translateX(-50%) scaleX(0);
+    transition: transform var(--hv-dur) var(--hv-ease-out);
+  }
+  .hv-header__link:hover {
+    color: var(--hv-starlight);
+  }
+  .hv-header__link:hover::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  /* 目前頁：星光字＋常駐金線 */
+  .hv-header__link[aria-current="page"] {
+    color: var(--hv-starlight);
+  }
+  .hv-header__link[aria-current="page"]::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  .hv-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-left: auto;
+  }
+
+  /* hamburger：桌機隱藏 */
+  .hv-header__menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--hv-radius);
+    color: var(--hv-text);
+  }
+  .hv-header__menu-btn:hover {
+    color: var(--hv-starlight);
+    background: rgba(176, 198, 240, 0.08);
+  }
+  .hv-burger,
+  .hv-burger::before,
+  .hv-burger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform var(--hv-dur-fast) var(--hv-ease-out),
+      opacity var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-burger {
+    position: relative;
+  }
+  .hv-burger::before,
+  .hv-burger::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+  .hv-burger::before {
+    top: -6px;
+  }
+  .hv-burger::after {
+    top: 6px;
+  }
+  /* 開啟時 hamburger → ✕ */
+  .hv-header__menu-btn[aria-expanded="true"] .hv-burger {
+    background: transparent;
+  }
+  .hv-header__menu-btn[aria-expanded="true"] .hv-burger::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .hv-header__menu-btn[aria-expanded="true"] .hv-burger::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ---- 行動裝置：導覽收進下拉選單 ---- */
+  @media (max-width: 760px) {
+    .hv-header__menu-btn {
+      display: inline-flex;
+    }
+    .hv-header__nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      margin: 0;
+      padding: 0.25rem var(--hv-gutter) 0.75rem;
+      /* 實面夜色：任何環境都可讀 */
+      background: var(--hv-surface-solid);
+      border-bottom: 1px solid var(--hv-line);
+      box-shadow: var(--hv-shadow-plate);
+      display: none;
+    }
+    .hv-header__nav[data-open] {
+      display: flex;
+    }
+    .hv-header__link {
+      padding: 0.85rem 0;
+      font-size: var(--hv-text-base);
+      color: var(--hv-text);
+      border-bottom: 1px solid var(--hv-line);
+    }
+    .hv-header__link:last-child {
+      border-bottom: 0;
+    }
+    .hv-header__link::after {
+      display: none;
+    }
+    .hv-header__link[aria-current="page"] {
+      color: var(--hv-gold);
+    }
+  }
+</style>
+
+<script>
+  // 行動選單：可存取切換（aria-expanded / data-open）；Esc / 外點 / 點連結 / 回桌機皆關閉。
+  const btn = document.querySelector<HTMLButtonElement>(".hv-header__menu-btn");
+  const nav = document.getElementById("hv-primary-nav");
+  if (btn && nav) {
+    const setOpen = (open: boolean) => {
+      btn.setAttribute("aria-expanded", String(open));
+      nav.toggleAttribute("data-open", open);
+    };
+    btn.addEventListener("click", () =>
+      setOpen(btn.getAttribute("aria-expanded") !== "true"),
+    );
+    nav.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setOpen(false);
+    });
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node;
+      if (!nav.contains(target) && !btn.contains(target)) setOpen(false);
+    });
+    window.matchMedia("(min-width: 761px)").addEventListener("change", (m) => {
+      if (m.matches) setOpen(false);
+    });
+  }
+</script>

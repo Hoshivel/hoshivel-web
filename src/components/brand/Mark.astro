@@ -1,0 +1,171 @@
+---
+/*
+  Hoshivel 品牌標記 —— 依使用者提供的 logo 重繪為向量。
+
+  四芒星（星光漸層、芯上一點白）＋ 兩道交錯軌道環（青與金，各帶一顆行星點）
+  ＋ 星後一圈極淡的光暈。純幾何、無點陣、無濾鏡，縮到 20px 仍成立。
+
+  variant：
+    - orbit —— 正式標記（雙軌道，預設；依使用者提供的 logo 重繪）
+    - world —— 備選版本（星生界：星落在世界的邊上，扣「讓星辰，成為世界」）
+  title 有值 → role="img" + aria-label；無值 → aria-hidden（純裝飾）。
+*/
+interface Props {
+  size?: number;
+  title?: string;
+  class?: string;
+  variant?: "orbit" | "world";
+}
+const {
+  size = 32,
+  title,
+  class: className,
+  variant = "orbit",
+} = Astro.props;
+
+const a11y = title
+  ? { role: "img" as const, "aria-label": title }
+  : { "aria-hidden": "true" as const };
+
+/** 漸層 id 必須全站唯一（同頁可能出現多枚標記）。 */
+const uid = `hv-mark-${Math.random().toString(36).slice(2, 9)}`;
+
+/** 四芒星（中心 32,32；縱向略長於橫向，與原稿一致）。 */
+const STAR =
+  "M32 16.4 Q33.6 30.4 46.2 32 Q33.6 33.6 32 47.6 Q30.4 33.6 17.8 32 Q30.4 30.4 32 16.4 Z";
+
+/** 備選版的小星（世界之上的第二顆）。 */
+const SMALL_STAR =
+  "M50 8.5 Q50.8 14.6 57 15.4 Q50.8 16.2 50 22.3 Q49.2 16.2 43 15.4 Q49.2 14.6 50 8.5 Z";
+---
+
+<svg
+  class:list={["hv-mark", `is-${variant}`, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 64 64"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  {...a11y}
+>
+  <defs>
+    <radialGradient id={`${uid}-halo`}>
+      <stop offset="0" stop-color="#dff1fb" stop-opacity="0.5"></stop>
+      <stop offset="0.55" stop-color="#bfe4f2" stop-opacity="0.12"></stop>
+      <stop offset="1" stop-color="#bfe4f2" stop-opacity="0"></stop>
+    </radialGradient>
+    <linearGradient id={`${uid}-star`} x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffffff"></stop>
+      <stop offset="0.5" stop-color="#e8f6fd"></stop>
+      <stop offset="1" stop-color="#a9d9ec"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- 星後的光暈 -->
+  <circle cx="32" cy="32" r="15" fill={`url(#${uid}-halo)`}></circle>
+
+  {
+    variant === "orbit" ? (
+      <>
+        {/* 內圈：極淡的一圈，讓星有「所在」 */}
+        <circle class="hv-mark__disc" cx="32" cy="32" r="12.6" />
+        {/* 青軌道（立） */}
+        <ellipse
+          class="hv-mark__orbit-a"
+          cx="32"
+          cy="32"
+          rx="13.5"
+          ry="26.5"
+          transform="rotate(24 32 32)"
+        />
+        {/* 金軌道（平） */}
+        <ellipse
+          class="hv-mark__orbit-b"
+          cx="32"
+          cy="32"
+          rx="27"
+          ry="12"
+          transform="rotate(-24 32 32)"
+        />
+        {/* 兩顆行星點 */}
+        <circle class="hv-mark__planet-a" cx="26.4" cy="14.7" r="2.1" />
+        <circle class="hv-mark__planet-b" cx="47.8" cy="16.6" r="2.1" />
+      </>
+    ) : (
+      <>
+        {/* 世界：一顆帶赤道線的球 */}
+        <circle class="hv-mark__world" cx="29" cy="36" r="21" />
+        <ellipse class="hv-mark__equator" cx="29" cy="36" rx="21" ry="6.5" />
+        <path class="hv-mark__small-star" d={SMALL_STAR} />
+      </>
+    )
+  }
+
+  <!-- 四芒星 -->
+  {
+    variant === "orbit" ? (
+      <>
+        <path class="hv-mark__star" d={STAR} fill={`url(#${uid}-star)`} />
+        <circle class="hv-mark__core" cx="32" cy="32" r="1.9" />
+      </>
+    ) : (
+      <>
+        {/* 星落在世界的邊上：星在球緣，正要成為那個世界 */}
+        <path
+          class="hv-mark__star"
+          d="M29 17.5 Q30.4 28.6 41.5 30 Q30.4 31.4 29 42.5 Q27.6 31.4 16.5 30 Q27.6 28.6 29 17.5 Z"
+          fill={`url(#${uid}-star)`}
+        />
+        <circle class="hv-mark__core" cx="29" cy="30" r="1.7" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .hv-mark {
+    display: block;
+    overflow: visible;
+  }
+  .hv-mark__disc {
+    fill: none;
+    stroke: var(--hv-orbit);
+    stroke-opacity: 0.22;
+    stroke-width: 1;
+  }
+  .hv-mark__orbit-a {
+    fill: none;
+    stroke: var(--hv-orbit);
+    stroke-width: 1.6;
+  }
+  .hv-mark__orbit-b {
+    fill: none;
+    stroke: var(--hv-gold-deep);
+    stroke-width: 1.6;
+  }
+  .hv-mark__planet-a {
+    fill: var(--hv-orbit);
+  }
+  .hv-mark__planet-b {
+    fill: var(--hv-gold-deep);
+  }
+  .hv-mark__core {
+    fill: #ffffff;
+  }
+
+  /* 備選：星生界 */
+  .hv-mark__world {
+    fill: none;
+    stroke: var(--hv-gold-deep);
+    stroke-width: 1.6;
+  }
+  .hv-mark__equator {
+    fill: none;
+    stroke: var(--hv-orbit);
+    stroke-width: 1.4;
+    stroke-opacity: 0.85;
+  }
+  .hv-mark__small-star {
+    fill: var(--hv-gold);
+  }
+</style>

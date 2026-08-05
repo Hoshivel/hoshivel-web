@@ -1,0 +1,215 @@
+---
+/*
+  站尾 Footer —— 地平線。
+  全站唯一不透星光的實面：星空到此為止，下面是地。
+  上緣一道極淡的暖光（地平線最後的光），再是 brand（含社群圖示列）
+  ＋ 三欄 ＋ 基線列。
+  社群入口放在 brand 欄下方而非另立一欄：欄位已滿，且社群屬於「署名」
+  這一側；GitHub 因此由「組織」欄移入社群列，不重複出現。
+*/
+import Wordmark from "@/components/brand/Wordmark.astro";
+import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import { WORKS, SERVICES } from "@/lib/catalog";
+
+interface Props {
+  locale: Locale;
+  path?: string;
+}
+const { locale, path = "/" } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+
+const link = (e: { nameKey: Parameters<typeof t>[0]; url: string | null; id: string }) => ({
+  label: t(e.nameKey),
+  href: e.url ?? localizedPath(locale, `/works#${e.id}`),
+  external: e.url !== null,
+});
+const works = WORKS.map(link);
+const services = SERVICES.map(link);
+
+const org = [
+  { label: t("nav.about"), href: localizedPath(locale, "/about") },
+  { label: t("nav.news"), href: localizedPath(locale, "/news") },
+  { label: t("nav.join"), href: localizedPath(locale, "/join") },
+];
+---
+
+<footer class="hv-footer">
+  <div class="hv-container hv-footer__inner">
+    <div class="hv-footer__brand">
+      <Wordmark locale={locale} variant="full" />
+      <p class="hv-footer__summary">{t("footer.summary")}</p>
+      <nav class="hv-footer__social" aria-label={t("footer.socialLabel")}>
+        <span class="hv-footer__label">{t("footer.socialLabel")}</span>
+        <SocialLinks locale={locale} />
+      </nav>
+    </div>
+
+    <nav class="hv-footer__col" aria-label={t("footer.worksLabel")}>
+      <span class="hv-footer__label">{t("footer.worksLabel")}</span>
+      {
+        works.map((w) =>
+          w.external ? (
+            <a
+              class="hv-footer__link"
+              href={w.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {w.label}
+              <span aria-hidden="true"> ↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          ) : (
+            <a class="hv-footer__link" href={w.href}>
+              {w.label}
+            </a>
+          ),
+        )
+      }
+    </nav>
+
+    <nav class="hv-footer__col" aria-label={t("footer.servicesLabel")}>
+      <span class="hv-footer__label">{t("footer.servicesLabel")}</span>
+      {
+        services.map((w) =>
+          w.external ? (
+            <a
+              class="hv-footer__link"
+              href={w.href}
+              target="_blank"
+              rel="noopener"
+            >
+              {w.label}
+              <span aria-hidden="true"> ↗</span>
+              <span class="hv-visually-hidden">{t("a11y.external")}</span>
+            </a>
+          ) : (
+            <a class="hv-footer__link" href={w.href}>
+              {w.label}
+            </a>
+          ),
+        )
+      }
+    </nav>
+
+    <nav class="hv-footer__col" aria-label={t("footer.orgLabel")}>
+      <span class="hv-footer__label">{t("footer.orgLabel")}</span>
+      {org.map((o) => <a class="hv-footer__link" href={o.href}>{o.label}</a>)}
+    </nav>
+
+    <div class="hv-footer__col">
+      <span class="hv-footer__label">{t("footer.langLabel")}</span>
+      <LanguageSwitcher locale={locale} path={path} />
+    </div>
+  </div>
+
+  <div class="hv-container hv-footer__base">
+    <p class="hv-footer__rights">© {year} {t("footer.rights")}</p>
+    <p class="hv-catalog">HOSHIVEL.COM</p>
+  </div>
+</footer>
+
+<style>
+  .hv-footer {
+    position: relative;
+    background: var(--hv-void);
+    color: var(--hv-text);
+    padding-block: var(--hv-space-16) var(--hv-space-8);
+    border-top: 1px solid var(--hv-line);
+  }
+  /* 地平線最後的光 */
+  .hv-footer::before {
+    content: "";
+    position: absolute;
+    inset: -1px 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--hv-line-gold) 38%,
+      rgba(240, 205, 148, 0.55) 50%,
+      var(--hv-line-gold) 62%,
+      transparent
+    );
+  }
+  .hv-footer::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 120px;
+    background: radial-gradient(
+      70% 100% at 50% 0%,
+      rgba(240, 205, 148, 0.06),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .hv-footer__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, auto) auto;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .hv-footer__summary {
+    margin-top: var(--hv-space-4);
+    max-width: 34ch;
+    color: var(--hv-text-soft);
+    font-size: var(--hv-text-sm);
+  }
+  /* 社群圖示列：署名之下的一行小記號 */
+  .hv-footer__social {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-top: var(--hv-space-8);
+  }
+  .hv-footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+  .hv-footer__label {
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
+    color: var(--hv-text-faint);
+    margin-bottom: 0.2rem;
+  }
+  .hv-footer__link {
+    color: var(--hv-text);
+    font-size: var(--hv-text-sm);
+    width: fit-content;
+    transition: color var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-footer__link:hover {
+    color: var(--hv-gold);
+  }
+  .hv-footer__base {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: var(--hv-space-12);
+    padding-top: var(--hv-space-6);
+    border-top: 1px solid var(--hv-line);
+    color: var(--hv-text-faint);
+    font-size: var(--hv-text-xs);
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 760px) {
+    .hv-footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hv-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

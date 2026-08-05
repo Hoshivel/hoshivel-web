@@ -1,0 +1,354 @@
+@import "./fonts.css";
+@import "./tokens.css";
+
+/* ---- reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* 錨點 / 站內跳轉使用原生平滑捲動（reduced-motion 時於下方關閉） */
+  scroll-behavior: smooth;
+  background: var(--hv-night);
+}
+
+body {
+  position: relative;
+  font-family: var(--hv-font-sans);
+  background: transparent; /* 星空由 <Starfield> 鋪在 body 之下 */
+  color: var(--hv-text);
+  line-height: var(--hv-leading);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* 內容一律浮在星空之上 */
+body > *:not(.hv-sky) {
+  position: relative;
+  z-index: var(--hv-z-content);
+}
+
+img,
+picture,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 2px solid var(--hv-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+::selection {
+  background: rgba(240, 205, 148, 0.24);
+  color: var(--hv-starlight);
+}
+
+/* ---- utilities ---- */
+.hv-container {
+  width: 100%;
+  max-width: var(--hv-maxw);
+  margin-inline: auto;
+  padding-inline: var(--hv-gutter);
+}
+.hv-narrow {
+  max-width: var(--hv-maxw-narrow);
+}
+
+.hv-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 區塊節奏：統一的上下留白 */
+.hv-section {
+  padding-block: var(--hv-section-pad);
+}
+
+/* 標題字（明體）：星圖上的鐫刻標籤 */
+.hv-display {
+  font-family: var(--hv-font-display);
+  font-weight: 600;
+  letter-spacing: var(--hv-tracking);
+  color: var(--hv-starlight);
+  line-height: var(--hv-leading-tight);
+}
+
+/*
+  眉標：拜耳記號（金・明體）＋ 標籤。
+  星表以 α β γ 標注一座星座裡由亮到暗的星；門戶以它編章節。
+*/
+.hv-eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.7em;
+  font-size: var(--hv-text-xs);
+  letter-spacing: var(--hv-tracking-wider);
+  color: var(--hv-text-soft);
+}
+.hv-eyebrow__mark {
+  font-family: var(--hv-font-display);
+  font-weight: 600;
+  font-size: 1.15em;
+  color: var(--hv-gold);
+  letter-spacing: 0;
+}
+
+/* 服務的眉標記號：一枚小環（作品是拜耳字母，服務是環——與星圖同一套語彙） */
+.hv-eyebrow__ring {
+  width: 0.85em;
+  height: 0.85em;
+  border: 1px solid var(--hv-gold);
+  border-radius: 50%;
+  align-self: center;
+}
+
+/* 星表編號（HV—01）：等寬、寬字距，圖版上的目錄號 */
+.hv-catalog {
+  font-family: var(--hv-font-mono);
+  font-size: var(--hv-text-xs);
+  letter-spacing: var(--hv-tracking-wide);
+  color: var(--hv-text-faint);
+}
+
+/* 導語 */
+.hv-lead {
+  color: var(--hv-text-soft);
+  font-size: var(--hv-text-base);
+}
+
+/* 區塊標題組：eyebrow + 大標 + 導語 */
+.hv-section-head {
+  max-width: 640px;
+}
+.hv-section-head > h2 {
+  margin-top: var(--hv-space-4);
+  font-family: var(--hv-font-display);
+  font-weight: 600;
+  font-size: var(--hv-text-2xl);
+  line-height: var(--hv-leading-tight);
+  letter-spacing: var(--hv-tracking);
+  color: var(--hv-starlight);
+}
+.hv-section-head > .hv-lead {
+  margin-top: var(--hv-space-4);
+}
+
+/*
+  按鈕基元：方正圖版。主按鈕＝一塊星金（夜裡唯一的實色光源）；
+  次按鈕＝髮絲線框，hover 才亮成金線。
+*/
+.hv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.5rem;
+  border-radius: var(--hv-radius);
+  font-size: var(--hv-text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--hv-dur-fast) var(--hv-ease-out),
+    border-color var(--hv-dur-fast) var(--hv-ease-out),
+    color var(--hv-dur-fast) var(--hv-ease-out),
+    box-shadow var(--hv-dur) var(--hv-ease-out),
+    transform var(--hv-dur-fast) var(--hv-ease-out);
+}
+.hv-btn:active {
+  transform: translateY(1px);
+}
+.hv-btn--primary {
+  color: #14171f;
+  background: var(--hv-gold);
+  border: 1px solid var(--hv-gold);
+}
+.hv-btn--primary:hover {
+  background: var(--hv-gold-soft);
+  border-color: var(--hv-gold-soft);
+  box-shadow: var(--hv-glow-gold);
+}
+.hv-btn--ghost {
+  color: var(--hv-text);
+  border: 1px solid var(--hv-line-strong);
+  background: transparent;
+}
+.hv-btn--ghost:hover {
+  border-color: var(--hv-line-gold);
+  color: var(--hv-gold);
+}
+
+/* 文字連結（帶箭頭的「更多」）：星光字→hover 星金 */
+.hv-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--hv-text-sm);
+  font-weight: 600;
+  color: var(--hv-text);
+  border-bottom: 1px solid var(--hv-line-strong);
+  padding-bottom: 0.15rem;
+  transition:
+    color var(--hv-dur-fast) var(--hv-ease-out),
+    border-color var(--hv-dur-fast) var(--hv-ease-out);
+}
+.hv-more::after {
+  content: "→";
+  transition: transform var(--hv-dur-fast) var(--hv-ease-out);
+}
+.hv-more:hover {
+  color: var(--hv-gold);
+  border-color: var(--hv-line-gold);
+}
+.hv-more:hover::after {
+  transform: translateX(3px);
+}
+
+/*
+  圖版卡：半透夜面 + 髮絲框（星光透得過來）。
+  hover 邊框轉金、微升；四角以短刻線收邊——銅版圖框的記號。
+*/
+.hv-plate {
+  position: relative;
+  border: 1px solid var(--hv-line);
+  border-radius: var(--hv-radius-lg);
+  background: var(--hv-surface);
+  transition:
+    border-color var(--hv-dur) var(--hv-ease-out),
+    background-color var(--hv-dur) var(--hv-ease-out),
+    transform var(--hv-dur) var(--hv-ease-out),
+    box-shadow var(--hv-dur) var(--hv-ease-out);
+}
+.hv-plate::before,
+.hv-plate::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 0 solid var(--hv-line-strong);
+  transition: border-color var(--hv-dur) var(--hv-ease-out);
+  pointer-events: none;
+}
+.hv-plate::before {
+  top: 7px;
+  left: 7px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.hv-plate::after {
+  right: 7px;
+  bottom: 7px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+}
+.hv-plate:hover {
+  border-color: var(--hv-line-gold);
+  background: var(--hv-surface-hi);
+  transform: translateY(-2px);
+  box-shadow: var(--hv-shadow-plate);
+}
+.hv-plate:hover::before,
+.hv-plate:hover::after {
+  border-color: var(--hv-gold);
+}
+
+/* 星圖線：區塊之間的髮絲分隔 */
+.hv-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--hv-line-strong),
+    var(--hv-line) 65%,
+    transparent
+  );
+  border: 0;
+}
+
+/* 狀態徽章：線框小籤；帶「運行中」金點的變體 */
+.hv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--hv-line-strong);
+  border-radius: var(--hv-radius-sm);
+  font-size: var(--hv-text-xs);
+  letter-spacing: 0.06em;
+  color: var(--hv-text-soft);
+  background: rgba(8, 11, 21, 0.5);
+  white-space: nowrap;
+}
+.hv-badge--live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--hv-gold);
+  box-shadow: var(--hv-glow-gold);
+}
+
+/*
+  reveal-on-scroll 基線：進場淡入 + 上移。
+  只有 <html class="hv-js"> 時才預先隱藏，無 JS 環境內容一律直接可見。
+*/
+html.hv-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--hv-reveal-shift));
+  transition:
+    opacity var(--hv-dur-slow) var(--hv-ease-out),
+    transform var(--hv-dur-slow) var(--hv-ease-out);
+  transition-delay: calc(var(--hv-reveal-i, 0) * var(--hv-reveal-stagger));
+  will-change: opacity, transform;
+}
+html.hv-js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 全站 reduced-motion 基線：關閉所有裝飾性動態、直接呈現最終狀態 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.hv-js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

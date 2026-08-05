@@ -1,0 +1,60 @@
+---
+/*
+  新聞列表 —— 依日期新→舊；該語言缺譯自動回退 zh-Hant（見 lib/news.ts）。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import NewsCard from "@/components/NewsCard.astro";
+import { useTranslations, bayer, type Locale } from "@/i18n/utils";
+import { getNewsForLocale } from "@/lib/news";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const posts = await getNewsForLocale(locale);
+---
+
+<Layout locale={locale} title={t("nav.news")} description={t("news.lead")}>
+  <main id="main">
+    <PageHero
+      mark={bayer(2)}
+      eyebrow={t("news.eyebrow")}
+      title={t("news.title")}
+      lead={t("news.lead")}
+    />
+
+    <section class="hv-section hv-news-list">
+      <div class="hv-container">
+        {
+          posts.length > 0 ? (
+            <div class="hv-news-list__grid">
+              {posts.map((post) => (
+                <NewsCard locale={locale} post={post} />
+              ))}
+            </div>
+          ) : (
+            <p class="hv-lead">{t("news.empty")}</p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hv-news-list {
+    padding-top: var(--hv-space-16);
+  }
+  .hv-news-list__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--hv-space-6);
+  }
+  @media (max-width: 980px) {
+    .hv-news-list__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

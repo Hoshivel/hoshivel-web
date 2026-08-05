@@ -1,0 +1,77 @@
+---
+/*
+  語言切換器 —— 純 SSR 連結（無 JS）。
+  三語各連到「同一邏輯頁」的對應 locale URL；目前語言標 aria-current。
+  精簡標籤（繁/简/EN）＋完整名放 title/aria-label。
+*/
+import {
+  useTranslations,
+  localizedPath,
+  LOCALES,
+  LOCALE_LABEL,
+  LOCALE_SHORT,
+  HTML_LANG,
+  type Locale,
+} from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+  /** 邏輯路徑（不含 locale 前綴），預設首頁。 */
+  path?: string;
+  class?: string;
+}
+const { locale, path = "/", class: className } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<nav class:list={["hv-lang", className]} aria-label={t("a11y.langMenu")}>
+  {
+    LOCALES.map((l) => {
+      const active = l === locale;
+      return (
+        <a
+          href={localizedPath(l, path)}
+          class:list={["hv-lang__item", { "is-active": active }]}
+          hreflang={HTML_LANG[l]}
+          title={LOCALE_LABEL[l]}
+          aria-current={active ? "true" : undefined}
+        >
+          {LOCALE_SHORT[l]}
+        </a>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .hv-lang {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--hv-line-strong);
+    border-radius: var(--hv-radius);
+    overflow: hidden;
+  }
+  .hv-lang__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    padding: 0.28rem 0.55rem;
+    font-size: var(--hv-text-xs);
+    color: var(--hv-text-soft);
+    transition:
+      color var(--hv-dur-fast) var(--hv-ease-out),
+      background-color var(--hv-dur-fast) var(--hv-ease-out);
+  }
+  .hv-lang__item + .hv-lang__item {
+    border-left: 1px solid var(--hv-line);
+  }
+  .hv-lang__item:hover {
+    color: var(--hv-starlight);
+    background: rgba(176, 198, 240, 0.06);
+  }
+  .hv-lang__item.is-active {
+    color: #14171f;
+    background: var(--hv-gold);
+  }
+</style>

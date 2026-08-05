@@ -1,0 +1,127 @@
+/*
+  Hoshivel 官方門戶 —— 設計 tokens（第三版：星圖 Celestial Atlas）
+
+  面貌取自「古星圖銅版」——墨藍夜空、星光白字、一種星金；
+  細如髮的星圖線、方正的圖版邊角、以拜耳字母（α β γ）編節。
+  作品即星：門戶是 Hoshivel 的星圖，每一件作品是圖上一顆亮星。
+
+  三站三面貌：sr-web 深空紫＋程序化動效、Hoshi ID 夜藍青金＋圓軌道，
+  門戶取第三極——近墨的夜、金線的星表、明體的圖版標籤。
+  全站唯一色彩／動效來源；元件一律引用變數，不寫裸 hex。
+*/
+:root {
+  color-scheme: dark;
+
+  /* ---- 夜 night（底層；愈往下愈深，footer 是地平線之下）---- */
+  --hv-void: #04060d;
+  --hv-night: #080b15;
+  --hv-night-2: #0b101d; /* 交替帶 */
+  --hv-surface: rgba(16, 22, 38, 0.72); /* 圖版卡面（半透，星光可透） */
+  --hv-surface-hi: rgba(22, 30, 50, 0.86); /* hover */
+  --hv-surface-solid: #101626; /* 需不透明時（行動選單） */
+
+  /* ---- 星光 starlight（文字）---- */
+  --hv-starlight: #eef2fd; /* 大標 */
+  --hv-text: #cbd5ea; /* 正文 */
+  --hv-text-soft: #98a5c0; /* 次要 */
+  --hv-text-faint: #6d7a97; /* 弱化（大字或非必要資訊） */
+
+  /* ---- 星金 gold（唯一強調色；小面積）---- */
+  --hv-gold: #f0cd94;
+  --hv-gold-soft: #f9e5c4;
+  --hv-gold-deep: #c99a54;
+  --hv-gold-wash: rgba(240, 205, 148, 0.1);
+
+  /* ---- 軌道青 orbit（品牌標記的軌道環；不作為版面色）---- */
+  --hv-orbit: #59a0b4;
+
+  /* ---- 星圖線 chart lines（髮絲，全部帶藍白）---- */
+  --hv-line: rgba(176, 198, 240, 0.14);
+  --hv-line-strong: rgba(176, 198, 240, 0.3);
+  --hv-line-gold: rgba(240, 205, 148, 0.42);
+
+  /* ---- 星點 stars ---- */
+  --hv-star: #dfe8ff;
+  --hv-star-dim: rgba(206, 220, 255, 0.55);
+  --hv-star-warm: #ffe6bd;
+  --hv-milkyway: rgba(150, 176, 235, 0.055);
+
+  /* ---- 作品識別（僅小記號與類型字；不染整卡）---- */
+  --hv-p-sr: #9a8cff; /* 碎界：星痕紫 */
+  --hv-p-id: #6fd6c6; /* Hoshi ID：晨星青 */
+
+  /* ---- 字型 typography ---- */
+  /*
+    標題明體＝自訂字體（Playfair Display ＋ Noto Serif TC 子集，自行託管；
+    見 styles/fonts.css）；內文黑體、星表編號等寬走系統字。
+    簡體頁在檔尾以 html[lang] 換成 SC 那一支。
+  */
+  --hv-font-display: "Hoshivel Display", "Hoshivel Han", "Noto Serif TC",
+    "Songti TC", "Yu Mincho", "PMingLiU", Georgia, "Times New Roman", serif;
+  --hv-font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --hv-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --hv-tracking: 0.02em;
+  --hv-tracking-wide: 0.12em;
+  --hv-tracking-wider: 0.26em;
+
+  /* ---- 版面 layout ---- */
+  --hv-maxw: 1120px;
+  --hv-maxw-narrow: 720px;
+  --hv-gutter: clamp(1.25rem, 4.5vw, 3.5rem);
+  /* 銅版圖框：直角近乎不圓（姊妹站皆圓膠囊，刻意相反） */
+  --hv-radius-sm: 2px;
+  --hv-radius: 4px;
+  --hv-radius-lg: 6px;
+
+  /* ---- 間距尺度（8pt 為基）---- */
+  --hv-space-1: 0.25rem;
+  --hv-space-2: 0.5rem;
+  --hv-space-3: 0.75rem;
+  --hv-space-4: 1rem;
+  --hv-space-6: 1.5rem;
+  --hv-space-8: 2rem;
+  --hv-space-12: 3rem;
+  --hv-space-16: 4rem;
+  --hv-space-24: 6rem;
+  /* 區塊上下留白：夜空以留白立大氣 */
+  --hv-section-pad: clamp(4.5rem, 10vw, 8.5rem);
+
+  /* ---- 字級尺度 fluid type scale ---- */
+  --hv-text-xs: clamp(0.72rem, 1.6vw, 0.8rem);
+  --hv-text-sm: clamp(0.83rem, 1.8vw, 0.93rem);
+  --hv-text-base: clamp(0.96rem, 2vw, 1.05rem);
+  --hv-text-lg: clamp(1.12rem, 2.6vw, 1.3rem);
+  --hv-text-xl: clamp(1.35rem, 3.2vw, 1.8rem);
+  --hv-text-2xl: clamp(1.75rem, 4.4vw, 2.6rem);
+  --hv-text-display: clamp(2.4rem, 6.5vw, 4.25rem);
+  --hv-leading-tight: 1.22;
+  --hv-leading: 1.85;
+
+  /* ---- 光（發光預算極省：只有金色互動與最亮的星）---- */
+  --hv-glow-gold: 0 0 24px rgba(240, 205, 148, 0.22);
+  --hv-glow-star: 0 0 12px rgba(223, 232, 255, 0.55);
+  --hv-shadow-plate: 0 18px 48px rgba(2, 4, 10, 0.55);
+
+  /* ---- 動效 ---- */
+  --hv-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --hv-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --hv-dur-fast: 150ms;
+  --hv-dur: 360ms;
+  --hv-dur-slow: 700ms;
+  --hv-reveal-shift: 18px;
+  --hv-reveal-stagger: 65ms;
+
+  /* ---- z 層 ---- */
+  --hv-z-sky: 0; /* 固定星空（body 之下的天） */
+  --hv-z-content: 10;
+  --hv-z-header: 100;
+  --hv-z-overlay: 1000;
+}
+
+/* 簡體頁：漢字面換成 SC 子集（正體頁永遠不會下載到它，反之亦然） */
+html[lang="zh-CN"] {
+  --hv-font-display: "Hoshivel Display", "Hoshivel Han SC", "Noto Serif SC",
+    "Songti SC", "SimSun", Georgia, "Times New Roman", serif;
+}

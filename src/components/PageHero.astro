@@ -1,0 +1,46 @@
+---
+/*
+  子頁頁首 —— 拜耳記號眉標 + 明體大標 + 導語；星圖線收尾。
+  全站子頁的統一資訊節奏。
+*/
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  /** 拜耳記號（α / β / γ…；由頁面以 bayer() 算好傳入）。 */
+  mark?: string;
+}
+const { eyebrow, title, lead, mark } = Astro.props;
+---
+
+<div class="hv-page-hero">
+  <div class="hv-container">
+    <p class="hv-eyebrow" data-reveal>
+      {mark && <span class="hv-eyebrow__mark">{mark}</span>}
+      {eyebrow}
+    </p>
+    <h1 class="hv-page-hero__title hv-display" data-reveal>{title}</h1>
+    {lead && <p class="hv-lead hv-page-hero__lead" data-reveal>{lead}</p>}
+  </div>
+  <div class="hv-container">
+    <hr class="hv-rule hv-page-hero__rule" />
+  </div>
+</div>
+
+<style>
+  .hv-page-hero {
+    padding-top: clamp(3.5rem, 8vw, 6rem);
+  }
+  .hv-page-hero__title {
+    margin-top: var(--hv-space-4);
+    max-width: 24ch;
+    font-size: var(--hv-text-2xl);
+  }
+  .hv-page-hero__lead {
+    margin-top: var(--hv-space-4);
+    max-width: 56ch;
+  }
+  .hv-page-hero__rule {
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  }
+</style>

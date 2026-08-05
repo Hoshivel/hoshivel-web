@@ -1,0 +1,233 @@
+---
+/*
+  關於頁 —— 我們是誰 → 現在正在做的事 → 我們相信（三條）→ 聯繫。
+  夜面敘事：左標題右正文；現況以圖版卡標出；價值觀以編號髮絲欄呈現。
+*/
+import Layout from "@/layouts/Layout.astro";
+import PageHero from "@/components/PageHero.astro";
+import Mark from "@/components/brand/Mark.astro";
+import SocialLinks from "@/components/SocialLinks.astro";
+import { useTranslations, bayer, type Locale } from "@/i18n/utils";
+import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const values = [
+  { name: t("about.v1.name"), desc: t("about.v1.desc") },
+  { name: t("about.v2.name"), desc: t("about.v2.desc") },
+  { name: t("about.v3.name"), desc: t("about.v3.desc") },
+];
+---
+
+<Layout locale={locale} title={t("about.title")} description={t("about.lead")}>
+  <main id="main">
+    <PageHero
+      mark={bayer(3)}
+      eyebrow={t("about.eyebrow")}
+      title={t("about.title")}
+      lead={t("about.lead")}
+    />
+
+    <!-- 我們是誰 -->
+    <section class="hv-section hv-about-who" aria-labelledby="about-who">
+      <div class="hv-container hv-about-who__grid">
+        <h2 id="about-who" class="hv-about__h2 hv-display" data-reveal>
+          {t("about.who.title")}
+        </h2>
+        <div class="hv-about-who__body">
+          <p data-reveal>{t("about.who.body1")}</p>
+          <p data-reveal>{t("about.who.body2")}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 現在正在做的事：圖版卡 -->
+    <section class="hv-about-now" aria-labelledby="about-now">
+      <div class="hv-container">
+        <div class="hv-about-now__card" data-reveal>
+          <Mark size={46} />
+          <div>
+            <h2 id="about-now" class="hv-about__h2 hv-display">
+              {t("about.now.title")}
+            </h2>
+            <p class="hv-about-now__body">{t("about.now.body")}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 我們相信：編號髮絲欄 -->
+    <section class="hv-section" aria-labelledby="about-values">
+      <div class="hv-container">
+        <h2 id="about-values" class="hv-about__h2 hv-display" data-reveal>
+          {t("about.values.title")}
+        </h2>
+        <p class="hv-about-values__lead" data-reveal>{t("about.values.lead")}</p>
+        <div class="hv-about-values">
+          {
+            values.map((v, i) => (
+              <div class="hv-about-values__item" data-reveal>
+                <span class="hv-catalog hv-about-values__index" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 class="hv-about-values__name hv-display">{v.name}</h3>
+                <p class="hv-about-values__desc">{v.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 聯繫：夜色帶收尾 -->
+    <section class="hv-section hv-about-contact" aria-labelledby="about-contact">
+      <div class="hv-container hv-narrow hv-about-contact__inner">
+        <h2 id="about-contact" class="hv-about__h2 hv-display" data-reveal>
+          {t("about.contact.title")}
+        </h2>
+        <p class="hv-lead" data-reveal>{t("about.contact.body")}</p>
+        <div class="hv-about-contact__cta" data-reveal>
+          <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
+            {t("footer.github")}
+            <span aria-hidden="true">↗</span>
+            <span class="hv-visually-hidden">{t("a11y.external")}</span>
+          </a>
+          <a class="hv-btn hv-btn--ghost" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </div>
+
+        <!-- 社群入口：四個平台一列圖版籤 -->
+        <div data-reveal>
+          <p class="hv-about-contact__social-label">
+            {t("about.contact.social")}
+          </p>
+          <SocialLinks
+            locale={locale}
+            variant="boxed"
+            class="hv-about-contact__social"
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hv-about__h2 {
+    font-size: var(--hv-text-xl);
+  }
+
+  /* 我們是誰：左標題右正文 */
+  .hv-about-who__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(1.5rem, 6vw, 5rem);
+  }
+  .hv-about-who__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hv-space-6);
+    color: var(--hv-text-soft);
+    font-size: var(--hv-text-base);
+    max-width: 62ch;
+  }
+
+  /* 現在正在做的事：星盤 + 圖版卡 */
+  .hv-about-now__card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--hv-space-8);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border: 1px solid var(--hv-line);
+    border-radius: var(--hv-radius-lg);
+    background: var(--hv-surface);
+  }
+  .hv-about-now__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    max-width: 58ch;
+  }
+
+  /* 做事方式：一句金字，領起三條價值 */
+  .hv-about-values__lead {
+    margin-top: var(--hv-space-3);
+    font-family: var(--hv-font-display);
+    font-size: var(--hv-text-lg);
+    color: var(--hv-gold);
+    letter-spacing: 0.06em;
+  }
+
+  /* 我們相信：三欄，各以髮絲頂線與編號開頭 */
+  .hv-about-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-about-values__item {
+    padding-top: var(--hv-space-6);
+    border-top: 1px solid var(--hv-line-strong);
+  }
+  .hv-about-values__index {
+    color: var(--hv-gold);
+  }
+  .hv-about-values__name {
+    margin-top: var(--hv-space-4);
+    font-size: var(--hv-text-lg);
+  }
+  .hv-about-values__desc {
+    margin-top: var(--hv-space-3);
+    color: var(--hv-text-soft);
+    font-size: var(--hv-text-sm);
+  }
+
+  /* 聯繫 */
+  .hv-about-contact {
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(11, 16, 29, 0.72) 20%
+    );
+    border-top: 1px solid var(--hv-line);
+  }
+  .hv-about-contact__inner {
+    text-align: center;
+  }
+  .hv-about-contact .hv-lead {
+    margin-top: var(--hv-space-4);
+  }
+  .hv-about-contact__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-8);
+  }
+  .hv-about-contact__social-label {
+    margin-top: var(--hv-space-12);
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wide);
+    color: var(--hv-text-faint);
+  }
+  .hv-about-contact__social {
+    margin-top: var(--hv-space-4);
+  }
+
+  @media (max-width: 860px) {
+    .hv-about-who__grid {
+      grid-template-columns: 1fr;
+    }
+    .hv-about-values {
+      grid-template-columns: 1fr;
+    }
+    .hv-about-now__card {
+      flex-direction: column;
+      gap: var(--hv-space-6);
+    }
+  }
+</style>
