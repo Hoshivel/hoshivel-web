@@ -487,9 +487,10 @@ const zhCN: Record<UIKey, string> = {
   日本語 —— 漢字圈だが正體中文の訳ではない。以下は本語系だけの決めごと：
 
   · 品牌名は「Hoshivel」のみ。中文品牌名「星帆」は**中文**の名前であり、
-    日本語に持ち込まない（日本語の品牌名を新たに立てることはしない）。
-  · 作品名は『Shattered Realms』。中文の「碎界」は日本語の字体では
-    「砕界」になってしまい、勝手に日本語題を作ることになるので使わない。
+    日本語には持ち込まない（日本語の品牌名を新たに立てることはしない）。
+  · 作品名は「砕界」（2026-08-07 決定）。中文の《碎界 Shattered Realms》に
+    倣い、正式名は『砕界 Shattered Realms』、それ以外は『砕界』。
+    品牌名とは扱いが違う——作品には日本語題があり、品牌名にはない。
   · 用語：ユーザーが持つのは「アカウント」、それを管理する画面は
     「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
   · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
@@ -502,14 +503,14 @@ const ja: Record<UIKey, string> = {
   "site.creed": "ゲームをもうひとつの仕事にはしない、本当に遊ぶ価値のある世界だけを作る",
   "site.motto": "速いことは世界に、遅いことは私たちに",
   "site.summary":
-    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『Shattered Realms』を開発し、作品を長く動かし続けるためのサービスを自ら築いています。",
+    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『砕界 Shattered Realms』を開発し、作品を長く動かし続けるためのサービスを自ら築いています。",
 
   "nav.works": "作品",
   "nav.news": "ニュース",
   "nav.about": "私たちについて",
   "nav.join": "参加する",
 
-  "cta.sr": "『Shattered Realms』を見る",
+  "cta.sr": "『砕界』を見る",
   "cta.about": "私たちについて",
   "cta.visit": "公式サイトへ",
   "cta.detail": "作品の詳細",
@@ -540,12 +541,12 @@ const ja: Record<UIKey, string> = {
     ここは 25 文字前後を上限とみておくこと。
   */
   "home.hero.lead":
-    "Hoshivel は架空世界のターン制ストラテジー\n『Shattered Realms』を開発し、\n作品を長く支えるサービスを一つずつ築いています",
+    "Hoshivel は架空世界のターン制ストラテジー\n『砕界 Shattered Realms』を開発し、\n作品を長く支えるサービスを一つずつ築いています",
 
   "home.works.eyebrow": "作品",
   "home.works.title": "最初の世界を、隅々まで作る",
   "home.works.lead":
-    "『Shattered Realms』は Hoshivel が全力で開発している最初の作品——章を重ねるごとに広がっていく架空世界を、第一章から長く遊ぶ価値のあるものにします",
+    "『砕界』は Hoshivel が全力で開発している最初の作品——章を重ねるごとに広がっていく架空世界を、第一章から長く遊ぶ価値のあるものにします",
 
   "home.services.eyebrow": "サービス",
   "home.services.title": "作品が世界に集中できるように",
@@ -559,7 +560,7 @@ const ja: Record<UIKey, string> = {
   "home.news.eyebrow": "ニュース",
   "home.news.title": "開発の記録",
   "home.news.lead":
-    "完成した結果を並べるだけでなく、作品が少しずつ形になっていく過程も残しています：『Shattered Realms』の開発状況、世界設定、そして Hoshivel の最新情報",
+    "完成した結果を並べるだけでなく、作品が少しずつ形になっていく過程も残しています：『砕界』の開発状況、世界設定、そして Hoshivel の最新情報",
 
   "home.belief.source": "Hoshivel の仕事のしかた",
 
@@ -576,7 +577,7 @@ const ja: Record<UIKey, string> = {
   "label.work": "作品",
   "label.service": "サービス",
 
-  "p.sr.name": "Shattered Realms",
+  "p.sr.name": "砕界",
   "p.sr.latin": "SHATTERED REALMS",
   "p.sr.kind": "架空世界 · 2D ターン制ストラテジー",
   "p.sr.status": "開発中 · 公式サイト公開済み",
@@ -589,7 +590,7 @@ const ja: Record<UIKey, string> = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "UNIVERSAL ACCOUNT",
   "p.id.kind": "共通アカウント · OpenID Connect 認証サービス",
-  "p.id.status": "公開中 · Shattered Realms 連携済み",
+  "p.id.status": "公開中 · 砕界 連携済み",
   "p.id.desc":
     "ひとつのアカウントで、すべての Hoshivel の世界へ。ログイン、アカウントの安全、連携済みサービスを Hoshi ID がまとめて扱うので、それぞれの作品は自分の世界に集中できます。",
   "p.id.f1":
@@ -605,7 +606,7 @@ const ja: Record<UIKey, string> = {
     "長い目で作品とサービスを作る、独立したゲーム・世界創作チーム",
   "about.who.title": "私たちは何者か",
   "about.who.body1":
-    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『Shattered Realms』を開発し、ひとつのアカウントで Hoshivel のすべての世界を行き来できる Hoshi ID を作りました。",
+    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『砕界 Shattered Realms』を開発し、ひとつのアカウントで Hoshivel のすべての世界を行き来できる Hoshi ID を作りました。",
   "about.who.body2":
     "その世界が探索する価値のあるものか、その物語が覚えておく価値のあるものか、そして一回一回の遊びそのものが本当に面白いか——私たちが気にしているのはそちらです",
 
@@ -633,7 +634,7 @@ const ja: Record<UIKey, string> = {
 
   "about.now.title": "いま取り組んでいること",
   "about.now.body":
-    "『Shattered Realms』は開発中で、公式サイトはすでに公開しています。Hoshi ID も公開済みで、いまの『Shattered Realms』のログイン方法でもあります。次の重心は、『Shattered Realms』の章とゲーム性、アートを少しずつ埋めながら、それを支えるサービスも一緒に足場を固めていくことです。",
+    "『砕界』は開発中で、公式サイトはすでに公開しています。Hoshi ID も公開済みで、いまの『砕界』のログイン方法でもあります。次の重心は、『砕界』の章とゲーム性、アートを少しずつ埋めながら、それを支えるサービスも一緒に足場を固めていくことです。",
   "about.values.title": "私たちが信じていること",
   "about.v1.name": "遊ぶ価値があるから作る",
   "about.v1.desc":

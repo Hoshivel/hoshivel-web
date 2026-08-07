@@ -1,15 +1,15 @@
 ---
 slug: shattered-realms-site
 locale: ja
-title: 『Shattered Realms』公式サイト公開
-summary: 『Shattered Realms』の公式サイト sr.hoshivel.com が公開——世界観、遊び方、章、ヒーローをまとめて見られ、ブラウザからそのまま戦場に入れます
+title: 『砕界 Shattered Realms』公式サイト公開
+summary: 砕界の公式サイト sr.hoshivel.com が公開——世界観、遊び方、章、ヒーローをまとめて見られ、ブラウザからそのまま戦場に入れます
 date: 2026-07-26T11:00:00Z
-tag: Shattered Realms
+tag: 砕界
 ---
 
-『Shattered Realms』の公式サイトが [sr.hoshivel.com](https://sr.hoshivel.com) で公開されました。
+『砕界 Shattered Realms』の公式サイトが [sr.hoshivel.com](https://sr.hoshivel.com) で公開されました。
 
-Shattered Realms は架空世界の 2D ターン制ストラテジーです：虚空に浮かぶ砕けた大地の上で、ボードゲームの戦術、RPG の成長、MOBA 的なスキル設計、そしてオープンワールドの探索が、一枚のヘクスボードの上で溶け合います。
+砕界は架空世界の 2D ターン制ストラテジーです：虚空に浮かぶ砕けた大地の上で、ボードゲームの戦術、RPG の成長、MOBA 的なスキル設計、そしてオープンワールドの探索が、一枚のヘクスボードの上で溶け合います。
 
 公式サイトでは：
 
