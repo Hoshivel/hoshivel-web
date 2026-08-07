@@ -24,6 +24,12 @@ v3 追加：**要星空元素，點題「星」**；以及——
 > **定位第二句：不把遊戲做成另一份工作，只做真正值得玩的世界**
 > **句號規則（2026-08-07 定）**：一句不加，兩句以上才加；標題、標籤、按鈕、
 > 標語一律不加。硬換行不影響判斷。詳見 `README.md`。
+> **日本語（2026-08-07 加）**：站上第四個語系，掛 `/ja`。
+> **品牌名不翻**——日文頁只用 Hoshivel；「星帆」是**中文**品牌名，
+> 不另立日文品牌名。
+> **作品名要翻**——用日文字體的「砕界」，比照中文的《碎界 Shattered Realms》：
+> 完整名 `『砕界 Shattered Realms』`、其餘場合 `『砕界』`。
+> 兩者待遇不同是刻意的：作品有日文題名，品牌名沒有。
 > **Hoshi ID 是服務，不是作品**——不列入作品編號；但站上**不反覆聲明它
 > 「不是產品」**，講它做什麼即可（經典標語：一個帳號，連接所有 Hoshivel 世界／
 > One Hoshi ID. Every Hoshivel world.）。短效憑證、Refresh Token 輪替、重用偵測
@@ -45,7 +51,7 @@ v3 追加：**要星空元素，點題「星」**；以及——
 | 文字 | 星光 `#eef2fd` / 正文 `#cbd5ea`；標題明體（鐫刻感）、內文黑體、編號等寬 |
 | 強調 | 唯一的星金 `#f0cd94`——主按鈕、拜耳記號、目前頁指示、hover 時刻 |
 | 標記 | 星盤：四芒星＋星盤環＋四道斜刻度（16px 仍成立，favicon 同版） |
-| 記號系統 | 拜耳字母編章節（α 作品／β 新聞／γ 關於／δ 協作，三語共用；分配表在 `src/lib/chapters.ts`，字母屬於章節而非頁面位置）＋星表編號 `HV—01`（等寬）＋髮絲星圖線 |
+| 記號系統 | 拜耳字母編章節（α 作品／β 新聞／γ 關於／δ 協作，各語系共用；分配表在 `src/lib/chapters.ts`，字母屬於章節而非頁面位置）＋星表編號 `HV—01`（等寬）＋髮絲星圖線 |
 | 主視覺 | 首頁 Hero 的 `WorksChart`：座標網＋星座連線＋刻度；亮星＝作品、環標＝服務（皆可點） |
 | 字體 | 自行託管子集：Playfair Display（拉丁）＋ Noto Serif TC／SC（漢字）；內文與編號走系統字 |
 | 標記 | 依使用者提供的 logo 重繪為向量：四芒星＋雙軌道環（青／金）＋行星點；備選版「星生界」留在 `Mark.astro` 的 `variant` |
@@ -58,14 +64,14 @@ v3 追加：**要星空元素，點題「星」**；以及——
 | 決策 | 選擇 | 理由 |
 | --- | --- | --- |
 | 框架 | Astro 5 靜態、零 island | 門戶無互動密度；零 JS framework＝最快載入 |
-| i18n | zh-Hant 根 / zh-cn / en，typed 字典 | 缺鍵編譯不過 |
+| i18n | zh-Hant 根 / zh-cn / ja / en，typed 字典 | 缺鍵編譯不過 |
 | 新聞 | content collections（glob loader＋`generateId` 檔名為 ID） | 發文＝丟 Markdown；多語同 slug 不互覆 |
 | 新聞稿位置 | **專案根目錄 `news/`**（與 `src/` 平級；build 時讀 `./news/*.md`） | 改稿不必進程式碼樹 |
 | 新聞缺譯 | 回退 zh-Hant（lib/news.ts） | 列表不缺項、連結永不 404 |
-| 協作方向 | **專案根目錄 `roles.config.ts`**（三語文案就地寫齊，`lib/roles.ts` 只做解析） | 調整頻繁，單檔可改 |
+| 協作方向 | **專案根目錄 `roles.config.ts`**（四語文案就地寫齊，`lib/roles.ts` 只做解析） | 調整頻繁，單檔可改 |
 | 協作型態 | 預設 `collab`（按件／短期／彈性兼職）；個別可標 `kind: "partner"` | 立場是短期彈性協作、長期一路前行，不是一般招聘 |
 | 內容/結構分離 | 介面文案在 `i18n/ui.ts`；結構在 `lib/catalog.ts`；組織連結／社群在 `lib/site.ts` | 增刪不動版面 |
-| 頁面複用 | `components/pages/*Page.astro` ＋ 每語系薄路由檔 | 三語零重複 |
+| 頁面複用 | `components/pages/*Page.astro` ＋ 每語系薄路由檔 | 四語零重複 |
 
 **已知陷阱（皆已修）**：
 1. glob loader 預設拿 frontmatter `slug` 當條目 ID → 多語互覆（`generateId` 解）。
@@ -96,7 +102,7 @@ v3 追加：**要星空元素，點題「星」**；以及——
 /about       關於（γ）：…→ 聯繫（信箱／GitHub）＋社群圖版籤列
 /join        加入我們（δ）：協作說明 → 目前的協作方向 → 開放式自我推薦
 /404         「這片夜空還沒有這顆星」
-sitemap.xml  全頁 × 三語互標 hreflang；robots.txt 指向
+sitemap.xml  全頁 × 四語互標 hreflang；robots.txt 指向
 og.png       1200×630 星圖版式（og.svg 為源）
 ```
 
@@ -104,9 +110,9 @@ og.png       1200×630 星圖版式（og.svg 為源）
 
 ```
 news/               新聞稿 <slug>.<locale>.md（與 src 平級）
-roles.config.ts     協作方向（三語文案就地寫齊；預設 collab）
+roles.config.ts     協作方向（四語文案就地寫齊；預設 collab）
 src/lib/site.ts     網域、信箱、社群連結（SOCIAL_LINKS）
-src/i18n/ui.ts      介面文案字典（三語逐鍵對齊）
+src/i18n/ui.ts      介面文案字典（四語逐鍵對齊）
 ```
 
 > 兩者都是字體子集的取字來源（`scripts/subset-fonts.py`）——改完跑 `npm run fonts`。
@@ -114,14 +120,15 @@ src/i18n/ui.ts      介面文案字典（三語逐鍵對齊）
 ## 驗收基準
 
 - `npm run build` 綠（astro check strict、0 error 0 warning）
-- 三語內容頁各自語言正確；EN 卡片不重複顯示拉丁副標
+- 四語內容頁各自語言正確；EN 卡片不重複顯示拉丁副標
 - 行動選單可存取（aria-expanded / Esc / 外點關閉）；skip link
 - reduced-motion 下無任何動畫（含星空閃爍／流星／視差）、內容全可見
 - 頁面 JS 僅選單＋reveal＋星空視差（<2KB）
 - 全站無任何拆解／解釋品牌名的文案
 - 用語一致：使用者持有「帳號」、管理介面叫「帳戶中心」；一律「回合制策略」
 - 章節字母三頁一致（首頁 α β δ／作品 α／新聞 β／關於 γ／加入我們 δ）
-- 字體子集覆蓋全站文案（新增內容後 `npm run fonts`）
+- 字體子集覆蓋全站文案（新增內容後 `npm run fonts`）；日文頁載 JP 那一支，
+  標題不得出現中文字形
 
 ## 未來項目（本次不做）
 

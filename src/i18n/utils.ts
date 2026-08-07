@@ -1,6 +1,6 @@
 /*
   Hoshivel 官方門戶 —— i18n helper（沿用家族 sr-web 的路由策略）。
-  預設語言（zh-Hant）掛根 `/`，其餘掛 `/zh-cn`、`/en`。
+  預設語言（zh-Hant）掛根 `/`，其餘掛 `/zh-cn`、`/ja`、`/en`。
   以顯式 locale prop 傳遞，SSR 乾淨、無需 client context。
 */
 
@@ -23,6 +23,7 @@ export {
   DATE_LANG,
   LOCALE_LABEL,
   LOCALE_SHORT,
+  HAN_FONT,
   type Locale,
   type UIKey,
 } from "./ui";
@@ -89,7 +90,7 @@ const BAYER = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"] as const;
 /**
  * 章節記號 —— 拜耳字母（α β γ…）。
  * 星表以拜耳字母標注一座星座裡由亮到暗的星；門戶以它編章節，
- * 三語共用（希臘字母不隨語言變）。
+ * 各語系共用（希臘字母不隨語言變）。
  * @example bayer(1) → "α"
  */
 export function bayer(n: number): string {

@@ -2,7 +2,7 @@
 slug: shattered-realms-site
 locale: zh-Hant
 title: 《碎界 Shattered Realms》官方網站公開
-summary: 碎界的官方門面 sr.hoshivel.com 上線——世界觀、玩法、章節與英雄一次看，並可直接於瀏覽器進入戰場。
+summary: 碎界的官方門面 sr.hoshivel.com 上線——世界觀、玩法、章節與英雄一次看，並可直接於瀏覽器進入戰場
 date: 2026-07-26T11:00:00Z
 tag: 碎界
 ---
