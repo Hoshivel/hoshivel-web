@@ -1,10 +1,11 @@
 /*
-  Hoshivel 官方門戶 —— 介面文案字典（三語）。
+  Hoshivel 官方門戶 —— 介面文案字典（四語）。
 
   慣例沿用家族（sr-web）：zh-Hant 為主語言與鍵的權威來源；
-  zh-CN / en 逐鍵齊備（型別強制完整，缺鍵編譯不過）。
+  zh-CN / ja / en 逐鍵齊備（型別強制完整，缺鍵編譯不過）。
   品牌名 Hoshivel 一律整詞使用：不拆字、不解字源、不加註解；
-  中文品牌名「星帆」與它並用，同樣是完整的詞。
+  中文品牌名「星帆」與它並用，同樣是完整的詞——但它是**中文**品牌名，
+  日文與英文頁一律只用 Hoshivel，不另立一個日文品牌名。
 
   ── 用語規則（全站一致，改文案前先看）──────────────
   · **句號看句數**：一句不加，兩句以上才加。標題、標籤、按鈕與標語一律不加。
@@ -18,7 +19,11 @@
   ─────────────────────────────────────────
 */
 
-export const LOCALES = ["zh-Hant", "zh-CN", "en"] as const;
+/*
+  陣列順序＝語言切換器與 sitemap 的呈現順序：三個漢字圈語系相鄰，
+  拉丁的 en 收尾。改順序只影響呈現，不影響路由。
+*/
+export const LOCALES = ["zh-Hant", "zh-CN", "ja", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "zh-Hant";
@@ -27,6 +32,7 @@ export const DEFAULT_LOCALE: Locale = "zh-Hant";
 export const LOCALE_PATH: Record<Locale, string> = {
   "zh-Hant": "",
   "zh-CN": "zh-cn",
+  ja: "ja",
   en: "en",
 };
 
@@ -34,6 +40,7 @@ export const LOCALE_PATH: Record<Locale, string> = {
 export const HTML_LANG: Record<Locale, string> = {
   "zh-Hant": "zh-Hant",
   "zh-CN": "zh-CN",
+  ja: "ja",
   en: "en",
 };
 
@@ -41,6 +48,7 @@ export const HTML_LANG: Record<Locale, string> = {
 export const OG_LOCALE: Record<Locale, string> = {
   "zh-Hant": "zh_Hant",
   "zh-CN": "zh_CN",
+  ja: "ja_JP",
   en: "en_US",
 };
 
@@ -48,6 +56,7 @@ export const OG_LOCALE: Record<Locale, string> = {
 export const DATE_LANG: Record<Locale, string> = {
   "zh-Hant": "zh-Hant-TW",
   "zh-CN": "zh-Hans-CN",
+  ja: "ja-JP",
   en: "en-US",
 };
 
@@ -55,6 +64,7 @@ export const DATE_LANG: Record<Locale, string> = {
 export const LOCALE_LABEL: Record<Locale, string> = {
   "zh-Hant": "正體中文",
   "zh-CN": "简体中文",
+  ja: "日本語",
   en: "English",
 };
 
@@ -62,7 +72,24 @@ export const LOCALE_LABEL: Record<Locale, string> = {
 export const LOCALE_SHORT: Record<Locale, string> = {
   "zh-Hant": "繁",
   "zh-CN": "简",
+  ja: "日",
   en: "EN",
+};
+
+/**
+ * 該語系要預載的漢字面子集檔（見 styles/fonts.css 與 scripts/subset-fonts.py）。
+ * 同一個碼位在三地的字形不同（関/關、発/發、直/直），所以 TC／SC／JP 各一支，
+ * 不能共用——共用的話日文頁的標題會是中文字形。
+ * 寫成 `Record<Locale, …>` 而不是三元運算：新增語系時漏填會編譯不過，
+ * 不會安靜地回退成正體那一支。
+ */
+export const HAN_FONT: Record<Locale, string> = {
+  "zh-Hant": "/fonts/noto-serif-tc-600.woff2",
+  "zh-CN": "/fonts/noto-serif-sc-600.woff2",
+  ja: "/fonts/noto-serif-jp-600.woff2",
+  // 英文頁沒有漢字，但拜耳字母（α β γ δ）這類 Playfair 未必有的字仍落在漢字面，
+  // 故維持既有行為：預載正體那一支。
+  en: "/fonts/noto-serif-tc-600.woff2",
 };
 
 // zh-Hant 為鍵的權威來源；其餘語言以 Record<UIKey, string> 強制對齊。
@@ -456,6 +483,212 @@ const zhCN: Record<UIKey, string> = {
   "notfound.back": "回首页",
 };
 
+/*
+  日本語 —— 漢字圈だが正體中文の訳ではない。以下は本語系だけの決めごと：
+
+  · 品牌名は「Hoshivel」のみ。中文品牌名「星帆」は**中文**の名前であり、
+    日本語に持ち込まない（日本語の品牌名を新たに立てることはしない）。
+  · 作品名は『Shattered Realms』。中文の「碎界」は日本語の字体では
+    「砕界」になってしまい、勝手に日本語題を作ることになるので使わない。
+  · 用語：ユーザーが持つのは「アカウント」、それを管理する画面は
+    「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
+  · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
+    読点「、」・コロン「：」・ダッシュ「——」は文の切れ目に数えない。
+*/
+const ja: Record<UIKey, string> = {
+  "site.name": "Hoshivel",
+  "site.tagline": "星々が、世界になる",
+  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
+  "site.creed": "ゲームをもうひとつの仕事にはしない、本当に遊ぶ価値のある世界だけを作る",
+  "site.motto": "速いことは世界に、遅いことは私たちに",
+  "site.summary":
+    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『Shattered Realms』を開発し、作品を長く動かし続けるためのサービスを自ら築いています。",
+
+  "nav.works": "作品",
+  "nav.news": "ニュース",
+  "nav.about": "私たちについて",
+  "nav.join": "参加する",
+
+  "cta.sr": "『Shattered Realms』を見る",
+  "cta.about": "私たちについて",
+  "cta.visit": "公式サイトへ",
+  "cta.detail": "作品の詳細",
+  "cta.detailService": "サービスの詳細",
+  "cta.allNews": "すべての更新を見る",
+  "cta.join": "協働の募集を見る",
+
+  "a11y.skip": "本文へスキップ",
+  "a11y.langMenu": "言語を切り替える",
+  "a11y.home": "ホームへ戻る",
+  "a11y.menu": "メニュー",
+  "a11y.external": "（外部リンク、新しいタブで開きます）",
+
+  "footer.summary": "一枚の帆から、満天の星へ",
+  "footer.worksLabel": "作品",
+  "footer.servicesLabel": "サービス",
+  "footer.orgLabel": "組織",
+  "footer.socialLabel": "コミュニティ",
+  "footer.langLabel": "言語",
+  "footer.github": "GitHub",
+  "footer.rights": "Hoshivel",
+
+  "home.hero.eyebrow": "独立系ゲーム・世界創作チーム",
+  /*
+    漢字も仮名も任意の二文字間で折れるため、正體中文と同じく改行を手で指定する
+    （作品名が途中で切られないように）。三行目は Hero 右側に星図が並ぶぶん
+    column が狭い——長くすると末尾の一文字だけが四行目に落ちるので、
+    ここは 25 文字前後を上限とみておくこと。
+  */
+  "home.hero.lead":
+    "Hoshivel は架空世界のターン制ストラテジー\n『Shattered Realms』を開発し、\n作品を長く支えるサービスを一つずつ築いています",
+
+  "home.works.eyebrow": "作品",
+  "home.works.title": "最初の世界を、隅々まで作る",
+  "home.works.lead":
+    "『Shattered Realms』は Hoshivel が全力で開発している最初の作品——章を重ねるごとに広がっていく架空世界を、第一章から長く遊ぶ価値のあるものにします",
+
+  "home.services.eyebrow": "サービス",
+  "home.services.title": "作品が世界に集中できるように",
+  "home.services.lead":
+    "ゲームの外側では、作品を長く支えるためのサービスを自ら作って動かしています",
+
+  "home.chart.title": "HOSHIVEL 星図",
+  "home.chart.note":
+    "輝く星は作品、環のついた星はそれを支えるサービス——押してみてください",
+
+  "home.news.eyebrow": "ニュース",
+  "home.news.title": "開発の記録",
+  "home.news.lead":
+    "完成した結果を並べるだけでなく、作品が少しずつ形になっていく過程も残しています：『Shattered Realms』の開発状況、世界設定、そして Hoshivel の最新情報",
+
+  "home.belief.source": "Hoshivel の仕事のしかた",
+
+  "home.join.title": "一緒に作る",
+  "home.join.lead":
+    "私たちは小さなコアチームで動いていて、案件単位・短期プロジェクト・柔軟なパートタイムという形で、一緒に成果を形にできる作り手を探しています",
+  "home.join.lead2":
+    "同じ方向を向いた仲間との出会いも待っています——作品を最後まで作りきり、その先の創作の道も一緒に歩いていける人と",
+
+  "works.eyebrow": "作品",
+  "works.title": "形になりつつある世界",
+  "works.lead":
+    "私たちが作っている世界と、それを長く動かし続けるためのサービス",
+  "label.work": "作品",
+  "label.service": "サービス",
+
+  "p.sr.name": "Shattered Realms",
+  "p.sr.latin": "SHATTERED REALMS",
+  "p.sr.kind": "架空世界 · 2D ターン制ストラテジー",
+  "p.sr.status": "開発中 · 公式サイト公開済み",
+  "p.sr.desc":
+    "虚空に浮かぶ砕けた大地の上で、ヘクスボードの戦闘、キャラクターの成長、ヒーローのスキル構成を通して、章ごとに広がっていく架空世界を探索します。ブラウザですぐに遊べ、ダウンロードは要りません。",
+  "p.sr.f1": "ヘクスボードの奥深い戦術——行動ポイント、地形の高低、戦場の霧",
+  "p.sr.f2": "章立ての世界——風雪の通過、星痕の紀元、物語は増え続けます",
+  "p.sr.f3": "近いノードへ振り分け、ブラウザですぐに遊べます",
+
+  "p.id.name": "Hoshi ID",
+  "p.id.latin": "UNIVERSAL ACCOUNT",
+  "p.id.kind": "共通アカウント · OpenID Connect 認証サービス",
+  "p.id.status": "公開中 · Shattered Realms 連携済み",
+  "p.id.desc":
+    "ひとつのアカウントで、すべての Hoshivel の世界へ。ログイン、アカウントの安全、連携済みサービスを Hoshi ID がまとめて扱うので、それぞれの作品は自分の世界に集中できます。",
+  "p.id.f1":
+    "ひとつのアカウントでシングルサインオン——一度の登録ですべての Hoshivel の世界へ",
+  "p.id.f2":
+    "アカウントセンター：プロフィール、ログイン履歴、連携済みサービスを一つの画面で管理",
+  "p.id.f3":
+    "アカウントの安全は Hoshi ID が一括して守り、各作品は自分のゲームデータだけを持ちます",
+
+  "about.eyebrow": "私たちについて",
+  "about.title": "Hoshivel について",
+  "about.lead":
+    "長い目で作品とサービスを作る、独立したゲーム・世界創作チーム",
+  "about.who.title": "私たちは何者か",
+  "about.who.body1":
+    "Hoshivel は独立系のゲーム・世界創作チームです。架空世界のターン制ストラテジー『Shattered Realms』を開発し、ひとつのアカウントで Hoshivel のすべての世界を行き来できる Hoshi ID を作りました。",
+  "about.who.body2":
+    "その世界が探索する価値のあるものか、その物語が覚えておく価値のあるものか、そして一回一回の遊びそのものが本当に面白いか——私たちが気にしているのはそちらです",
+
+  "about.creed.title": "ゲームはもうひとつの仕事ではない",
+  "about.creed.lead":
+    "プレイヤーには、本当に面白いゲームを手にする資格があると私たちは考えています",
+  "about.creed.no1":
+    "一日の疲れが残っていてもログインし、デイリーをこなし、スタミナを空にする——そんなもうひとつの仕事ではありません",
+  "about.creed.no2":
+    "継続率や課金率、売上曲線のために、楽しさを終わりのないデイリーと期限と不安に切り刻むこともしません",
+  "about.creed.no3":
+    "バージョンについていくために持たざるを得ない、明らかに性能過剰な「必須キャラ」を意図的に作り、販売期間が終わったころに性能を戻し、また次の「必須」を出す——そういうやり方もしません",
+  "about.creed.no4":
+    "繰り返しの作業、膨らみ続ける数値、「逃したら二度と手に入らない」という罰で、オンライン時間を長くすることもしません",
+  "about.creed.no5":
+    "短期の運営収益を、ゲーム性やコンテンツ、プレイヤーの体験より上に置くこともしません",
+  "about.creed.body1":
+    "ゲームはまずゲームであるべきです。新鮮で面白く、プレイヤーの時間を尊重するもの——義務や不安からではなく、楽しみにしているから開くものであってほしいと思います。",
+  "about.creed.body2":
+    "Hoshivel が作りたいのは、アイデアとゲーム性、そして世界そのものに動かされる作品です。収益は作品を存続させますが、その作品が何であるべきかを決めてしまってはいけません。",
+  "about.creed.close1":
+    "プレイヤーの時間をより効率よく消費させる仕組みを作りたいわけではありません",
+  "about.creed.close2":
+    "作りたいのは、新しくて面白く、本当に遊ぶ価値のあるゲームです",
+
+  "about.now.title": "いま取り組んでいること",
+  "about.now.body":
+    "『Shattered Realms』は開発中で、公式サイトはすでに公開しています。Hoshi ID も公開済みで、いまの『Shattered Realms』のログイン方法でもあります。次の重心は、『Shattered Realms』の章とゲーム性、アートを少しずつ埋めながら、それを支えるサービスも一緒に足場を固めていくことです。",
+  "about.values.title": "私たちが信じていること",
+  "about.v1.name": "遊ぶ価値があるから作る",
+  "about.v1.desc":
+    "ゲームは探索と思考を楽しむ場所であるべきで、毎日こなすノルマではありません。それを支えきれない設計は、入れません。",
+  "about.v2.name": "プレイヤーは同行者",
+  "about.v2.desc":
+    "プレイヤーは数字ではなく、一緒に歩く人です。何かを決めるときは、十年後のプレイヤーがどう見るかをまず考えます。",
+  "about.v3.name": "長く続くように作る",
+  "about.v3.desc":
+    "設計もアートもコミュニティも、「何年経っても成り立つか」を基準に作ります",
+  "about.contact.title": "お問い合わせ",
+  "about.contact.body":
+    "協業、取材、その他のご相談は、GitHub またはメールでご連絡ください",
+  "about.contact.social": "こちらでも見つけられます",
+
+  "join.eyebrow": "参加する",
+  "join.title": "一緒に作る",
+  "join.lead":
+    "Hoshivel はリモート中心の小さなチームです。案件単位・短期プロジェクト・柔軟なパートタイムという形で一緒に成果を形にできる作り手を探していますし、同じ方向を向いて長く歩ける仲間との出会いも待っています。",
+  "join.collab.title": "ここでいう「協働」とは",
+  "join.collab.body":
+    "多くの協働は、はっきりした一つの仕事から始まります：範囲、スケジュール、報酬を先に決めてから動きます。うまく進んで方向も合えば、そのまま続けます——短期は柔軟に、長期は並んで。",
+  "join.roles.title": "いま探している協働",
+  "join.mode.collab": "リモート · 柔軟な協働",
+  "join.mode.partner": "リモート · 長く並んで",
+  "join.kind.collab": "協働",
+  "join.kind.partner": "長期パートナー",
+  "join.apply.collab": "協働について話す",
+  "join.apply.partner": "長期の参加について話す",
+  "join.biz.title": "パブリッシングとビジネス",
+  "join.biz.body1":
+    "パブリッシャー、プラットフォーム、メディア、その他業界のパートナーからのご連絡も歓迎しています",
+  "join.biz.body2":
+    "私たちの作品が御社のプレイヤーと市場に合うと思われましたら、配信、プロモーション、イベントなど、さまざまな形の協業についてお話しできればと思います",
+  "join.biz.cta": "ビジネスのお問い合わせ",
+
+  "join.open.title": "上のどれにも当てはまりませんか？",
+  "join.open.body":
+    "それでも自己推薦は歓迎です。作品や GitHub を添えて、どの部分をより良くできるか教えてください——役割は後から決めれば大丈夫です。",
+  "join.how.title": "連絡のしかた",
+  "join.how.body":
+    "ポートフォリオか GitHub を添えてメールをいただければ、作りたいことについて話しましょう",
+
+  "news.eyebrow": "ニュース",
+  "news.title": "お知らせと更新",
+  "news.lead": "Hoshivel と各作品の最新情報",
+  "news.empty": "いまのところ、これ以上のお知らせはありません",
+  "news.back": "ニュースへ戻る",
+  "news.readMore": "続きを読む",
+
+  "notfound.title": "この夜空に、その星はまだありません",
+  "notfound.body": "お探しのページは存在しないか、別の場所へ移動しました",
+  "notfound.back": "ホームへ戻る",
+};
+
 const en: Record<UIKey, string> = {
   "site.name": "Hoshivel",
   "site.tagline": "Where Stars Become Worlds",
@@ -648,5 +881,6 @@ const en: Record<UIKey, string> = {
 export const ui: Record<Locale, Record<UIKey, string>> = {
   "zh-Hant": zhHant,
   "zh-CN": zhCN,
+  ja,
   en,
 };

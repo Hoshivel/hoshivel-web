@@ -18,11 +18,11 @@ Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms�
 - 全站固定星空：銀河漸層＋遠近兩層星點（建置期以固定種子生成，非 client JS）
 - 首頁主視覺＝ `WorksChart` 星圖：座標網、星座連線、刻度；亮星可點，直達作品段落
 - 品牌標記＝**星盤**（四芒星＋星盤環＋斜刻度；favicon 同版）
-- 章節以拜耳字母編號（α 作品、β 新聞、γ 關於、δ 協作，三語共用）——分配表在
+- 章節以拜耳字母編號（α 作品、β 新聞、γ 關於、δ 協作，各語系共用）——分配表在
   `src/lib/chapters.ts`，**字母屬於章節本身，不屬於它在某一頁上的位置**（首頁沒有
   「關於」一節，所以首頁看得到 α β δ，跳過 γ 是對的）；作品帶星表編號 `HV—01`，
   服務帶「服務」籤
-- 品牌字體**自行託管**：標題與字標＝ Playfair Display ＋ Noto Serif TC／SC 子集
+- 品牌字體**自行託管**：標題與字標＝ Playfair Display ＋ Noto Serif TC／SC／JP 子集
   （見下節）；內文黑體與編號等寬走系統字
 - 方正圖版（radius 2–6px）
 - 動效節制：reveal-on-scroll、星圖連線描出、少數星呼吸、星空微視差、極罕見流星
@@ -40,10 +40,10 @@ Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms�
 ## 技術棧
 
 - **Astro 5**（strict TS、純靜態輸出、零 client framework——連 React 都不需要）
-- 三語 i18n：**zh-Hant 掛根 `/`**（權威語言）、`/zh-cn`、`/en`；typed 字典缺鍵編譯不過
+- 四語 i18n：**zh-Hant 掛根 `/`**（權威語言）、`/zh-cn`、`/ja`、`/en`；typed 字典缺鍵編譯不過
 - 新聞走 **content collections**，稿件放在**專案根目錄 `news/`**（與 `src/` 平級，
   build 時讀 `./news/*.md`），發新聞＝丟一個 Markdown 檔
-- 招募職位放在**專案根目錄 `roles.config.ts`**（三語文案就地寫齊，不必動字典）
+- 招募職位放在**專案根目錄 `roles.config.ts`**（四語文案就地寫齊，不必動字典）
 - 設計 tokens 集中於 `src/styles/tokens.css`（`--hv-*`）；全站不寫裸 hex
 
 ## 開發
@@ -63,14 +63,22 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 | 面 | 字體 | 子集大小 |
 | --- | --- | --- |
 | 拉丁（字標骨架） | Playfair Display 600 | ~12 KB |
-| 漢字（正體頁） | Noto Serif TC 600 | ~147 KB |
-| 漢字（簡體頁） | Noto Serif SC 600 | ~165 KB |
+| 漢字（正體頁） | Noto Serif TC 600 | ~186 KB |
+| 漢字（簡體頁） | Noto Serif SC 600 | ~216 KB |
+| 漢字・假名（日文頁） | Noto Serif JP 600 | ~218 KB |
+
+漢字面分三支不是因為字集不同，是因為**字形**不同——関/關、発/發 在三地長得不一樣，
+共用一支會讓日文頁長出中文字形，那比回退到系統明體更難察覺。
 
 `scripts/subset-fonts.py` 從 `src/i18n/ui.ts`、`news/*.md`、`roles.config.ts` 收集「站上真的會
-出現的字」做子集（另含一份常用字保底表），輸出到 `public/fonts/`。原始字檔（17–25 MB）
-快取於 `scripts/.fontcache/`，已 gitignore。**發新聞或改招募文案後若某些字掉回系統明體，跑一次
-`npm run fonts` 即可。** 兩支漢字面不設 `unicode-range`：各語系頁的堆疊只點名自己那支，
-正體頁不會下載簡體檔。
+出現的字」做子集，輸出到 `public/fonts/`。原始字檔（17–25 MB）快取於 `scripts/.fontcache/`，
+已 gitignore。**發新聞或改協作文案後若某些字掉回系統明體，跑一次 `npm run fonts` 即可。**
+
+保底表**各歸各的書寫系統**：中文常用字只墊 TC／SC，整套假名只墊 JP。假名尤其要濾——
+Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就會在中文頁各多背約 190 個
+永遠排不到的字（約 47 KB）。真實用字則三支共用，理由見上一段。
+
+三支漢字面不設 `unicode-range`：各語系頁的堆疊只點名自己那支，正體頁不會下載簡體或日文檔。
 
 ## 內容維護
 
@@ -78,12 +86,12 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 
 | 要改什麼 | 改哪裡 |
 | --- | --- |
-| 發新聞 | **`news/<slug>.<locale>.md`**（三語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
-| 協作方向增減／文案 | **`roles.config.ts`**（三語就地寫齊；`open: false` 暫時下架；`kind: "partner"` 改為長期夥伴） |
+| 發新聞 | **`news/<slug>.<locale>.md`**（四語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
+| 協作方向增減／文案 | **`roles.config.ts`**（四語就地寫齊；`open: false` 暫時下架；`kind: "partner"` 改為長期夥伴） |
 | 新作品 | `src/lib/catalog.ts` 的 `WORKS`（含星表編號）＋ 字典 `p.*` 鍵 ＋ `tokens.css` 識別色 |
 | 新服務 | `src/lib/catalog.ts` 的 `SERVICES`（不給編號）＋ 字典 `p.*` 鍵 |
 | 站上出現新字（發新聞或改招募後） | `npm run fonts` 重出字體子集 |
-| 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，三語逐鍵對齊） |
+| 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，四語逐鍵對齊） |
 | 組織連結／信箱／社群 | `src/lib/site.ts`（`SOCIAL_LINKS` 為社群入口的唯一來源） |
 
 ### 招募：預設是協作，不是職缺

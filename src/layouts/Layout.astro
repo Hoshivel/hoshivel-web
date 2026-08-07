@@ -9,6 +9,7 @@ import {
   stripLocalePrefix,
   HTML_LANG,
   OG_LOCALE,
+  HAN_FONT,
   LOCALES,
   DEFAULT_LOCALE,
   type Locale,
@@ -69,9 +70,7 @@ const xDefault = Astro.site
       rel="preload"
       as="font"
       type="font/woff2"
-      href={locale === "zh-CN"
-        ? "/fonts/noto-serif-sc-600.woff2"
-        : "/fonts/noto-serif-tc-600.woff2"}
+      href={HAN_FONT[locale]}
       crossorigin
     />
     <link rel="canonical" href={canonical} />

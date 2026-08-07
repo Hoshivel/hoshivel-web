@@ -22,7 +22,7 @@ export const CHAPTER = {
 
 export type ChapterName = keyof typeof CHAPTER;
 
-/** 章節的拜耳記號（三語共用；希臘字母不隨語言變）。 */
+/** 章節的拜耳記號（各語系共用；希臘字母不隨語言變）。 */
 export function chapterMark(name: ChapterName): string {
   return bayer(CHAPTER[name]);
 }

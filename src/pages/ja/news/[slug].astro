@@ -1,0 +1,19 @@
+---
+import NewsPostPage from "@/components/pages/NewsPostPage.astro";
+import { getNewsForLocale, type NewsEntry } from "@/lib/news";
+
+export async function getStaticPaths() {
+  const posts = await getNewsForLocale("ja");
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: NewsEntry;
+}
+const { post } = Astro.props;
+---
+
+<NewsPostPage locale="ja" post={post} />

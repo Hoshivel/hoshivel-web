@@ -1,6 +1,6 @@
 /*
   /sitemap.xml —— 手捲 sitemap（零依賴），列出全部內容頁並互標 hreflang。
-  邏輯頁 × 三語系 ＋ 新聞內頁（以邏輯 slug 跨語系互標）。
+  邏輯頁 × 四語系 ＋ 新聞內頁（以邏輯 slug 跨語系互標）。
   靜態站預渲染為靜態檔；robots.txt 指向此處。
 */
 import type { APIRoute } from "astro";

@@ -16,6 +16,6 @@ This site will be Hoshivel's home on the web:
 - **News** — announcements from the organization and each work;
 - **About / Join us** — who we are, what we believe, and the companions we are looking for.
 
-The site is available in Traditional Chinese, Simplified Chinese and English, and is built to be light and accessible — no excess effects; the speed belongs to the content.
+The site is available in Traditional Chinese, Simplified Chinese, Japanese and English, and is built to be light and accessible — no excess effects; the speed belongs to the content.
 
 Let the world keep the fast things; we keep the slow ones. Welcome in — and do come back.
