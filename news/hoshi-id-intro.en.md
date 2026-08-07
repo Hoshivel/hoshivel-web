@@ -2,7 +2,7 @@
 slug: hoshi-id-intro
 locale: en
 title: "Hoshi ID is live — one account for all of Hoshivel"
-summary: Hoshivel's universal account service launches with OpenID Connect single sign-on, an account center and secure session management — Shattered Realms is connected first.
+summary: Hoshivel's universal account service launches with OpenID Connect single sign-on, an account center and secure session management — Shattered Realms is connected first
 date: 2026-07-26T10:00:00Z
 tag: Hoshi ID
 ---

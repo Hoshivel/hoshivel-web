@@ -2,7 +2,7 @@
 slug: shattered-realms-site
 locale: en
 title: "The Shattered Realms official site is public"
-summary: The official face of Shattered Realms is live at sr.hoshivel.com — world, gameplay, chapters and heroes, with battles playable right in the browser.
+summary: The official face of Shattered Realms is live at sr.hoshivel.com — world, gameplay, chapters and heroes, with battles playable right in the browser
 date: 2026-07-26T11:00:00Z
 tag: Shattered Realms
 ---

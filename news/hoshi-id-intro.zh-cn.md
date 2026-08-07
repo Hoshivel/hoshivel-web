@@ -2,7 +2,7 @@
 slug: hoshi-id-intro
 locale: zh-CN
 title: Hoshi ID 上线——一个账号，通行 Hoshivel
-summary: Hoshivel 的通用账号服务正式启用：OpenID Connect 单点登录、账户中心与安全会话管理，《碎界》已率先接入。
+summary: Hoshivel 的通用账号服务正式启用：OpenID Connect 单点登录、账户中心与安全会话管理，《碎界》已率先接入
 date: 2026-07-26T10:00:00Z
 tag: Hoshi ID
 ---
