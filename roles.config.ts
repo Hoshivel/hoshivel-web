@@ -1,32 +1,32 @@
 /*
-  招募設定 —— 「加入我們」職位資訊的唯一來源。
+  協作設定 —— 「加入我們」頁面上「目前的協作方向」的唯一來源。
 
-  刻意放在專案根目錄（與 `src/`、`news/` 平級）：招募調整頻繁，
-  不必進到程式碼裡改。增刪一個位置＝只改這一個檔，三語文案就地寫齊，
+  刻意放在專案根目錄（與 `src/`、`news/` 平級）：這裡調整頻繁，
+  不必進到程式碼裡改。增刪一個方向＝只改這一個檔，三語文案就地寫齊，
   不再散落到 `src/i18n/ui.ts` 的字典鍵。
 
   ── 常用操作 ────────────────────────────────────────────
   · 新增：在 ROLES 陣列尾端加一筆（zh-Hant 必填，其餘缺了自動回退）
   · 暫時下架：該筆加 `open: false`（保留資料，頁面不顯示）
-  · 一般職缺（非合夥）：該筆加 `kind: "hire"`
-  · 全站預設招募型態：改 DEFAULT_ROLE_KIND
+  · 長期夥伴（非按件協作）：該筆加 `kind: "partner"`
+  · 全站預設型態：改 DEFAULT_ROLE_KIND
   ─────────────────────────────────────────────────────
   （聯繫信箱與社群連結見 `src/lib/site.ts`；此檔不依賴任何模組。）
 */
 
 /**
- * 招募型態。
- * `partner` 合夥人——共同決定要做什麼、共同承擔結果（Hoshivel 的預設）。
- * `hire` 一般職缺——明確分工的受聘角色。
+ * 協作型態。
+ * `collab`  協作——按件、短期專案或彈性兼職，範圍與報酬先談清楚再開始（預設）。
+ * `partner` 長期夥伴——參與作品方向、長期同行；通常由既有協作延續而來。
  */
-export type RoleKind = "partner" | "hire";
+export type RoleKind = "collab" | "partner";
 
-/** 未標註 `kind` 的位置一律視為合夥人。 */
-export const DEFAULT_ROLE_KIND: RoleKind = "partner";
+/** 未標註 `kind` 的位置一律視為協作。 */
+export const DEFAULT_ROLE_KIND: RoleKind = "collab";
 
 /** 一個位置的文案（單一語言）。 */
 export interface RoleText {
-  /** 職稱（如「美術合夥人」）。 */
+  /** 職稱（如「視覺與美術協作者」）。 */
   title: string;
   /** 所屬範疇（作品或領域）。 */
   area: string;
@@ -46,7 +46,7 @@ export interface RoleTextByLocale {
 export interface RoleEntry {
   /** 穩定識別（頁內錨點 `#id` 與 mailto 主旨用；小寫英數與連字號）。 */
   id: string;
-  /** 招募型態；省略＝ DEFAULT_ROLE_KIND（合夥人）。 */
+  /** 協作型態；省略＝ DEFAULT_ROLE_KIND（協作）。 */
   kind?: RoleKind;
   /** 是否公開；省略＝公開。設 `false` 可暫時下架而不刪資料。 */
   open?: boolean;
@@ -55,71 +55,73 @@ export interface RoleEntry {
 
 export const ROLES: RoleEntry[] = [
   {
-    id: "artist-2d",
+    id: "visual-art",
     text: {
       "zh-Hant": {
-        title: "美術合夥人",
-        area: "碎界 Shattered Realms · 2D／立繪",
-        desc: "為《碎界》的英雄與章節世界定調——立繪、關鍵美術，以及整個世界該長什麼樣子。目前全站以程序化圖形佔位，等的就是你的筆。",
-        skills: "角色立繪 · 世界觀美術 · 熱愛 2D 遊戲美術",
+        title: "視覺與美術協作者",
+        area: "碎界 Shattered Realms · 立繪與視覺",
+        desc: "參與角色立繪、宣傳素材、場景概念與視覺風格的整理。數位繪製或 AI 輔助流程都可以，我們看重的是明確的美術判斷、後期修整的能力，以及讓整個世界看起來是同一個世界的意識。",
+        skills: "角色立繪 · 場景與概念 · 後期修整 · 風格一致性",
       },
       "zh-CN": {
-        title: "美术合伙人",
-        area: "碎界 Shattered Realms · 2D／立绘",
-        desc: "为《碎界》的英雄与章节世界定调——立绘、关键美术，以及整个世界该长什么样子。目前全站以程序化图形占位，等的就是你的笔。",
-        skills: "角色立绘 · 世界观美术 · 热爱 2D 游戏美术",
+        title: "视觉与美术协作者",
+        area: "碎界 Shattered Realms · 立绘与视觉",
+        desc: "参与角色立绘、宣传素材、场景概念与视觉风格的整理。数字绘制或 AI 辅助流程都可以，我们看重的是明确的美术判断、后期修整的能力，以及让整个世界看起来是同一个世界的意识。",
+        skills: "角色立绘 · 场景与概念 · 后期修整 · 风格一致性",
       },
       en: {
-        title: "Art Partner",
-        area: "Shattered Realms · 2D & character art",
-        desc: "Set the visual key of Shattered Realms — hero portraits, key art, and what the whole world should look like. Today the site runs on procedural placeholders, waiting for your brush.",
-        skills: "Character illustration · World art · A love for 2D game art",
+        title: "Visual & art collaborator",
+        area: "Shattered Realms · character art and visual direction",
+        desc: "Character illustration, promotional art, scene concepts, and keeping the visual language coherent. Digital painting or AI-assisted workflows are both fine — what we look for is clear art judgement, the skill to finish and retouch, and an eye for keeping one world looking like one world.",
+        skills: "Character art · Scenes & concepts · Retouching · Consistency",
       },
     },
   },
   {
-    id: "frontend-gameplay",
+    id: "promo-content",
     text: {
       "zh-Hant": {
-        title: "前端／玩法合夥人",
-        area: "碎界與官網家族",
-        desc: "以 TypeScript 打造遊戲前端與官網體驗：從六角棋盤的互動手感，到靜態站的細節打磨。玩法怎麼摸起來對，由你和我們一起決定。",
-        skills: "TypeScript · React 或 Astro · 在意效能與可存取性",
+        title: "宣發與內容協作者",
+        area: "碎界 Shattered Realms · 內容宣傳與社群",
+        desc: "參與作品對外內容的規劃與製作，包括社群內容、宣傳文案、短片與素材整理、發布節奏，以及與玩家的日常溝通。我們不追求單純堆曝光或追逐熱點，更希望找到能真正理解作品、知道該如何把它介紹給玩家的人。",
+        skills: "社群內容 · 宣傳文案 · 短片剪輯 · 發布規劃 · 玩家溝通",
       },
       "zh-CN": {
-        title: "前端／玩法合伙人",
-        area: "碎界与官网家族",
-        desc: "以 TypeScript 打造游戏前端与官网体验：从六角棋盘的交互手感，到静态站的细节打磨。玩法怎么摸起来对，由你和我们一起决定。",
-        skills: "TypeScript · React 或 Astro · 在意性能与可访问性",
+        title: "宣发与内容协作者",
+        area: "碎界 Shattered Realms · 内容宣传与社区",
+        desc: "参与作品对外内容的规划与制作，包括社区内容、宣传文案、短片与素材整理、发布节奏，以及与玩家的日常沟通。我们不追求单纯堆曝光或追逐热点，更希望找到能真正理解作品、知道该如何把它介绍给玩家的人。",
+        skills: "社区内容 · 宣传文案 · 短片剪辑 · 发布规划 · 玩家沟通",
       },
       en: {
-        title: "Front-end / Gameplay Partner",
-        area: "Shattered Realms & the web family",
-        desc: "Build the game front-end and our web experiences in TypeScript — from the feel of hex-board interaction to the fine details of static sites. How the game should feel is a call we make together.",
-        skills: "TypeScript · React or Astro · Care for performance and accessibility",
+        title: "Marketing & content collaborator",
+        area: "Shattered Realms · content, promotion and community",
+        desc: "Planning and making the work's outward-facing content: community posts, promotional copy, short video and asset wrangling, release cadence, and the day-to-day conversation with players. We aren't chasing raw impressions or whatever is trending — we're looking for someone who genuinely understands the work and knows how to introduce it to players.",
+        skills:
+          "Community content · Promo copy · Short-form video · Release planning · Player comms",
       },
     },
   },
   {
-    id: "backend",
+    id: "tech-partner",
+    kind: "partner",
     text: {
       "zh-Hant": {
-        title: "後端合夥人",
-        area: "Hoshi ID 與遊戲服務",
-        desc: "用 Go 打造帳號、分流與遊戲伺服器等長期運行的服務——小而可靠，不堆多餘相依。這是撐住作品的地基，架構得一起想清楚。",
-        skills: "Go · 分散式基礎 · 重視簡潔與可維運性",
+        title: "長期技術夥伴",
+        area: "核心後端與基礎服務",
+        desc: "核心後端與基礎服務暫時不以一般兼職的方式擴張。若你曾與我們完成過實際的專案，也希望長期參與作品的方向，歡迎進一步聊聊加入核心團隊。",
+        skills: "Go · 長期投入 · 有共同完成過的專案",
       },
       "zh-CN": {
-        title: "后端合伙人",
-        area: "Hoshi ID 与游戏服务",
-        desc: "用 Go 打造账号、分流与游戏服务器等长期运行的服务——小而可靠，不堆多余依赖。这是撑住作品的地基，架构得一起想清楚。",
-        skills: "Go · 分布式基础 · 重视简洁与可运维性",
+        title: "长期技术伙伴",
+        area: "核心后端与基础服务",
+        desc: "核心后端与基础服务暂时不以一般兼职的方式扩张。若你曾与我们完成过实际的项目，也希望长期参与作品的方向，欢迎进一步聊聊加入核心团队。",
+        skills: "Go · 长期投入 · 有共同完成过的项目",
       },
       en: {
-        title: "Back-end Partner",
-        area: "Hoshi ID & game services",
-        desc: "Build long-running services in Go — accounts, routing, game servers. Small, reliable, no excess dependencies. This is the ground the work stands on; the architecture is something we think through together.",
-        skills: "Go · Distributed fundamentals · A taste for simplicity and operability",
+        title: "Long-term technical partner",
+        area: "Core back-end & platform services",
+        desc: "We aren't expanding the core back-end and platform services through ordinary part-time work for now. If you've already shipped something real with us and want a long-term hand in where the work goes, let's talk about joining the core team.",
+        skills: "Go · Long-term commitment · A project finished together",
       },
     },
   },

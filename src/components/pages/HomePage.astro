@@ -1,15 +1,19 @@
 ---
 /*
   首頁 —— 星圖版式。
-  節奏：Hero（題詞 ＋ Hoshivel 星圖）→ α 作品 → 服務 → β 新聞 → 理念一句 → γ 同行。
+  重心：品牌 →《碎界》→ 支撐它的服務 → 開發動態 → 協作。
+  節奏：Hero（題詞 ＋ 定位一句 ＋ Hoshivel 星圖）→ α 作品 → 服務 → β 動態
+       → 理念一句 → δ 協作。
   主視覺是那張星圖：作品即星、服務為環；其餘一律以留白與髮絲線立大氣。
-  服務區不編拜耳字母——它不是作品，以環標記號另立一節。
+  服務區不編拜耳字母——它不是作品，以環標記號另立一節；
+  章節字母一律向 `lib/chapters.ts` 要，不在頁面裡寫死（否則首頁與獨立頁會漂移）。
 */
 import Layout from "@/layouts/Layout.astro";
 import WorksChart from "@/components/sky/WorksChart.astro";
 import EntryCard from "@/components/EntryCard.astro";
 import NewsCard from "@/components/NewsCard.astro";
-import { useTranslations, localizedPath, bayer, type Locale } from "@/i18n/utils";
+import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
+import { chapterMark } from "@/lib/chapters";
 import { WORKS, SERVICES } from "@/lib/catalog";
 import { getNewsForLocale } from "@/lib/news";
 
@@ -38,10 +42,11 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
               </p>
             )
           }
+          <p class="hv-hero__creed hv-display" data-reveal>{t("site.creed")}</p>
           <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
           <div class="hv-hero__cta" data-reveal>
             <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
-              {t("cta.works")}
+              {t("cta.sr")}
             </a>
             <a class="hv-btn hv-btn--ghost" href={localizedPath(locale, "/about")}>
               {t("cta.about")}
@@ -63,7 +68,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       <div class="hv-container">
         <div class="hv-section-head">
           <p class="hv-eyebrow" data-reveal>
-            <span class="hv-eyebrow__mark">{bayer(1)}</span>
+            <span class="hv-eyebrow__mark">{chapterMark("works")}</span>
             {t("home.works.eyebrow")}
           </p>
           <h2 data-reveal>{t("home.works.title")}</h2>
@@ -92,16 +97,17 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- β 新聞 -->
+    <!-- β 開發動態 -->
     <section class="hv-section hv-home-news">
       <div class="hv-container">
         <div class="hv-home-news__head">
           <div class="hv-section-head">
             <p class="hv-eyebrow" data-reveal>
-              <span class="hv-eyebrow__mark">{bayer(2)}</span>
+              <span class="hv-eyebrow__mark">{chapterMark("news")}</span>
               {t("home.news.eyebrow")}
             </p>
             <h2 data-reveal>{t("home.news.title")}</h2>
+            <p class="hv-lead" data-reveal>{t("home.news.lead")}</p>
           </div>
           <a class="hv-more" href={localizedPath(locale, "/news")} data-reveal>
             {t("cta.allNews")}
@@ -120,7 +126,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
           <svg class="hv-home-belief__star" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 1 Q13 11 23 12 Q13 13 12 23 Q11 13 1 12 Q11 11 12 1 Z"></path>
           </svg>
-          <p class="hv-display">{t("home.belief.quote")}</p>
+          <p class="hv-display">{t("site.motto")}</p>
           <footer>
             <a class="hv-home-belief__source" href={localizedPath(locale, "/about")}>
               {t("home.belief.source")}
@@ -130,17 +136,18 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- γ 加入我們 -->
+    <!-- δ 協作 -->
     <section class="hv-section hv-home-join">
       <div class="hv-container">
         <div class="hv-home-join__card" data-reveal>
           <div>
             <p class="hv-eyebrow">
-              <span class="hv-eyebrow__mark">{bayer(3)}</span>
+              <span class="hv-eyebrow__mark">{chapterMark("join")}</span>
               {t("nav.join")}
             </p>
             <h2 class="hv-home-join__title hv-display">{t("home.join.title")}</h2>
             <p class="hv-lead hv-home-join__lead">{t("home.join.lead")}</p>
+            <p class="hv-lead hv-home-join__lead">{t("home.join.lead2")}</p>
           </div>
           <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/join")}>
             {t("cta.join")}
@@ -177,9 +184,37 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     letter-spacing: var(--hv-tracking-wider);
     color: var(--hv-gold);
   }
+  /*
+    定位一句：位階在題詞之下、導語之上——明體、星光色，以一道短金線起頭。
+    不設 ch 寬限（CJK 下 ch ≈ 半字寬，限出來的行寬不是想要的那個）。
+  */
+  .hv-hero__creed {
+    margin-top: var(--hv-space-8);
+    font-size: var(--hv-text-lg);
+    line-height: 1.55;
+  }
+  .hv-hero__creed::before {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    margin-bottom: var(--hv-space-4);
+    background: var(--hv-line-gold);
+  }
+  /*
+    導語的斷行由字典裡的 `\n` 決定（見 `i18n/ui.ts` 的 `home.hero.lead`）：
+    漢字可在任兩字之間斷開，交給瀏覽器會把《碎界 Shattered Realms》攔腰截斷。
+    `pre-line` 只落實那幾個換行，行內仍正常回流——窄螢幕照樣自己再折。
+  */
   .hv-hero__lead {
     margin-top: var(--hv-space-6);
     max-width: 46ch;
+    white-space: pre-line;
+    /*
+      窄螢幕上第一段仍需再折一次；不平衡的話會掉出「略遊戲」這種三字孤行。
+      桌機上三段各自單行，balance 無事可做——只在該出手時出手。
+    */
+    text-wrap: balance;
   }
   .hv-hero__cta {
     display: flex;
@@ -218,11 +253,20 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     );
     border-block: 1px solid var(--hv-line);
   }
+  /*
+    標題組與「查看所有動態」同一列；窄螢幕整條換行。
+    （標題組多了導語之後，不換行的話收縮預算會全被它吃掉，
+    連結會被壓成一字一行的細長條。）
+  */
   .hv-home-news__head {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--hv-space-6);
+  }
+  .hv-home-news__head > .hv-more {
+    flex-shrink: 0;
   }
   .hv-home-news__grid {
     display: grid;
@@ -299,6 +343,10 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
   .hv-home-join__lead {
     margin-top: var(--hv-space-3);
     max-width: 46ch;
+  }
+  /* 第二段（長期夥伴）：與第一段之間拉開一個段落的呼吸 */
+  .hv-home-join__lead + .hv-home-join__lead {
+    margin-top: var(--hv-space-4);
   }
   @media (max-width: 760px) {
     .hv-home-join__card {

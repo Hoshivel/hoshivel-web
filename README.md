@@ -1,6 +1,6 @@
 # hoshivel-web —— Hoshivel 官方門戶
 
-Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi ID）、新聞、關於、加入我們。
+Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi ID）、新聞、關於、加入我們。
 
 ## 設計語言：「星圖 Celestial Atlas」
 
@@ -8,7 +8,9 @@ Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi 
 門戶走第三極：**古星圖銅版**——墨藍的夜、星光的字、一種星金，
 細如髮的星圖線與方正的圖版邊角。不是科幻太空，是量測用的星表圖版。
 
-正式題詞：**讓星辰，成為世界。**（Where Stars Become Worlds.）
+正式題詞：**讓星辰，成為世界**（Where Stars Become Worlds）
+定位第二句（Hero 內，位階小於題詞）：**不把遊戲做成另一份工作，只做真正值得玩的世界**
+做事方式（首頁間奏與關於頁共用同一個鍵 `site.motto`）：**快的事情交給世界，慢的事情留給我們**
 
 核心命題：**作品即星**。門戶是 Hoshivel 的星圖，每一件作品是圖上一顆亮星；
 **服務不是作品**——Hoshi ID 這類基礎設施在圖上以環標呈現，不佔作品編號。
@@ -16,7 +18,10 @@ Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi 
 - 全站固定星空：銀河漸層＋遠近兩層星點（建置期以固定種子生成，非 client JS）
 - 首頁主視覺＝ `WorksChart` 星圖：座標網、星座連線、刻度；亮星可點，直達作品段落
 - 品牌標記＝**星盤**（四芒星＋星盤環＋斜刻度；favicon 同版）
-- 章節以拜耳字母編號（α β γ δ，三語共用）；作品帶星表編號 `HV—01`，服務帶「服務」籤
+- 章節以拜耳字母編號（α 作品、β 新聞、γ 關於、δ 協作，三語共用）——分配表在
+  `src/lib/chapters.ts`，**字母屬於章節本身，不屬於它在某一頁上的位置**（首頁沒有
+  「關於」一節，所以首頁看得到 α β δ，跳過 γ 是對的）；作品帶星表編號 `HV—01`，
+  服務帶「服務」籤
 - 品牌字體**自行託管**：標題與字標＝ Playfair Display ＋ Noto Serif TC／SC 子集
   （見下節）；內文黑體與編號等寬走系統字
 - 方正圖版（radius 2–6px）
@@ -24,6 +29,13 @@ Hoshivel 的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi 
   ——全部隨 `prefers-reduced-motion` 關閉
 
 > **品牌名 Hoshivel 是一個完整的詞**：站上文案、註解與圖檔一律不拆字、不解字源。
+> 中文品牌名為**星帆**，與 Hoshivel 並用（首頁導語作「星帆（Hoshivel）」，
+> 站尾署名作「始於星帆，盛於繁星」）；它同樣是完整的詞，這條規則照樣適用。
+
+> **句號規則**：**一句不加，兩句以上才加。** 標題、標籤、按鈕與標語一律不加。
+> 硬換行（`\n`）不影響判斷——`home.hero.lead` 排成三行仍是一句，不加；
+> 分號、冒號、破折號也都不算斷句。沒有例外區塊。
+> 這條規則 `astro check` 驗不到（型別只管鍵齊不齊，不管標點），改文案時自己看。
 
 ## 技術棧
 
@@ -67,18 +79,20 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 | 要改什麼 | 改哪裡 |
 | --- | --- |
 | 發新聞 | **`news/<slug>.<locale>.md`**（三語各一檔，共用 frontmatter `slug`；缺譯自動回退 zh-Hant） |
-| 職位增減／文案 | **`roles.config.ts`**（三語就地寫齊；`open: false` 暫時下架；`kind: "hire"` 改為一般職缺） |
+| 協作方向增減／文案 | **`roles.config.ts`**（三語就地寫齊；`open: false` 暫時下架；`kind: "partner"` 改為長期夥伴） |
 | 新作品 | `src/lib/catalog.ts` 的 `WORKS`（含星表編號）＋ 字典 `p.*` 鍵 ＋ `tokens.css` 識別色 |
 | 新服務 | `src/lib/catalog.ts` 的 `SERVICES`（不給編號）＋ 字典 `p.*` 鍵 |
 | 站上出現新字（發新聞或改招募後） | `npm run fonts` 重出字體子集 |
 | 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，三語逐鍵對齊） |
 | 組織連結／信箱／社群 | `src/lib/site.ts`（`SOCIAL_LINKS` 為社群入口的唯一來源） |
 
-### 招募：預設招合夥人
+### 招募：預設是協作，不是職缺
 
-門戶的預設立場是**找合夥人**，不是招聘——一起決定要做什麼、一起承擔結果。
-`roles.config.ts` 中未標 `kind` 的位置一律視為合夥人（`DEFAULT_ROLE_KIND`），
-卡上的型態籤與應徵字樣（乃至 mailto 主旨 `[Partner]` / `[Join]`）都跟著它走。
+門戶的預設立場是**短期彈性協作**——按件、短期專案或彈性兼職，範圍與報酬先談
+清楚再開始；合作順了、方向也對得上，再談長期。`roles.config.ts` 中未標 `kind`
+的位置一律視為協作（`DEFAULT_ROLE_KIND = "collab"`），標 `kind: "partner"` 的
+則是**長期夥伴**（核心後端目前是這一類）。卡上的型態籤、洽談字樣與 mailto 主旨
+（`[Collab]` / `[Partner]`）都跟著它走。
 
 ## 部署（hoshivel.com）
 
@@ -100,7 +114,9 @@ npm run fonts    # 重出自訂字體子集（需 pip install fonttools brotli�
 2. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL` 設 `https://id.hoshivel.com`
    （同上推定）；設為 `null` 可隱藏外部按鈕。
 3. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
-4. **招募位置**：`roles.config.ts` 為首發範例（美術／前端／後端合夥人），請按實際需求調整。
+4. **協作方向**：`roles.config.ts` 目前為視覺與美術（協作）＋長期技術夥伴
+   （partner），請按實際需求調整。按件協作只開視覺一項，首頁的協作導語因此
+   不列舉工種——要再開程式類的按件協作，記得把那句話一起改回來。
 5. **社群帳號**：`src/lib/site.ts` 的 `SOCIAL_LINKS`——X／YouTube／GitHub 皆為 `hoshivel`；
    Reddit 目前指向使用者頁 `u/hoshivel`，日後若開 `r/hoshivel` 版改該行即可。
 

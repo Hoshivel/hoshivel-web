@@ -1,14 +1,15 @@
 ---
 /*
-  加入我們 —— 合夥人說明 → 開放位置（圖版卡列）→ 開放式申請 → 如何聯繫。
-  Hoshivel 預設招的是合夥人（非雇員）；個別位置可在 roles.config.ts 標
-  `kind: "hire"` 改為一般職缺，卡上的型態籤與應徵字樣跟著換。
-  角色卡：明體職稱＋型態籤／範疇／模式 → 描述 → 期待的能力 → mailto 應徵
-  （主旨自動帶職稱，降低申請摩擦）。
+  加入我們 —— 協作說明 → 目前的方向（圖版卡列）→ 開放式自我推薦 → 如何聯繫。
+  預設是**協作**（按件／短期專案／彈性兼職）；個別位置可在 roles.config.ts 標
+  `kind: "partner"` 改為長期夥伴，卡上的型態籤與洽談字樣跟著換。
+  角色卡：明體職稱＋型態籤／範疇／模式 → 描述 → 期待的能力 → mailto 洽談
+  （主旨自動帶職稱，降低來信摩擦）。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
-import { useTranslations, bayer, type Locale } from "@/i18n/utils";
+import { useTranslations, type Locale } from "@/i18n/utils";
+import { chapterMark } from "@/lib/chapters";
 import { getRoles, type RoleKind } from "@/lib/roles";
 import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site";
 
@@ -19,30 +20,35 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const roles = getRoles(locale);
 
-/** 信件主旨以型態分流，收信端一眼可分（合夥洽談 vs. 一般應徵）。 */
+/** 信件主旨以型態分流，收信端一眼可分（長期夥伴 vs. 一般協作）。 */
 const applyHref = (kind: RoleKind, roleTitle: string) => {
-  const prefix = kind === "partner" ? "Partner" : "Join";
+  const prefix = kind === "partner" ? "Partner" : "Collab";
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[${prefix}] ${roleTitle}`)}`;
 };
+
+/** 商務來信走 `[Business]`：對象是公司，不該和個人協作的來信混在一起。 */
+const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  `[Business] ${t("join.biz.title")}`,
+)}`;
 ---
 
 <Layout locale={locale} title={t("nav.join")} description={t("join.lead")}>
   <main id="main">
     <PageHero
-      mark={bayer(4)}
+      mark={chapterMark("join")}
       eyebrow={t("join.eyebrow")}
       title={t("join.title")}
       lead={t("join.lead")}
     />
 
-    <!-- 合夥人是什麼意思：先把關係說清楚，再談位置 -->
-    <section class="hv-partner" aria-labelledby="join-partner">
+    <!-- 協作是什麼意思：先把關係說清楚，再談方向 -->
+    <section class="hv-collab" aria-labelledby="join-collab">
       <div class="hv-container">
-        <div class="hv-plate hv-partner__card" data-reveal>
-          <h2 id="join-partner" class="hv-join__h2 hv-display">
-            {t("join.partner.title")}
+        <div class="hv-plate hv-collab__card" data-reveal>
+          <h2 id="join-collab" class="hv-join__h2 hv-display">
+            {t("join.collab.title")}
           </h2>
-          <p class="hv-partner__body">{t("join.partner.body")}</p>
+          <p class="hv-collab__body">{t("join.collab.body")}</p>
         </div>
       </div>
     </section>
@@ -69,7 +75,7 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
                     <span class="hv-join-role__dot" aria-hidden="true">
                       ·
                     </span>
-                    <span>{t("join.mode.remote")}</span>
+                    <span>{t(`join.mode.${role.kind}`)}</span>
                   </p>
                   <p class="hv-join-role__desc">{role.desc}</p>
                   <p class="hv-join-role__skills">{role.skills}</p>
@@ -83,6 +89,28 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
               </article>
             ))
           }
+        </div>
+      </div>
+    </section>
+
+    <!--
+      發行與商務合作 —— 對象是公司（發行、平臺、媒體），不是個人協作者。
+      刻意獨立成一節、擺在協作方向之後：來的人目的不同，信箱主旨也不同
+      （`[Business]`）。版式沿用首頁協作卡：文左、行動右、金色左欄。
+    -->
+    <section class="hv-section hv-join-biz" aria-labelledby="join-biz">
+      <div class="hv-container">
+        <div class="hv-plate hv-join-biz__card" data-reveal>
+          <div>
+            <h2 id="join-biz" class="hv-join__h2 hv-display">
+              {t("join.biz.title")}
+            </h2>
+            <p class="hv-join-biz__body">{t("join.biz.body1")}</p>
+            <p class="hv-join-biz__body">{t("join.biz.body2")}</p>
+          </div>
+          <a class="hv-btn hv-btn--primary hv-join-biz__cta" href={bizHref}>
+            {t("join.biz.cta")}
+          </a>
         </div>
       </div>
     </section>
@@ -118,15 +146,15 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
     font-size: var(--hv-text-xl);
   }
 
-  /* 合夥人說明：圖版卡，左緣一道金線（先立關係，再列位置） */
-  .hv-partner {
+  /* 協作說明：圖版卡，左緣一道金線（先立關係，再列方向） */
+  .hv-collab {
     padding-bottom: var(--hv-space-8);
   }
-  .hv-partner__card {
+  .hv-collab__card {
     padding: clamp(1.75rem, 4vw, 2.75rem);
     border-left: 2px solid var(--hv-line-gold);
   }
-  .hv-partner__body {
+  .hv-collab__body {
     margin-top: var(--hv-space-4);
     color: var(--hv-text-soft);
     max-width: 68ch;
@@ -146,7 +174,7 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
     padding: var(--hv-space-8);
     scroll-margin-top: 90px;
   }
-  /* 職稱＋型態籤（合夥人／職缺）同一行 */
+  /* 職稱＋型態籤（協作／長期夥伴）同一行 */
   .hv-join-role__head {
     display: flex;
     flex-wrap: wrap;
@@ -191,6 +219,27 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
     flex-shrink: 0;
   }
 
+  /* 發行與商務合作：緊接協作方向，不另起大留白 */
+  .hv-join-biz {
+    padding-top: 0;
+  }
+  .hv-join-biz__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-8);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    border-left: 2px solid var(--hv-gold);
+  }
+  .hv-join-biz__body {
+    margin-top: var(--hv-space-4);
+    color: var(--hv-text-soft);
+    max-width: 62ch;
+  }
+  .hv-join-biz__cta {
+    flex-shrink: 0;
+  }
+
   .hv-join-open {
     background: linear-gradient(
       180deg,
@@ -217,7 +266,8 @@ const applyHref = (kind: RoleKind, roleTitle: string) => {
   }
 
   @media (max-width: 860px) {
-    .hv-join-role {
+    .hv-join-role,
+    .hv-join-biz__card {
       flex-direction: column;
       align-items: flex-start;
     }
