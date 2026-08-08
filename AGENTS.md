@@ -4,23 +4,24 @@
 
 > **代理執行規範的正本不在這裡**，在
 > [workspace](https://github.com/Hoshivel/workspace) 的 `AGENTS.md`：
-> TODO 池、完成日誌、中斷復原流程、跨倉庫協作流程、分支與 PR 規則全在那裡。
+> 四層記錄（焦點／todo／logs／decisions）、中斷復原流程、跨倉庫協作流程、
+> 分支與 PR 規則全在那裡。
 > 本檔只補上**這個倉庫自己的**東西。
 
 ## 0. 開工前
 
-**先取得 workspace，讀它的 `TODO.md` 與 `AGENTS.md`。**
+**先取得 workspace，讀它的 `focus.md` 與 `AGENTS.md`。**
 
 ```sh
-cat ../workspace/TODO.md                                           # 本機：就在旁邊
+cat ../workspace/focus.md                                          # 本機：就在旁邊
 git clone https://github.com/Hoshivel/workspace.git ../workspace   # 雲端：自己補上
 ```
 
-- 取不到就**停下來告訴使用者**，不要退回在本倉庫自建 `TODO.md` 或 `sessions/`。
-- **本倉庫的待辦在 `workspace/TODO.md` 的〈hoshivel-web〉分節**，不在本倉庫。
-  **不得**自建 `TODO.md`、`sessions/`，或記錄領取、分支、`狀態：editing`
+- 取不到就**停下來告訴使用者**，不要退回在本倉庫自建 `TODO.md` 或工作記錄。
+- **本倉庫的待辦在 `workspace/todo/hoshivel-web/`**，工作日誌在 `workspace/logs/hoshivel-web/`。
+  **不得**自建 `TODO.md`／`logs/`，也不得記錄領取、分支或 `Status: Editing`
   （workspace `AGENTS.md` §4.4、§5）。
-- 續接既有任務時**沿用 TODO 事項記的分支與 PR**，不要另開新分支
+- 續接既有任務時**沿用該事項記的分支與 PR**，不要另開新分支
   （workspace `AGENTS.md` §4.3）。
 
 ## 1. 入場閱讀順序
@@ -32,7 +33,7 @@ git clone https://github.com/Hoshivel/workspace.git ../workspace   # 雲端：�
 
 ## 2. 驗證
 
-改動後執行；綠燈再把 TODO 事項的 `狀態` 設回 `idle`：
+改動後執行；綠燈再更新該事項的 `Status:`（`Editing` → `待驗證`）：
 
 ```sh
 npm run build      # ＝ astro check && astro build（TypeScript 與內容都會檢查）
@@ -53,7 +54,7 @@ npm run fonts      # 只在動到字型子集時需要（需要 python3）
 - **`public/` 的品牌素材正本在 `brand-assets/`**（相鄰目錄，不是 git 倉庫）。
   要換 logo 或 app icon 時改那裡再複製過來，不要只改這裡的副本。
 - **平臺規範的位置**：**被 import 的**進 hoshi-sdk，**被遵守的**進 hoshi-standards，
-  **會過期的**（待辦、完成日誌、代理規範）進
+  **會過期的**（待辦、工作日誌、代理規範）進
   [workspace](https://github.com/Hoshivel/workspace)。
 - 文件與註解沿用倉庫既有風格：**正體中文為主**（程式碼註解英文），
-  狀態關鍵字（`editing` / `idle`）保持原樣以利機器辨識。
+  狀態關鍵字（`Status:` 的那幾個值）保持原樣以利機器辨識。
