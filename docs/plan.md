@@ -1,7 +1,10 @@
 # Hoshivel 官方門戶 —— 權威計畫（v3）
 
-> 本檔為倉庫內可冷接手的權威計畫。進度見 `sessions/`。
+> 本檔為倉庫內可冷接手的權威計畫：**定位、設計語言、架構決策與驗收基準**。
 > v1（深空星光）、v2（紙墨朱）皆已整版重做；本檔描述現行 v3「星圖」。
+>
+> **待辦不在這裡。** 未結事項見 [workspace](https://github.com/Hoshivel/workspace)
+> 的 `TODO.md`〈hoshivel-web〉分節；已完成的歷史見它的 `sessions/`。
 
 ## 目標與定位
 
@@ -130,8 +133,6 @@ src/i18n/ui.ts      介面文案字典（四語逐鍵對齊）
 - 字體子集覆蓋全站文案（新增內容後 `npm run fonts`）；日文頁載 JP 那一支，
   標題不得出現中文字形
 
-## 未來項目（本次不做）
-
-- 新聞 RSS feed（`/rss.xml`）
-- 招募表單（目前 mailto）
-- 正式品牌字型（如自行託管 Noto Serif TC subset，取代系統回退）
+<!-- 原〈未來項目（本次不做）〉三項已於 2026-08-07 移入 workspace 的 TODO.md
+     〈hoshivel-web〉分節：RSS feed、招募表單、正式品牌字型。
+     全平臺的待辦收在同一個池子，理由見 workspace AGENTS.md §4.4。 -->
