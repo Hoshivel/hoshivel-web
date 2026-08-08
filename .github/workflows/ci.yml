@@ -1,0 +1,36 @@
+# 主分支的驗證。
+#
+# 本倉庫沒有 `.hoshi-build.yaml`，驗證的正本是 `AGENTS.md` §2：`npm run build`
+# （＝ `astro check && astro build`）。**`astro check` 是這個倉庫唯一的型別
+# 關卡**，不要改成 `astro build` 跳過它。
+#
+# `npm run fonts` 不在這裡跑——它只在動到字型子集時需要，而且會改動
+# `public/` 底下的產物。CI 的工作是驗證，不是重新產生素材。
+name: CI
+
+# 只在 main 跑。工作分支的頻繁推送是雲端會話的持久化手段（workspace
+# AGENTS.md §1.7），不該產生 CI 成本，所以**不掛 `pull_request`**。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      # `npm ci` 而不是 `npm install`：要驗的是 lockfile 裡那一組版本。
+      - run: npm ci
+
+      - run: npm run build
