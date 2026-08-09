@@ -112,7 +112,7 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
 > 產物需要 Node.js 執行期，nginx 就服務不了。同理**不得**新增容器產物
 > （`Dockerfile`／`compose.yaml`／k8s manifest）。自託管字體也是同一條規範的延伸：
 > 建置期產出、執行期零外部請求。規範正文與檢查腳本見
-> [hoshi-standards](https://github.com/Hoshivel/hoshi-standards)。
+> [hoshi-platform-standards](https://github.com/Hoshivel/hoshi-platform-standards)。
 
 **上線前待確認的假定值**（皆為單點修改）：
 
