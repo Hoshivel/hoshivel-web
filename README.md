@@ -144,6 +144,8 @@ rm public/og-wrap.html og-raw.png
 
 ## 家族慣例
 
-沿用 ShatteredRealms 家族：正體中文文件、`docs/plan.md` 權威計畫、`sessions/` 會話日誌、
-雲端每階段推送。姊妹站：[sr-web](https://sr.hoshivel.com)（《碎界》官方門面）、
+沿用 ShatteredRealms 家族：正體中文文件、`docs/plan.md` 權威計畫、
+工作記錄一律收在 [workspace](https://github.com/Hoshivel/workspace)
+（待辦 `todo/hoshivel-web/`、日誌 `logs/hoshivel-web/`）、雲端每階段推送。
+姊妹站：[sr-web](https://sr.hoshivel.com)（《碎界》官方門面）、
 hoshi-identity（Hoshi ID 帳戶服務）。**各站各有面貌，互不套用彼此的視覺語言。**

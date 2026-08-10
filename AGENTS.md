@@ -36,11 +36,22 @@ git clone https://github.com/Hoshivel/workspace.git ../workspace   # 雲端：�
 改動後執行；綠燈再更新該事項的 `Status:`（`Editing` → `待驗證`）：
 
 ```sh
-npm run build      # ＝ astro check && astro build（TypeScript 與內容都會檢查）
-npm run fonts      # 只在動到字型子集時需要（需要 python3）
+hoshi test         # ＝ npm run build ＝ astro check && astro build（TypeScript 與內容都會檢查）
+hoshi dev -open    # 本機開發（astro dev，:4321）
 ```
 
-`astro check` 是這個倉庫唯一的型別關卡，不要用 `astro build` 跳過它。
+`astro check` 是這個倉庫唯一的型別關卡，不要用 `astro build` 跳過它——
+`test.scripts` 的預設值是 `build` 而不是 `preview`，就是為了這個。
+流程的正本在 hoshi-platform-standards `engineering/build.md` §3、§6，設定在
+`.hoshi-build.yaml`；**不要**在本檔重列一次那串指令。
+
+**`npm run fonts` 不在驗證流程裡**（需要 python3、fonttools 與對外網路）。
+它是**內容產生**步驟，只在字集變動——新增新聞、改文案、動 `src/i18n/`——
+之後才跑一次，產出的 `public/fonts/*.woff2` 進版控：
+
+```sh
+npm run fonts      # 只在動到字型子集時需要
+```
 
 ## 3. 這個倉庫的特殊規則
 
