@@ -1,0 +1,27 @@
+# hoshi-build 設定。規範見 hoshi-platform-standards engineering/build.md §2，
+# 鍵位參考見 hoshi-build 的 docs/config.md。
+#
+# 靜態站，沒有後端；產物就是 dist/ 底下那疊靜態檔。
+# `npm run build`（＝ astro check && astro build）本來就寫進 dist/，
+# 所以 hoshi-build 不會有複製動作。
+#
+# `test` 不寫：type: npm 的預設就是跑 `npm run build`，而 astro check 已經在
+# 那條 script 裡——重寫一次預設值只是多一個會和工具漂移的東西。
+# `npm run fonts` **刻意不收進來**：它是字型子集化的**內容產生**步驟，
+# 產物（public/fonts/*.woff2）進版控，只在字集變動時跑一次；它需要 python3、
+# fonttools 與對外網路，收進驗證流程會讓每一次 hoshi test 都多背這些相依，
+# 而它一個字都驗不到。
+name: hoshivel-web
+type: npm
+output: dist/
+
+dev:
+    open: http://localhost:4321
+    processes:
+      - name: web
+        run: npm run dev
+        # astro dev 的預設埠（astro.config.mjs 沒有覆寫 server.port）。
+        # 4322 是 4321 被占用時 astro 自己的下一個落點，一起宣告出來：
+        # hoshi dev 會在啟動前拒絕被占用的埠，而不是讓 astro 悄悄綁到別的埠、
+        # -open 卻去開 4321——那裡當下是別人的伺服器。
+        ports: [ 4321, 4322 ]
