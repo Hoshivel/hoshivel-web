@@ -1,6 +1,6 @@
 # hoshivel-web —— Hoshivel 官方門戶
 
-Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi ID）、新聞、關於、加入我們。
+Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms》、Hoshi ID）、新聞、關於、合作。
 
 ## 設計語言：「星圖 Celestial Atlas」
 
@@ -10,7 +10,7 @@ Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms�
 
 正式題詞：**讓星辰，成為世界**（Where Stars Become Worlds）
 定位第二句（Hero 內，位階小於題詞）：**不把遊戲做成另一份工作，只做真正值得玩的世界**
-做事方式（首頁間奏與關於頁共用同一個鍵 `site.motto`）：**快的事情交給世界，慢的事情留給我們**
+做事方式（關於頁的 `site.motto`）：**快的事情交給世界，慢的事情留給我們**
 
 核心命題：**作品即星**。門戶是 Hoshivel 的星圖，每一件作品是圖上一顆亮星；
 **服務不是作品**——Hoshi ID 這類基礎設施在圖上以環標呈現，不佔作品編號。
@@ -29,7 +29,7 @@ Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms�
   ——全部隨 `prefers-reduced-motion` 關閉
 
 > **品牌名 Hoshivel 是一個完整的詞**：站上文案、註解與圖檔一律不拆字、不解字源。
-> 中文品牌名為**星帆**，與 Hoshivel 並用（首頁導語作「星帆（Hoshivel）」，
+> 中文品牌名為**星帆**，與 Hoshivel 並用（首頁導語作「Hoshivel（星帆）」，
 > 站尾署名作「始於星帆，盛於繁星」）；它同樣是完整的詞，這條規則照樣適用。
 
 > **句號規則**：**一句不加，兩句以上才加。** 標題、標籤、按鈕與標語一律不加。
@@ -99,7 +99,7 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
 門戶的預設立場是**短期彈性協作**——按件、短期專案或彈性兼職，範圍與報酬先談
 清楚再開始；合作順了、方向也對得上，再談長期。`roles.config.ts` 中未標 `kind`
 的位置一律視為協作（`DEFAULT_ROLE_KIND = "collab"`），標 `kind: "partner"` 的
-則是**長期夥伴**（核心後端目前是這一類）。卡上的型態籤、洽談字樣與 mailto 主旨
+則是**長期夥伴**。卡上的型態籤、洽談字樣與 mailto 主旨
 （`[Collab]` / `[Partner]`）都跟著它走。
 
 ## 部署（hoshivel.com）
@@ -122,9 +122,8 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
 2. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL` 設 `https://id.hoshivel.com`
    （同上推定）；設為 `null` 可隱藏外部按鈕。
 3. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
-4. **協作方向**：`roles.config.ts` 目前為視覺與美術（協作）＋長期技術夥伴
-   （partner），請按實際需求調整。按件協作只開視覺一項，首頁的協作導語因此
-   不列舉工種——要再開程式類的按件協作，記得把那句話一起改回來。
+4. **協作方向**：目前公開視覺與美術、宣發與內容，以及限已有共同專案經驗者的長期技術夥伴。
+   首頁導語不列舉工種，調整公開方向時不必同步改文案。
 5. **社群帳號**：`src/lib/site.ts` 的 `SOCIAL_LINKS`——X／YouTube／GitHub 皆為 `hoshivel`；
    Reddit 目前指向使用者頁 `u/hoshivel`，日後若開 `r/hoshivel` 版改該行即可。
 

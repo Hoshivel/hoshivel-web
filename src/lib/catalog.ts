@@ -26,6 +26,8 @@ export interface CatalogEntry {
   latinKey: UIKey;
   kindKey: UIKey;
   statusKey: UIKey;
+  /** 首頁卡片短摘要；完整作品頁使用 descKey。 */
+  shortKey: UIKey;
   descKey: UIKey;
   featureKeys: UIKey[];
   /** 對外站點；null = 尚無獨立入口（不渲染外部按鈕）。 */
@@ -46,8 +48,9 @@ export const WORKS: CatalogEntry[] = [
     latinKey: "p.sr.latin",
     kindKey: "p.sr.kind",
     statusKey: "p.sr.status",
+    shortKey: "p.sr.short",
     descKey: "p.sr.desc",
-    featureKeys: ["p.sr.f1", "p.sr.f2", "p.sr.f3"],
+    featureKeys: ["p.sr.f1", "p.sr.f2"],
     url: SR_URL,
     live: true,
     accentVar: "--hv-p-sr",
@@ -64,8 +67,9 @@ export const SERVICES: CatalogEntry[] = [
     latinKey: "p.id.latin",
     kindKey: "p.id.kind",
     statusKey: "p.id.status",
+    shortKey: "p.id.short",
     descKey: "p.id.desc",
-    featureKeys: ["p.id.f1", "p.id.f2", "p.id.f3"],
+    featureKeys: ["p.id.f1", "p.id.f2"],
     url: HOSHI_ID_URL,
     live: true,
     accentVar: "--hv-p-id",

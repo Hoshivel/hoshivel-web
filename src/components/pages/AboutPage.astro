@@ -9,7 +9,7 @@ import Mark from "@/components/brand/Mark.astro";
 import SocialLinks from "@/components/SocialLinks.astro";
 import { useTranslations, type Locale } from "@/i18n/utils";
 import { chapterMark } from "@/lib/chapters";
-import { GITHUB_URL, CONTACT_EMAIL } from "@/lib/site";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -22,18 +22,9 @@ const values = [
   { name: t("about.v2.name"), desc: t("about.v2.desc") },
   { name: t("about.v3.name"), desc: t("about.v3.desc") },
 ];
-
-/** 信條裡的五條否定：同一組排比，順序即語氣的推進（鍵序＝顯示序）。 */
-const creedNots = [
-  t("about.creed.no1"),
-  t("about.creed.no2"),
-  t("about.creed.no3"),
-  t("about.creed.no4"),
-  t("about.creed.no5"),
-];
 ---
 
-<Layout locale={locale} title={t("about.title")} description={t("about.lead")}>
+<Layout locale={locale} title={t("nav.about")} description={t("about.lead")}>
   <main id="main">
     <PageHero
       mark={chapterMark("about")}
@@ -52,47 +43,6 @@ const creedNots = [
           <p data-reveal>{t("about.who.body1")}</p>
           <p data-reveal>{t("about.who.body2")}</p>
         </div>
-      </div>
-    </section>
-
-    <!--
-      信條：遊戲不該是另一份工作
-      —— Hero 那句 `site.creed` 的長篇展開。夜色帶隔開前後兩節，
-      四條否定掛在一條髮絲鐵軌上（各以一道金刻線起頭），
-      收束一句沿用 Hero 定位句的寫法：短金線 ＋ 明體。
-      擺在「我們是誰」之後、「現在正在做的事」之前：它是立場，不是進度；
-      也刻意與後面的〈我們相信〉隔開一節，免得同一個意思連說兩遍。
-    -->
-    <section class="hv-section hv-about-creed" aria-labelledby="about-creed">
-      <div class="hv-container hv-narrow">
-        <h2 id="about-creed" class="hv-about__h2 hv-display" data-reveal>
-          {t("about.creed.title")}
-        </h2>
-        <p class="hv-about-creed__lead hv-display" data-reveal>
-          {t("about.creed.lead")}
-        </p>
-
-        <ul class="hv-about-creed__nots">
-          {creedNots.map((line) => <li data-reveal>{line}</li>)}
-        </ul>
-
-        <!--
-          body1 是整節的正面主張，也是全節唯一高亮的一段：實心金左欄、
-          星光字、放大一級。內距沿用否定條的 `--hv-creed-rail`，
-          與上方那條髮絲鐵軌對在同一條垂直線上——否定掛髮絲、主張掛實金。
-        -->
-        <p class="hv-about-creed__key" data-reveal>{t("about.creed.body1")}</p>
-
-        <div class="hv-about-creed__body">
-          <p data-reveal>{t("about.creed.body2")}</p>
-        </div>
-
-        <p class="hv-about-creed__close" data-reveal>
-          {t("about.creed.close1")}
-        </p>
-        <p class="hv-about-creed__final hv-display" data-reveal>
-          {t("about.creed.close2")}
-        </p>
       </div>
     </section>
 
@@ -142,12 +92,7 @@ const creedNots = [
         </h2>
         <p class="hv-lead" data-reveal>{t("about.contact.body")}</p>
         <div class="hv-about-contact__cta" data-reveal>
-          <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
-            {t("footer.github")}
-            <span aria-hidden="true">↗</span>
-            <span class="hv-visually-hidden">{t("a11y.external")}</span>
-          </a>
-          <a class="hv-btn hv-btn--ghost" href={`mailto:${CONTACT_EMAIL}`}>
+          <a class="hv-btn hv-btn--primary" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </a>
         </div>
@@ -186,88 +131,6 @@ const creedNots = [
     color: var(--hv-text-soft);
     font-size: var(--hv-text-base);
     max-width: 62ch;
-  }
-
-  /* ---- 信條：遊戲不該是另一份工作 ---- */
-  .hv-about-creed {
-    /* 否定條的鐵軌內距：金刻線的長度也由它推導，兩者不會各走各的 */
-    --hv-creed-rail: clamp(1.25rem, 4vw, 2rem);
-    background: linear-gradient(
-      180deg,
-      transparent,
-      rgba(11, 16, 29, 0.72) 12%,
-      rgba(11, 16, 29, 0.72) 88%,
-      transparent
-    );
-    border-block: 1px solid var(--hv-line);
-  }
-  .hv-about-creed__lead {
-    margin-top: var(--hv-space-6);
-    font-size: var(--hv-text-lg);
-    line-height: 1.55;
-  }
-  /* 四條否定：一條髮絲鐵軌，各以一道金刻線起頭（星圖的刻度） */
-  .hv-about-creed__nots {
-    display: flex;
-    flex-direction: column;
-    gap: var(--hv-space-6);
-    margin-top: var(--hv-space-8);
-    padding-left: var(--hv-creed-rail);
-    border-left: 1px solid var(--hv-line);
-    list-style: none;
-  }
-  .hv-about-creed__nots > li {
-    position: relative;
-    color: var(--hv-text-soft);
-    font-size: var(--hv-text-base);
-  }
-  .hv-about-creed__nots > li::before {
-    content: "";
-    position: absolute;
-    /* 貼回鐵軌上：往左退一個內距再退 1px 的框線寬 */
-    left: calc(-1 * var(--hv-creed-rail) - 1px);
-    /* 對齊首行的視覺中線（行高 1.85 的一半） */
-    top: calc(0.5 * var(--hv-leading) * 1em);
-    width: calc(var(--hv-creed-rail) * 0.55);
-    height: 1px;
-    background: var(--hv-line-gold);
-  }
-  /* 正面主張：實心金左欄（否定條掛的是髮絲，兩者同一條垂直線） */
-  .hv-about-creed__key {
-    margin-top: var(--hv-space-12);
-    /* 減 1px 補回較粗的左欄，讓字面與否定條對齊，不只是邊框對齊 */
-    padding-left: calc(var(--hv-creed-rail) - 1px);
-    border-left: 2px solid var(--hv-gold);
-    color: var(--hv-starlight);
-    font-size: var(--hv-text-lg);
-    line-height: 1.7;
-  }
-  .hv-about-creed__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--hv-space-6);
-    margin-top: var(--hv-space-8);
-    color: var(--hv-text-soft);
-    font-size: var(--hv-text-base);
-  }
-  .hv-about-creed__close {
-    margin-top: var(--hv-space-12);
-    color: var(--hv-text-soft);
-    font-size: var(--hv-text-base);
-  }
-  /* 收束一句：與 Hero 的定位句同一個寫法——短金線起頭、明體、放大一級 */
-  .hv-about-creed__final {
-    margin-top: var(--hv-space-6);
-    font-size: var(--hv-text-lg);
-    line-height: 1.55;
-  }
-  .hv-about-creed__final::before {
-    content: "";
-    display: block;
-    width: 2.5rem;
-    height: 1px;
-    margin-bottom: var(--hv-space-4);
-    background: var(--hv-line-gold);
   }
 
   /* 現在正在做的事：星盤 + 圖版卡 */
