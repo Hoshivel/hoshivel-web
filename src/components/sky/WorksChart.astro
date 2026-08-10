@@ -214,7 +214,21 @@ const FIELD = [
 
   <figcaption class="hv-chart__caption">
     <span class="hv-chart__title">{t("home.chart.title")}</span>
-    <span class="hv-chart__note">{t("home.chart.note")}</span>
+    <span class="hv-chart__legend">
+      <span class="hv-chart__legend-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 Q13 11 22 12 Q13 13 12 22 Q11 13 2 12 Q11 11 12 2 Z" />
+        </svg>
+        {t("label.work")}
+      </span>
+      <span class="hv-chart__legend-item is-service">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8" fill="none" stroke-width="2" />
+          <circle cx="12" cy="12" r="2.4" stroke="none" />
+        </svg>
+        {t("label.service")}
+      </span>
+    </span>
   </figcaption>
 </figure>
 
@@ -357,8 +371,10 @@ const FIELD = [
   /* 圖說 */
   .hv-chart__caption {
     display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hv-space-4);
+    flex-wrap: wrap;
     padding: var(--hv-space-4) var(--hv-space-2) var(--hv-space-1);
     border-top: 1px solid var(--hv-line);
     margin-top: var(--hv-space-2);
@@ -369,9 +385,25 @@ const FIELD = [
     letter-spacing: var(--hv-tracking-wide);
     color: var(--hv-gold);
   }
-  .hv-chart__note {
+  .hv-chart__legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hv-space-4);
     font-size: var(--hv-text-xs);
-    line-height: 1.7;
     color: var(--hv-text-faint);
+  }
+  .hv-chart__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .hv-chart__legend-item svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    fill: var(--hv-gold);
+  }
+  .hv-chart__legend-item.is-service svg {
+    fill: var(--hv-text-faint);
+    stroke: var(--hv-text-faint);
   }
 </style>

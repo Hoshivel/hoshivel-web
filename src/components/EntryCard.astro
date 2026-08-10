@@ -57,7 +57,7 @@ const isWork = entry.kind === "work";
       {showLatin && <span class="hv-entry__latin">{latin}</span>}
     </h3>
     <p class="hv-entry__kind">{t(entry.kindKey)}</p>
-    <p class="hv-entry__desc">{t(entry.descKey)}</p>
+    <p class="hv-entry__desc">{t(entry.shortKey)}</p>
   </a>
   <div class="hv-entry__foot">
     <a class="hv-more" href={detailHref}>
@@ -71,7 +71,7 @@ const isWork = entry.kind === "work";
           target="_blank"
           rel="noopener"
         >
-          {t("cta.visit")}
+          {t(isWork ? "cta.visitWork" : "cta.visitService")}
           <span aria-hidden="true">↗</span>
           <span class="hv-visually-hidden">{t("a11y.external")}</span>
         </a>

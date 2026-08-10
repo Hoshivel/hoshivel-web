@@ -20,15 +20,18 @@ interface Props {
   /** 頁名（自動接上「— Hoshivel」）；不給 = 首頁形式（Hoshivel — 標語）。 */
   title?: string;
   description?: string;
+  /** 語言切換器要使用的邏輯路徑；404 可指定首頁，避免建立不存在的多語 404。 */
+  navigationPath?: string;
 }
 
-const { locale = DEFAULT_LOCALE, title, description } = Astro.props;
+const { locale = DEFAULT_LOCALE, title, description, navigationPath } = Astro.props;
 const t = useTranslations(locale);
 
 const siteName = t("site.name");
+const metaTagline = t("site.metaTagline");
 const pageTitle = title
   ? `${title} — ${siteName}`
-  : `${siteName} — ${t("site.tagline")}`;
+  : `${siteName} — ${metaTagline}`;
 const pageDescription = description ?? t("site.summary");
 
 const canonical = Astro.site
@@ -37,6 +40,7 @@ const canonical = Astro.site
 
 // hreflang：把同一頁的各語言版本互相標示（含 x-default → 預設語言）。
 const logicalPath = stripLocalePrefix(Astro.url.pathname);
+const chromePath = navigationPath ?? logicalPath;
 const alternates = LOCALES.map((l) => ({
   hreflang: HTML_LANG[l],
   href: Astro.site
@@ -75,8 +79,6 @@ const xDefault = Astro.site
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    <meta name="generator" content={Astro.generator} />
-
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#080b15" />
@@ -97,18 +99,18 @@ const xDefault = Astro.site
     <meta property="og:image" content="/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={siteName} />
+    <meta property="og:image:alt" content={`${siteName} — ${metaTagline}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og.png" />
-    <meta name="twitter:image:alt" content={siteName} />
+    <meta name="twitter:image:alt" content={`${siteName} — ${metaTagline}`} />
   </head>
   <body>
     <!-- 天：固定於所有內容之下（純裝飾） -->
     <Starfield />
 
-    <Header locale={locale} path={logicalPath} />
+    <Header locale={locale} path={chromePath} />
     <slot />
-    <Footer locale={locale} path={logicalPath} />
+    <Footer locale={locale} path={chromePath} />
 
     <script>
       // 捲動動效：reveal-on-scroll ＋ 星空微視差（皆 reduced-motion 友善）。

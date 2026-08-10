@@ -2,7 +2,7 @@
 /*
   作品頁 —— 星表：作品在前（各一則完整條目），服務另立一節在後。
   服務不是產品：不給星表編號、以環標記號呈現，但同樣有完整條目。
-  結構：記號＋編號／籤＋明體名／類型／狀態 → 摘要 → 三項特點（髮絲清單）→ 入口。
+  結構：記號＋編號／籤＋明體名／類型／狀態 → 摘要 → 重點（髮絲清單）→ 入口。
   錨點 = 條目 id。
 */
 import Layout from "@/layouts/Layout.astro";
@@ -98,10 +98,19 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
             </p>
 
             <ul class="hv-work__features">
-              {p.featureKeys.map((f, i) => (
+              {p.featureKeys.map((f) => (
                 <li class="hv-work__feature" data-reveal>
-                  <span class="hv-work__feature-num" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
+                  <span class:list={["hv-work__feature-mark", { "is-service": p.kind === "service" }]} aria-hidden="true">
+                    {p.kind === "work" ? (
+                      <svg viewBox="0 0 24 24">
+                        <path d="M12 3 Q13 11 21 12 Q13 13 12 21 Q11 13 3 12 Q11 11 12 3 Z" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="7.5" fill="none" stroke-width="2" />
+                        <circle cx="12" cy="12" r="2.2" stroke="none" />
+                      </svg>
+                    )}
                   </span>
                   {t(f)}
                 </li>
@@ -116,7 +125,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
                   target="_blank"
                   rel="noopener"
                 >
-                  {t("cta.visit")}
+                  {t(p.kind === "work" ? "cta.visitWork" : "cta.visitService")}
                   <span aria-hidden="true">↗</span>
                   <span class="hv-visually-hidden">{t("a11y.external")}</span>
                 </a>
@@ -206,7 +215,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     font-size: var(--hv-text-base);
   }
 
-  /* 特點：編號髮絲清單（星表條目的細項，不做卡片） */
+  /* 特點：沿用作品星／服務環標作為視覺記號，不再用序號重述順序 */
   .hv-work__features {
     list-style: none;
     padding: 0;
@@ -226,12 +235,19 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
   .hv-work__feature:last-child {
     border-bottom: 1px solid var(--hv-line);
   }
-  .hv-work__feature-num {
-    font-family: var(--hv-font-mono);
+  .hv-work__feature-mark {
+    display: inline-grid;
+    place-items: center;
     color: var(--work-accent);
-    font-size: var(--hv-text-xs);
-    letter-spacing: 0.1em;
     flex-shrink: 0;
+  }
+  .hv-work__feature-mark svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: currentColor;
+  }
+  .hv-work__feature-mark.is-service svg {
+    stroke: currentColor;
   }
 
   .hv-work__foot {

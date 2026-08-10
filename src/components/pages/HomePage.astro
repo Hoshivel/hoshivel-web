@@ -3,7 +3,7 @@
   首頁 —— 星圖版式。
   重心：品牌 →《碎界》→ 支撐它的服務 → 開發動態 → 協作。
   節奏：Hero（題詞 ＋ 定位一句 ＋ Hoshivel 星圖）→ α 作品 → 服務 → β 動態
-       → 理念一句 → δ 協作。
+       → δ 協作。
   主視覺是那張星圖：作品即星、服務為環；其餘一律以留白與髮絲線立大氣。
   服務區不編拜耳字母——它不是作品，以環標記號另立一節；
   章節字母一律向 `lib/chapters.ts` 要，不在頁面裡寫死（否則首頁與獨立頁會漂移）。
@@ -45,7 +45,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
           <p class="hv-hero__creed hv-display" data-reveal>{t("site.creed")}</p>
           <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
           <div class="hv-hero__cta" data-reveal>
-            <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works")}>
+            <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works#shattered-realms")}>
               {t("cta.sr")}
             </a>
             <a class="hv-btn hv-btn--ghost" href={localizedPath(locale, "/about")}>
@@ -119,23 +119,6 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- 理念一句（間奏，不編號） -->
-    <section class="hv-section hv-home-belief">
-      <div class="hv-container hv-narrow">
-        <blockquote class="hv-home-belief__quote" data-reveal>
-          <svg class="hv-home-belief__star" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 1 Q13 11 23 12 Q13 13 12 23 Q11 13 1 12 Q11 11 12 1 Z"></path>
-          </svg>
-          <p class="hv-display">{t("site.motto")}</p>
-          <footer>
-            <a class="hv-home-belief__source" href={localizedPath(locale, "/about")}>
-              {t("home.belief.source")}
-            </a>
-          </footer>
-        </blockquote>
-      </div>
-    </section>
-
     <!-- δ 協作 -->
     <section class="hv-section hv-home-join">
       <div class="hv-container">
@@ -147,7 +130,6 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
             </p>
             <h2 class="hv-home-join__title hv-display">{t("home.join.title")}</h2>
             <p class="hv-lead hv-home-join__lead">{t("home.join.lead")}</p>
-            <p class="hv-lead hv-home-join__lead">{t("home.join.lead2")}</p>
           </div>
           <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/join")}>
             {t("cta.join")}
@@ -280,48 +262,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     }
   }
 
-  /* ---- 理念一句 ---- */
-  .hv-home-belief {
-    padding-bottom: var(--hv-space-16);
-  }
-  .hv-home-belief__quote {
-    text-align: center;
-  }
-  .hv-home-belief__star {
-    width: 16px;
-    height: 16px;
-    margin-inline: auto;
-    margin-bottom: var(--hv-space-6);
-    fill: var(--hv-gold);
-  }
-  .hv-home-belief__quote > p {
-    font-size: var(--hv-text-xl);
-    line-height: 1.6;
-  }
-  /* 引號改用星圖線：一條淡出的橫線收尾 */
-  .hv-home-belief__quote > p::after {
-    content: "";
-    display: block;
-    width: 3.5rem;
-    height: 1px;
-    margin: var(--hv-space-6) auto 0;
-    background: var(--hv-line-gold);
-  }
-  .hv-home-belief__source {
-    display: inline-block;
-    margin-top: var(--hv-space-4);
-    font-size: var(--hv-text-sm);
-    color: var(--hv-text-soft);
-    transition: color var(--hv-dur-fast) var(--hv-ease-out);
-  }
-  .hv-home-belief__source::before {
-    content: "—— ";
-  }
-  .hv-home-belief__source:hover {
-    color: var(--hv-gold);
-  }
-
-  /* ---- 加入我們 ---- */
+  /* ---- 合作 ---- */
   .hv-home-join {
     padding-top: 0;
   }
@@ -343,10 +284,6 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
   .hv-home-join__lead {
     margin-top: var(--hv-space-3);
     max-width: 46ch;
-  }
-  /* 第二段（長期夥伴）：與第一段之間拉開一個段落的呼吸 */
-  .hv-home-join__lead + .hv-home-join__lead {
-    margin-top: var(--hv-space-4);
   }
   @media (max-width: 760px) {
     .hv-home-join__card {

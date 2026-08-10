@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Hoshivel — 讓星辰，成為世界">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Hoshivel — WHERE STARS BECOME WORLDS — 讓星辰，成為世界">
   <defs>
     <linearGradient id="mw" x1="0" y1="1" x2="1" y2="0">
       <stop offset="0.30" stop-color="#96b0eb" stop-opacity="0"/>
@@ -69,8 +69,8 @@
 
   <text x="228" y="222" font-family="Hoshivel Display, Hoshivel Han, Noto Serif CJK TC, Noto Serif TC, Georgia, serif" font-weight="600" font-size="76" letter-spacing="2" fill="#eef2fd">Hoshiv<tspan fill="url(#tail)">el</tspan></text>
 
-  <text x="96" y="352" font-family="Hoshivel Display, Hoshivel Han, Noto Serif CJK TC, Noto Serif TC, Georgia, serif" font-weight="600" font-size="54" letter-spacing="10" fill="#f0cd94">讓星辰，成為世界</text>
-  <text x="100" y="404" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="20" letter-spacing="7" fill="#98a5c0">WHERE STARS BECOME WORLDS</text>
+  <text x="96" y="352" font-family="ui-monospace, Menlo, Consolas, monospace" font-weight="600" font-size="30" letter-spacing="5.5" fill="#f0cd94">WHERE STARS BECOME WORLDS</text>
+  <text x="100" y="404" font-family="Hoshivel Display, Hoshivel Han, Noto Serif CJK TC, Noto Serif TC, Georgia, serif" font-weight="600" font-size="28" letter-spacing="10" fill="#98a5c0">讓星辰，成為世界</text>
   <text x="100" y="454" font-family="Noto Sans CJK TC, Noto Sans TC, sans-serif" font-size="19" letter-spacing="2" fill="#6d7a97">不把遊戲做成另一份工作，只做真正值得玩的世界</text>
 
   <text x="96" y="566" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="18" letter-spacing="6" fill="#98a5c0">HOSHIVEL.COM</text>
