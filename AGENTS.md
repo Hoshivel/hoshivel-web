@@ -47,13 +47,13 @@ npm run fonts      # 只在動到字型子集時需要（需要 python3）
 - **設計語言是規範，不是建議**。本站是 Hoshivel 的門面，`README.md` 的
   〈Celestial Atlas〉定義了配色、字級與版面節奏。新頁面沿用既有的 layout 與
   component，不要為單一頁面另立一套。
-- **靜態站，沒有後端**。部署是靜態產物，依 hoshi-standards
+- **靜態站，沒有後端**。部署是靜態產物，依 hoshi-platform-standards
   `engineering/deployment.md`。
 - **多語言走 `src/i18n/`**，與 sr-web 同慣例：頁面用訊息鍵，不要把句子寫死在
   component 裡。
 - **`public/` 的品牌素材正本在 `brand-assets/`**（相鄰目錄，不是 git 倉庫）。
   要換 logo 或 app icon 時改那裡再複製過來，不要只改這裡的副本。
-- **平臺規範的位置**：**被 import 的**進 hoshi-sdk，**被遵守的**進 hoshi-standards，
+- **平臺規範的位置**：**被 import 的**進 hoshi-platform-sdk，**被遵守的**進 hoshi-platform-standards，
   **會過期的**（待辦、工作日誌、代理規範）進
   [workspace](https://github.com/Hoshivel/workspace)。
 - 文件與註解沿用倉庫既有風格：**正體中文為主**（程式碼註解英文），
