@@ -90,8 +90,14 @@ const isWork = entry.kind === "work";
     padding: var(--hv-space-8);
     flex: 1;
   }
+  /*
+    編號列與狀態徽章同排；**必須可換行**——徽章的文字長度隨語言差很多
+    （「開發中 · 官網已上線」約 130px，英文的 In development · site live
+    要 259px），不給換行的話窄螢幕上撐破的是整個頁面，不只是這張卡。
+  */
   .hv-entry__top {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--hv-space-4);

@@ -6,6 +6,10 @@ dist/
 # 字體子集化的原始檔快取（scripts/subset-fonts.py 會自行下載）
 scripts/.fontcache/
 
+# Python bytecode
+__pycache__/
+*.py[cod]
+
 # dependencies
 node_modules/
 

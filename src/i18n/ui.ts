@@ -432,9 +432,10 @@ const zhCN: Record<UIKey, string> = {
   日本語 —— 漢字圈だが正體中文の訳ではない。以下は本語系だけの決めごと：
 
   · 品牌名は「Hoshivel」のみ。中文品牌名「星帆」は**中文**の名前であり、
-    日本語に持ち込まない（日本語の品牌名を新たに立てることはしない）。
-  · 作品名は『Shattered Realms』。中文の「碎界」は日本語の字体では
-    「砕界」になってしまい、勝手に日本語題を作ることになるので使わない。
+    日本語には持ち込まない（日本語の品牌名を新たに立てることはしない）。
+  · 作品名は「砕界」（2026-08-07 決定）。中文の《碎界 Shattered Realms》に
+    倣い、正式名は『砕界 Shattered Realms』、それ以外は『砕界』。
+    品牌名とは扱いが違う——作品には日本語題があり、品牌名にはない。
   · 用語：ユーザーが持つのは「アカウント」、それを管理する画面は
     「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
   · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
@@ -448,16 +449,16 @@ const ja: Record<UIKey, string> = {
   "site.creed": "ゲームをもうひとつの仕事にはしない、本当に遊ぶ価値のある世界だけを作る",
   "site.motto": "速さは世界に任せ、私たちは大切なものに時間をかける",
   "site.summary":
-    "WHERE STARS BECOME WORLDS — 星々が、世界になる。Hoshivel はゲームと世界観をつくるインディーチーム。ターン制ストラテジー『Shattered Realms』を開発しています。",
+    "WHERE STARS BECOME WORLDS — 星々が、世界になる。Hoshivel はゲームと世界観をつくるインディーチーム。ターン制ストラテジー『砕界 Shattered Realms』を開発しています。",
 
   "nav.works": "作品",
   "nav.news": "ニュース",
   "nav.about": "私たちについて",
   "nav.join": "一緒に作る",
 
-  "cta.sr": "『Shattered Realms』を見る",
+  "cta.sr": "『砕界』を見る",
   "cta.about": "私たちについて",
-  "cta.visitWork": "『Shattered Realms』公式サイトへ",
+  "cta.visitWork": "『砕界』公式サイトへ",
   "cta.visitService": "アカウントセンターを開く",
   "cta.detail": "作品の詳細",
   "cta.detailService": "サービスの詳細",
@@ -487,12 +488,12 @@ const ja: Record<UIKey, string> = {
     ここは 25 文字前後を上限とみておくこと。
   */
   "home.hero.lead":
-    "Hoshivel がつくっているのは\n『Shattered Realms』——\n何度でも探索したくなる、章ごとに広がる架空世界",
+    "Hoshivel がつくっているのは\n『砕界 Shattered Realms』——\n何度でも探索したくなる、章ごとに広がる架空世界",
 
   "home.works.eyebrow": "作品",
   "home.works.title": "最初の世界を、隅々まで丁寧に作る",
   "home.works.lead":
-    "『Shattered Realms』は私たちの最初の世界——ヘクスの戦場から一つ一つの旅まで、また戻りたくなる体験を目指します",
+    "『砕界』は私たちの最初の世界——ヘクスの戦場から一つ一つの旅まで、また戻りたくなる体験を目指します",
 
   "home.services.eyebrow": "サービス",
   "home.services.title": "世界づくりに集中するために",
@@ -504,7 +505,7 @@ const ja: Record<UIKey, string> = {
   "home.news.eyebrow": "ニュース",
   "home.news.title": "最新情報",
   "home.news.lead":
-    "『Shattered Realms』の開発状況、世界設定、Hoshivel の最新情報をお届けします",
+    "『砕界』の開発状況、世界設定、Hoshivel の最新情報をお届けします",
 
   "home.join.title": "一緒に作る",
   "home.join.lead":
@@ -513,11 +514,11 @@ const ja: Record<UIKey, string> = {
   "works.eyebrow": "作品",
   "works.title": "形になりつつある世界",
   "works.lead":
-    "『Shattered Realms』から Hoshi ID まで、すべては遊ぶ価値のある世界を長く残すためにあります",
+    "『砕界』から Hoshi ID まで、すべては遊ぶ価値のある世界を長く残すためにあります",
   "label.work": "作品",
   "label.service": "サービス",
 
-  "p.sr.name": "Shattered Realms",
+  "p.sr.name": "砕界",
   "p.sr.latin": "SHATTERED REALMS",
   "p.sr.kind": "架空世界 · 2D ターン制ストラテジー",
   "p.sr.status": "開発中 · ブラウザでプレイ可能",
@@ -530,7 +531,7 @@ const ja: Record<UIKey, string> = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "UNIVERSAL ACCOUNT",
   "p.id.kind": "Hoshivel 共通アカウント",
-  "p.id.status": "公開中 · Shattered Realms 連携済み",
+  "p.id.status": "公開中 · 砕界 連携済み",
   "p.id.short": "ひとつのアカウントで、すべての Hoshivel の世界へ",
   "p.id.desc":
     "ひとつのアカウントで、すべての Hoshivel の世界へ。ログイン、セキュリティ、連携済みサービスを一か所で管理できます。",
@@ -543,13 +544,13 @@ const ja: Record<UIKey, string> = {
     "長く残る世界には、時間と集中、そして明確な選択が必要だと考えています",
   "about.who.title": "私たちは何者か",
   "about.who.body1":
-    "Hoshivel は、ゲームと世界観をつくるインディーチームです。『Shattered Realms』から始め、Hoshi ID でひとつのアカウントから各世界へ行き来できるようにしています。",
+    "Hoshivel は、ゲームと世界観をつくるインディーチームです。『砕界 Shattered Realms』から始め、Hoshi ID でひとつのアカウントから各世界へ行き来できるようにしています。",
   "about.who.body2":
     "世界を探索する価値があるか、何度遊んでも面白いか、そして何年後に戻っても作品として成り立つかを大切にしています",
 
   "about.now.title": "いま取り組んでいること",
   "about.now.body":
-    "現在は『Shattered Realms』の章、ゲーム性、アートを形にしながら、Hoshi ID と関連サービスを改善しています",
+    "現在は『砕界』の章、ゲーム性、アートを形にしながら、Hoshi ID と関連サービスを改善しています",
   "about.values.title": "私たちが信じていること",
   "about.v1.name": "遊ぶ価値があるから作る",
   "about.v1.desc":
@@ -581,7 +582,7 @@ const ja: Record<UIKey, string> = {
   "join.apply.partner": "長期参画について相談する",
   "join.biz.title": "パブリッシングとビジネス",
   "join.biz.body":
-    "パブリッシャー、プラットフォーム、メディアの皆さまへ——『Shattered Realms』が皆さまのプレイヤーと市場に合うと感じたら、配信、宣伝、イベントなどについてご相談ください",
+    "パブリッシャー、プラットフォーム、メディアの皆さまへ——『砕界』が皆さまのプレイヤーと市場に合うと感じたら、配信、宣伝、イベントなどについてご相談ください",
   "join.biz.cta": "ビジネス協業を相談する",
 
   "join.open.title": "上のどれにも当てはまりませんか？",

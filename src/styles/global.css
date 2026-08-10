@@ -305,7 +305,15 @@ button {
   letter-spacing: 0.06em;
   color: var(--hv-text-soft);
   background: rgba(8, 11, 21, 0.5);
-  white-space: nowrap;
+  /*
+    單行是常態，但**不是不計代價**：狀態字的長度隨語言差一倍以上
+    （「開發中 · 官網已上線」約 130px，英文的 In development · site live
+    要 259px），容器放不下時寧可讓它折行，也不要把整個頁面推出橫向捲軸。
+    `nowrap` 的文字即使外框被 max-width 收住仍會照樣溢出，所以這裡是
+    「先給它換行的權利，再用 balance 讓兩行分得勻」，而不是硬鎖單行。
+  */
+  max-width: 100%;
+  text-wrap: balance;
 }
 .hv-badge--live::before {
   content: "";

@@ -1,0 +1,54 @@
+# 主分支的驗證。
+#
+# 本倉庫沒有 `.hoshi-build.yaml`，驗證的正本是 `AGENTS.md` §2：`npm run build`
+# （＝ `astro check && astro build`）。**`astro check` 是這個倉庫唯一的型別
+# 關卡**，不要改成 `astro build` 跳過它。
+#
+# `npm run fonts` 不在這裡跑——它只在動到字型子集時需要，而且會改動
+# `public/` 底下的產物。CI 的工作是驗證，不是重新產生素材。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  # 開了 PR 就在合併前先驗一次，但**草稿不跑**（下面每個 job 的 `if`）。
+  # 迭代期間開成 draft，改好再標 ready for review——那一刻才觸發。
+  #
+  # 這與「工作分支的頻繁推送不該花 CI」並不衝突：沒有開 PR 的分支不會觸發，
+  # 開了 PR 但還是草稿的也不會。換到的是**合併前就知道壞了**，
+  # 而不是像 2026-08-08 那次要等合併後才發現 hoshi-deploy 是紅的。
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+# 同一個 PR 上再推一次，就取消前一次還沒跑完的執行，只留最後一顆 commit 的結果。
+#
+# **`main` 不取消**（所以用 event_name 判斷，不是無條件 true）：那裡的每一次
+# 執行都對應一次真的合併，取消掉就沒有任何地方記得那次合併驗過沒有——
+# 而那正是加 CI 想消滅的狀態。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # 草稿 PR 不跑。push 與手動觸發不受影響。
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      # `npm ci` 而不是 `npm install`：要驗的是 lockfile 裡那一組版本。
+      - run: npm ci
+
+      - run: npm run build
