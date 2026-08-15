@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Starfield from "@/components/sky/Starfield.astro";
+import { newsFeedPath, newsFeedTitle } from "@/lib/rss";
 import {
   useTranslations,
   localizedPath,
@@ -79,6 +80,14 @@ const xDefault = Astro.site
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <!-- 新聞 RSS：只掛本語系那一份。四份全掛上去，閱讀器會叫使用者從四個
+         看不懂的裡面挑一個——語言在訂閱時就該決定好（見 lib/rss.ts） -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={newsFeedTitle(locale)}
+      href={newsFeedPath(locale)}
+    />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#080b15" />
