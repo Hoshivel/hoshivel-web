@@ -94,6 +94,16 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
 | 介面文案 | `src/i18n/ui.ts`（zh-Hant 為鍵源，四語逐鍵對齊） |
 | 組織連結／信箱／社群 | `src/lib/site.ts`（`SOCIAL_LINKS` 為社群入口的唯一來源） |
 
+### 新聞 RSS：一個語系一份，發稿即自動更新
+
+`/rss.xml`（正體中文）與 `/zh-cn/rss.xml`、`/ja/rss.xml`、`/en/rss.xml` 於建置期
+從 `news/` 產出，發新聞不必另外做事。手捲 RSS 2.0（`src/lib/rss.ts`，零依賴，
+同 `sitemap.xml` 的作法），各頁 `<head>` 只掛**本語系那一份**供閱讀器自動探索。
+
+**一份混語 feed 對訂閱者是壞的**——同一則消息會送四次、其中三次他讀不懂，
+而 feed 沒有語言切換器，語言只能在訂閱那一刻決定。缺譯照樣回退 zh-Hant
+（與網頁一致），所以四份 feed 的則數永遠相同。
+
 ### 招募：預設是協作，不是職缺
 
 門戶的預設立場是**短期彈性協作**——按件、短期專案或彈性兼職，範圍與報酬先談
@@ -105,7 +115,7 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
 ## 部署（hoshivel.com）
 
 `npm run build` → `dist/` 純靜態（HTML／CSS／少量 JS／自託管字體／`og.png`／`sitemap.xml`／
-`robots.txt`），交給 nginx 服務即可。
+`rss.xml` 四份／`robots.txt`），交給 nginx 服務即可。
 
 > **全站規範**：Hoshivel 的前端**必須**可建置為純靜態內容，因此本站**不得**引入
 > SSR adapter（`@astrojs/node` 等）或把 `output` 改成 `'server'`／`'hybrid'`——那會讓
