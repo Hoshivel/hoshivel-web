@@ -1,7 +1,7 @@
 ---
 /*
-  關於頁 —— 我們是誰 → 現在正在做的事 → 我們相信（三條）→ 聯繫。
-  夜面敘事：左標題右正文；現況以圖版卡標出；價值觀以編號髮絲欄呈現。
+  關於頁 —— 我們是誰 → 現在正在做的事 → 我們相信（五項）→ 聯繫。
+  夜面敘事：左標題右正文；現況以圖版卡標出；完整主張以編號長文呈現。
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
@@ -17,10 +17,55 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
+const paragraph = (text: string) => ({ text, strong: false, prefix: "" });
+const emphasis = (text: string, prefix = "") => ({ text, strong: true, prefix });
 const values = [
-  { name: t("about.v1.name"), desc: t("about.v1.desc") },
-  { name: t("about.v2.name"), desc: t("about.v2.desc") },
-  { name: t("about.v3.name"), desc: t("about.v3.desc") },
+  {
+    name: t("about.v1.name"),
+    blocks: [
+      paragraph(t("about.v1.p1")),
+      paragraph(t("about.v1.p2")),
+      paragraph(t("about.v1.p3")),
+      emphasis(t("about.v1.quote")),
+    ],
+  },
+  {
+    name: t("about.v2.name"),
+    blocks: [
+      paragraph(t("about.v2.p1")),
+      paragraph(t("about.v2.p2")),
+      paragraph(t("about.v2.p3")),
+    ],
+  },
+  {
+    name: t("about.v3.name"),
+    blocks: [
+      paragraph(t("about.v3.p1")),
+      paragraph(t("about.v3.p2")),
+      emphasis(t("about.v3.quote")),
+      paragraph(t("about.v3.p3")),
+    ],
+  },
+  {
+    name: t("about.v4.name"),
+    blocks: [
+      paragraph(t("about.v4.p1")),
+      paragraph(t("about.v4.p2")),
+      paragraph(t("about.v4.p3")),
+      emphasis(t("about.v4.quote"), t("about.v4.quote_prefix")),
+      paragraph(t("about.v4.p4")),
+    ],
+  },
+  {
+    name: t("about.v5.name"),
+    blocks: [
+      paragraph(t("about.v5.p1")),
+      paragraph(t("about.v5.p2")),
+      paragraph(t("about.v5.p3")),
+      emphasis(t("about.v5.quote1")),
+      emphasis(t("about.v5.quote2")),
+    ],
+  },
 ];
 ---
 
@@ -61,26 +106,37 @@ const values = [
       </div>
     </section>
 
-    <!-- 我們相信：編號髮絲欄 -->
+    <!-- 我們相信：五項完整主張 -->
     <section class="hv-section" aria-labelledby="about-values">
       <div class="hv-container">
         <h2 id="about-values" class="hv-about__h2 hv-display" data-reveal>
           {t("about.values.title")}
         </h2>
-        <p class="hv-about-values__lead" data-reveal>{t("site.motto")}</p>
         <div class="hv-about-values">
           {
             values.map((v, i) => (
-              <div class="hv-about-values__item" data-reveal>
+              <article class="hv-about-values__item" data-reveal>
                 <span class="hv-catalog hv-about-values__index" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 class="hv-about-values__name hv-display">{v.name}</h3>
-                <p class="hv-about-values__desc">{v.desc}</p>
-              </div>
+                <div class="hv-about-values__content">
+                  <h3 class="hv-about-values__name hv-display">{v.name}</h3>
+                  <div class="hv-about-values__body">
+                    {v.blocks.map((block) => (
+                      <p class={`hv-about-values__block${block.strong ? " is-emphasis" : ""}`}>
+                        {block.prefix}
+                        {block.strong ? <strong>{block.text}</strong> : block.text}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </article>
             ))
           }
         </div>
+        <p class="hv-about-values__closing hv-display" data-reveal>
+          <strong>{t("about.values.closing")}</strong>
+        </p>
       </div>
     </section>
 
@@ -149,37 +205,58 @@ const values = [
     max-width: 58ch;
   }
 
-  /* 做事方式：一句金字，領起三條價值 */
-  .hv-about-values__lead {
-    margin-top: var(--hv-space-3);
-    font-family: var(--hv-font-display);
-    font-size: var(--hv-text-lg);
-    color: var(--hv-gold);
-    letter-spacing: 0.06em;
-  }
-
-  /* 我們相信：三欄，各以髮絲頂線與編號開頭 */
+  /* 我們相信：五項長文，每項沿同一條編號軸閱讀 */
   .hv-about-values {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.5rem, 4vw, 3rem);
+    max-width: 58rem;
     margin-top: var(--hv-space-8);
   }
   .hv-about-values__item {
-    padding-top: var(--hv-space-6);
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: clamp(1.25rem, 4vw, 3rem);
+    padding: clamp(2rem, 5vw, 3.5rem) 0;
     border-top: 1px solid var(--hv-line-strong);
   }
+  .hv-about-values__item:last-child {
+    border-bottom: 1px solid var(--hv-line-strong);
+  }
   .hv-about-values__index {
+    padding-top: 0.35rem;
     color: var(--hv-gold);
   }
   .hv-about-values__name {
-    margin-top: var(--hv-space-4);
-    font-size: var(--hv-text-lg);
+    font-size: clamp(1.45rem, 3vw, 2rem);
   }
-  .hv-about-values__desc {
-    margin-top: var(--hv-space-3);
+  .hv-about-values__body {
+    display: grid;
+    gap: var(--hv-space-4);
+    margin-top: var(--hv-space-6);
+  }
+  .hv-about-values__block {
+    margin: 0;
     color: var(--hv-text-soft);
-    font-size: var(--hv-text-sm);
+    font-size: var(--hv-text-base);
+    line-height: 1.9;
+  }
+  .hv-about-values__block.is-emphasis {
+    padding-left: var(--hv-space-4);
+    border-left: 1px solid var(--hv-gold);
+    color: var(--hv-text);
+    font-family: var(--hv-font-display);
+    font-size: clamp(1.08rem, 2.1vw, 1.3rem);
+    letter-spacing: 0.03em;
+  }
+  .hv-about-values__block strong {
+    font-weight: 650;
+  }
+  .hv-about-values__closing {
+    max-width: 58rem;
+    margin-top: var(--hv-space-12);
+    color: var(--hv-gold);
+    font-size: var(--hv-text-lg);
+    letter-spacing: 0.08em;
+    text-align: right;
   }
 
   /* 聯繫 */
@@ -218,8 +295,15 @@ const values = [
     .hv-about-who__grid {
       grid-template-columns: 1fr;
     }
-    .hv-about-values {
+    .hv-about-values__item {
       grid-template-columns: 1fr;
+      gap: var(--hv-space-3);
+    }
+    .hv-about-values__index {
+      padding-top: 0;
+    }
+    .hv-about-values__closing {
+      text-align: left;
     }
     .hv-about-now__card {
       flex-direction: column;
