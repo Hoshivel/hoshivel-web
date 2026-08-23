@@ -8,7 +8,8 @@
   日文與英文頁一律只用 Hoshivel，不另立一個日文品牌名。
 
   ── 用語規則（全站一致，改文案前先看）──────────────
-  · **句號看句數**：一句不加，兩句以上才加。標題、標籤、按鈕與標語一律不加。
+  · **句號看句數**：一句不加，兩句以上才加。標題、標籤與按鈕一律不加；正式中英
+    英文正式題詞保留品牌定稿中的句點，是唯一例外。
     硬換行（`\n`）不影響判斷——`home.hero.lead` 排成三行仍是一句，不加。
     分號、冒號、破折號都不算斷句。`astro check` 驗不到標點，改文案時自己看。
   · 使用者持有的是「帳號」；管理它的介面叫「帳戶中心」。
@@ -96,17 +97,15 @@ export const HAN_FONT: Record<Locale, string> = {
 const zhHant = {
   "site.name": "Hoshivel",
   /** 正式題詞（首頁 UI 使用；metadata 有獨立順序）。 */
-  "site.tagline": "讓星辰，成為世界",
+  "site.tagline": "始於星帆，盛於繁星",
   /** 題詞的拉丁書寫（漢字語系頁面在題詞下並排一行）。 */
-  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
+  "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
   /** SEO 與分享卡片專用：拉丁題詞在前，再接本地語言。 */
-  "site.metaTagline": "WHERE STARS BECOME WORLDS — 讓星辰，成為世界",
+  "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星",
   /** 定位第二句：位階小於題詞，但同在 Hero 的醒目處。 */
   "site.creed": "不把遊戲做成另一份工作，只做真正值得玩的世界",
-  /** 做事方式（不是題詞）——只在關於頁〈我們相信〉展開。 */
-  "site.motto": "快的事情交給世界，慢的事情留給我們",
   "site.summary":
-    "WHERE STARS BECOME WORLDS — 讓星辰，成為世界。Hoshivel（星帆）是獨立遊戲與世界創作團隊，從回合制策略遊戲《碎界 Shattered Realms》開始。",
+    "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星；Hoshivel（星帆）是獨立遊戲與世界創作團隊，從回合制策略遊戲《碎界 Shattered Realms》開始。",
 
   "nav.works": "作品",
   "nav.news": "新聞",
@@ -147,7 +146,7 @@ const zhHant = {
     漢字語系才需要，英文自己在空白處斷得乾淨——en 不插 `\n`。
   */
   "home.hero.lead":
-    "Hoshivel（星帆）正在打造\n《碎界 Shattered Realms》——\n一個持續展開、值得反覆探索的架空世界",
+    "Hoshivel 正在打造\n《碎界 Shattered Realms》——\n一個持續展開、值得反覆探索的架空世界",
 
   // 首頁 作品（α）
   "home.works.eyebrow": "作品",
@@ -189,7 +188,7 @@ const zhHant = {
   "p.sr.status": "開發中 · 瀏覽器可玩",
   "p.sr.short": "在六角棋盤上調度角色，探索隨篇章展開的架空世界",
   "p.sr.desc":
-    "踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。打開瀏覽器即可遊玩，無需下載。",
+    "踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，無需下載",
   "p.sr.f1": "行動點、地形高低與戰爭迷霧，構成每一步選擇",
   "p.sr.f2": "角色成長與英雄技能，組合自己的戰術",
 
@@ -218,15 +217,34 @@ const zhHant = {
   "about.now.body":
     "目前我們正集中完成《碎界》的章節、玩法與美術，並持續改善 Hoshi ID 與相關服務",
   "about.values.title": "我們相信",
-  "about.v1.name": "值得玩，才做",
-  "about.v1.desc":
-    "每項設計都要讓探索、思考與遊玩本身更有意思",
-  "about.v2.name": "玩家即同行者",
-  "about.v2.desc":
-    "我們把玩家當作一起見證世界成長的人，長期體驗比眼前數字更重要",
-  "about.v3.name": "做得長久",
-  "about.v3.desc":
-    "作品與社群，都以多年後仍值得回來為標準",
+  "about.v1.name": "遊戲首先應當是遊戲",
+  "about.v1.p1": "我們做遊戲，是因為遊戲本身值得被做得有趣。",
+  "about.v1.p2": "營收、日活、留存與遊玩時長可以衡量一款遊戲，卻不應決定它要成為什麼。",
+  "about.v1.p3": "我們不以讓玩家登入得更頻繁、停留得更久、付得更多為設計目的。",
+  "about.v1.quote": "不要設計玩家。設計遊戲。",
+  "about.v2.name": "遊戲不是第二份工作",
+  "about.v2.p1": "我們不靠每日任務、簽到、體力與錯過焦慮維持活躍，也不希望進度上限替玩家決定今天該玩多久。",
+  "about.v2.p2": "你可以幾天不登入，也可以在真正有時間、有興致的時候一直玩下去。",
+  "about.v2.p3": "遊戲應該讓人因為想玩而打開，而不是因為義務而登入。",
+  "about.v3.name": "PVP 就應該是 PVP",
+  "about.v3.p1": "玩家選擇匹配，期待遇見的就應該是另一個玩家。",
+  "about.v3.p2": "我們不會為了控制勝率、挫敗感或留存，在 PVP 中悄悄加入人機；也不會根據近期勝負、付費傾向或其他隱藏狀態，安排你下一場應該贏還是輸。",
+  "about.v3.quote": "匹配服務於競技，而不是服務於操控玩家。",
+  "about.v3.p3": "勝負應該屬於你和對手，而不是演算法安排好的體驗曲線。",
+  "about.v4.name": "我們不賣「人權」",
+  "about.v4.p1": "角色可以強，可以有特色，也可以改變玩法。",
+  "about.v4.p2": "但我們不會刻意製造明顯超模的「必抽角色」，等完成銷售後再削弱，然後重複出售下一個「人權」。",
+  "about.v4.p3": "平衡會調整，設計也可能犯錯。",
+  "about.v4.quote_prefix": "但",
+  "about.v4.quote": "「不抽就落後」不會成為我們的商業模式。",
+  "about.v4.p4": "我們希望你選擇一個角色，是因為喜歡它、理解它，或者覺得它有趣，而不是因為沒有它就不能玩。",
+  "about.v5.name": "做值得留下的遊戲",
+  "about.v5.p1": "盈利讓作品得以存在，但盈利不是作品存在的理由。",
+  "about.v5.p2": "我們不想研究怎樣把玩家綁得更久。",
+  "about.v5.p3": "我們更願意研究，怎樣讓下一局更有趣，讓一個角色值得喜歡，讓一個世界值得回來。",
+  "about.v5.quote1": "因為留下玩家最好的方式，不是把玩家綁住。",
+  "about.v5.quote2": "而是讓遊戲值得留下。",
+  "about.values.closing": "始於星帆，盛於繁星",
   "about.contact.title": "聯繫我們",
   "about.contact.body":
     "合作、媒體或其他事宜，歡迎寄信與我們聯繫",
@@ -280,13 +298,12 @@ export type UIKey = keyof typeof zhHant;
 
 const zhCN: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "让星辰，成为世界",
-  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
-  "site.metaTagline": "WHERE STARS BECOME WORLDS — 让星辰，成为世界",
+  "site.tagline": "始于星帆，盛于繁星",
+  "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
+  "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 始于星帆，盛于繁星",
   "site.creed": "不把游戏做成另一份工作，只做真正值得玩的世界",
-  "site.motto": "快的事情交给世界，慢的事情留给我们",
   "site.summary":
-    "WHERE STARS BECOME WORLDS — 让星辰，成为世界。Hoshivel（星帆）是独立游戏与世界创作团队，从回合制策略游戏《碎界 Shattered Realms》开始。",
+    "From a Star-Sail to a Sea of Stars. — 始于星帆，盛于繁星；Hoshivel（星帆）是独立游戏与世界创作团队，从回合制策略游戏《碎界 Shattered Realms》开始。",
 
   "nav.works": "作品",
   "nav.news": "新闻",
@@ -319,7 +336,7 @@ const zhCN: Record<UIKey, string> = {
 
   "home.hero.eyebrow": "独立游戏与世界创作团队",
   "home.hero.lead":
-    "Hoshivel（星帆）正在打造\n《碎界 Shattered Realms》——\n一个持续展开、值得反复探索的架空世界",
+    "Hoshivel 正在打造\n《碎界 Shattered Realms》——\n一个持续展开、值得反复探索的架空世界",
 
   "home.works.eyebrow": "作品",
   "home.works.title": "从第一个世界开始，把每一寸做好",
@@ -353,7 +370,7 @@ const zhCN: Record<UIKey, string> = {
   "p.sr.status": "开发中 · 浏览器可玩",
   "p.sr.short": "在六角棋盘上调度角色，探索随篇章展开的架空世界",
   "p.sr.desc":
-    "踏上漂浮于虚空的碎片大地，在六角棋盘上调度角色、运用地形，探索随篇章展开的架空世界。打开浏览器即可游玩，无需下载。",
+    "踏上漂浮于虚空的碎片大地，在六角棋盘上调度角色、运用地形，探索随篇章展开的架空世界。点击即玩，无需下载",
   "p.sr.f1": "行动点、地形高低与战争迷雾，构成每一步选择",
   "p.sr.f2": "角色成长与英雄技能，组合自己的战术",
 
@@ -380,14 +397,34 @@ const zhCN: Record<UIKey, string> = {
   "about.now.body":
     "目前我们正集中完成《碎界》的章节、玩法与美术，并持续改善 Hoshi ID 与相关服务",
   "about.values.title": "我们相信",
-  "about.v1.name": "值得玩，才做",
-  "about.v1.desc":
-    "每项设计都要让探索、思考与游玩本身更有意思",
-  "about.v2.name": "玩家即同行者",
-  "about.v2.desc":
-    "我们把玩家当作一起见证世界成长的人，长期体验比眼前数字更重要",
-  "about.v3.name": "做得长久",
-  "about.v3.desc": "作品与社区，都以多年后仍值得回来为标准",
+  "about.v1.name": "游戏首先应当是游戏",
+  "about.v1.p1": "我们做游戏，是因为游戏本身值得被做得有趣。",
+  "about.v1.p2": "营收、日活、留存与游玩时长可以衡量一款游戏，却不应决定它要成为什么。",
+  "about.v1.p3": "我们不以让玩家登录得更频繁、停留得更久、付得更多为设计目的。",
+  "about.v1.quote": "不要设计玩家。设计游戏。",
+  "about.v2.name": "游戏不是第二份工作",
+  "about.v2.p1": "我们不靠每日任务、签到、体力与错过焦虑维持活跃，也不希望进度上限替玩家决定今天该玩多久。",
+  "about.v2.p2": "你可以几天不登录，也可以在真正有时间、有兴致的时候一直玩下去。",
+  "about.v2.p3": "游戏应该让人因为想玩而打开，而不是因为义务而登录。",
+  "about.v3.name": "PVP 就应该是 PVP",
+  "about.v3.p1": "玩家选择匹配，期待遇见的就应该是另一个玩家。",
+  "about.v3.p2": "我们不会为了控制胜率、挫败感或留存，在 PVP 中悄悄加入人机；也不会根据近期胜负、付费倾向或其他隐藏状态，安排你下一场应该赢还是输。",
+  "about.v3.quote": "匹配服务于竞技，而不是服务于操控玩家。",
+  "about.v3.p3": "胜负应该属于你和对手，而不是算法安排好的体验曲线。",
+  "about.v4.name": "我们不卖「人权」",
+  "about.v4.p1": "角色可以强，可以有特色，也可以改变玩法。",
+  "about.v4.p2": "但我们不会刻意制造明显超模的「必抽角色」，等完成销售后再削弱，然后重复出售下一个「人权」。",
+  "about.v4.p3": "平衡会调整，设计也可能犯错。",
+  "about.v4.quote_prefix": "但",
+  "about.v4.quote": "「不抽就落后」不会成为我们的商业模式。",
+  "about.v4.p4": "我们希望你选择一个角色，是因为喜欢它、理解它，或者觉得它有趣，而不是因为没有它就不能玩。",
+  "about.v5.name": "做值得留下的游戏",
+  "about.v5.p1": "盈利让作品得以存在，但盈利不是作品存在的理由。",
+  "about.v5.p2": "我们不想研究怎样把玩家绑得更久。",
+  "about.v5.p3": "我们更愿意研究，怎样让下一局更有趣，让一个角色值得喜欢，让一个世界值得回来。",
+  "about.v5.quote1": "因为留下玩家最好的方式，不是把玩家绑住。",
+  "about.v5.quote2": "而是让游戏值得留下。",
+  "about.values.closing": "始于星帆，盛于繁星",
   "about.contact.title": "联系我们",
   "about.contact.body": "合作、媒体或其他事宜，欢迎发送邮件与我们联系",
   "about.contact.social": "或在这些地方找到我们",
@@ -440,16 +477,16 @@ const zhCN: Record<UIKey, string> = {
     「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
   · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
     読点「、」・コロン「：」・ダッシュ「——」は文の切れ目に数えない。
+    正式な日英タグラインは確定稿の句点を残す。
 */
 const ja: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "星々が、世界になる",
-  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
-  "site.metaTagline": "WHERE STARS BECOME WORLDS — 星々が、世界になる",
+  "site.tagline": "星の帆から始まり、星々の海へ。",
+  "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
+  "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 星の帆から始まり、星々の海へ。",
   "site.creed": "ゲームをもうひとつの仕事にはしない、本当に遊ぶ価値のある世界だけを作る",
-  "site.motto": "速さは世界に任せ、私たちは大切なものに時間をかける",
   "site.summary":
-    "WHERE STARS BECOME WORLDS — 星々が、世界になる。Hoshivel はゲームと世界観をつくるインディーチーム。ターン制ストラテジー『砕界 Shattered Realms』を開発しています。",
+    "From a Star-Sail to a Sea of Stars. — 星の帆から始まり、星々の海へ。Hoshivel はゲームと世界観をつくるインディーチーム。ターン制ストラテジー『砕界 Shattered Realms』を開発しています。",
 
   "nav.works": "作品",
   "nav.news": "ニュース",
@@ -524,7 +561,7 @@ const ja: Record<UIKey, string> = {
   "p.sr.status": "開発中 · ブラウザでプレイ可能",
   "p.sr.short": "ヘクスボードで仲間を動かし、章ごとに広がる架空世界を探索します",
   "p.sr.desc":
-    "虚空に浮かぶ砕けた大地を舞台に、ヘクスボードで仲間を動かし、地形を生かして、章ごとに広がる世界を探索します。ブラウザですぐに遊べ、ダウンロードは不要です。",
+    "虚空に浮かぶ砕けた大地を舞台に、ヘクスボードで仲間を動かし、地形を生かして、章ごとに広がる世界を探索します。クリックしてすぐに遊べ、ダウンロードは不要です。",
   "p.sr.f1": "行動ポイント、地形の高低、戦場の霧が一手ごとの判断を形づくります",
   "p.sr.f2": "キャラクターの成長とスキルを組み合わせ、自分の戦術をつくります",
 
@@ -552,15 +589,34 @@ const ja: Record<UIKey, string> = {
   "about.now.body":
     "現在は『砕界』の章、ゲーム性、アートを形にしながら、Hoshi ID と関連サービスを改善しています",
   "about.values.title": "私たちが信じていること",
-  "about.v1.name": "遊ぶ価値があるから作る",
-  "about.v1.desc":
-    "すべての設計が、探索と思考、遊ぶことそのものを面白くするためにあります",
-  "about.v2.name": "プレイヤーは同行者",
-  "about.v2.desc":
-    "プレイヤーは世界の成長を一緒に見届ける人であり、目先の数字より長い体験を大切にします",
-  "about.v3.name": "長く続くように作る",
-  "about.v3.desc":
-    "作品もコミュニティも、何年後でも戻る価値があることを基準にします",
+  "about.v1.name": "ゲームは、まずゲームであるべき",
+  "about.v1.p1": "私たちがゲームを作るのは、ゲームそのものが面白く作られる価値を持つからです。",
+  "about.v1.p2": "売上、DAU、継続率、プレイ時間はゲームを測ることはできても、そのゲームが何になるべきかを決めるものではありません。",
+  "about.v1.p3": "より頻繁にログインさせ、より長く滞在させ、より多く支払わせることを設計目的にはしません。",
+  "about.v1.quote": "プレイヤーを設計しない。ゲームを設計する。",
+  "about.v2.name": "ゲームは第二の仕事ではない",
+  "about.v2.p1": "デイリー任務、ログインボーナス、スタミナ、取り逃す不安でアクティブ率を保たず、進行上限に今日のプレイ時間を決めさせることもしません。",
+  "about.v2.p2": "数日ログインしなくてもいいし、本当に時間と遊びたい気持ちがある日には、好きなだけ遊べます。",
+  "about.v2.p3": "ゲームは義務だから開くのではなく、遊びたいから開くものであるべきです。",
+  "about.v3.name": "PVP は PVP であるべき",
+  "about.v3.p1": "マッチングを選んだプレイヤーが出会うべき相手は、別のプレイヤーです。",
+  "about.v3.p2": "勝率、挫折感、継続率を操作するために PVP へ密かに BOT を混ぜることはありません。直近の勝敗、課金傾向、その他の隠れた状態から、次の一戦で勝つべきか負けるべきかを決めることもしません。",
+  "about.v3.quote": "マッチングは競技のためにある。プレイヤーを操作するためではない。",
+  "about.v3.p3": "勝敗はあなたと対戦相手のものであり、アルゴリズムが用意した体験曲線のものではありません。",
+  "about.v4.name": "私たちは「人権キャラ」を売らない",
+  "about.v4.p1": "キャラクターは強くても、個性的でも、遊び方を変える存在でもかまいません。",
+  "about.v4.p2": "しかし、明らかに性能が突出した「必須キャラ」を意図的に作り、売り切った後で弱体化し、次の「人権キャラ」を繰り返し売ることはありません。",
+  "about.v4.p3": "バランスは調整され、設計を誤ることもあります。",
+  "about.v4.quote_prefix": "しかし、",
+  "about.v4.quote": "「引かなければ遅れる」を私たちのビジネスモデルにはしません。",
+  "about.v4.p4": "キャラクターを選ぶ理由は、好きだから、理解できたから、面白そうだからであって、そのキャラクターがいなければ遊べないからではないことを願っています。",
+  "about.v5.name": "残る価値のあるゲームを作る",
+  "about.v5.p1": "利益は作品を存続させますが、利益が作品の存在理由ではありません。",
+  "about.v5.p2": "どうすればプレイヤーをより長く縛れるかを研究したいとは思いません。",
+  "about.v5.p3": "次の一戦をもっと面白くする方法、好きになれるキャラクター、戻る価値のある世界を研究したいと考えています。",
+  "about.v5.quote1": "プレイヤーに残ってもらう最良の方法は、縛りつけることではありません。",
+  "about.v5.quote2": "ゲームそのものを、残る価値のあるものにすることです。",
+  "about.values.closing": "星の帆から始まり、星々の海へ。",
   "about.contact.title": "お問い合わせ",
   "about.contact.body":
     "協業、取材、その他のご相談はメールでご連絡ください",
@@ -605,13 +661,12 @@ const ja: Record<UIKey, string> = {
 
 const en: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "Where Stars Become Worlds",
-  "site.taglineLatin": "WHERE STARS BECOME WORLDS",
-  "site.metaTagline": "WHERE STARS BECOME WORLDS",
+  "site.tagline": "From a Star-Sail to a Sea of Stars.",
+  "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
+  "site.metaTagline": "From a Star-Sail to a Sea of Stars.",
   "site.creed": "We don't build games you clock into — only worlds worth playing",
-  "site.motto": "Let the world move fast; we take our time with what matters",
   "site.summary":
-    "WHERE STARS BECOME WORLDS. Hoshivel creates original games and worlds, beginning with the turn-based strategy game Shattered Realms.",
+    "From a Star-Sail to a Sea of Stars. Hoshivel creates original games and worlds, beginning with the turn-based strategy game Shattered Realms.",
 
   "nav.works": "Works",
   "nav.news": "News",
@@ -680,7 +735,7 @@ const en: Record<UIKey, string> = {
   "p.sr.status": "In development · playable in browser",
   "p.sr.short": "Position your cast on a hex board and explore an original world that unfolds chapter by chapter",
   "p.sr.desc":
-    "Cross fragmented lands adrift in the void, position your cast on a hex board and use the terrain as an original world unfolds chapter by chapter. Play in your browser with no download.",
+    "Cross fragmented lands adrift in the void, position your cast on a hex board and use the terrain as an original world unfolds chapter by chapter. Click to play, no download required.",
   "p.sr.f1": "Action points, elevation and fog of war make every move a choice",
   "p.sr.f2": "Combine character growth and hero skills into your own tactics",
 
@@ -708,15 +763,34 @@ const en: Record<UIKey, string> = {
   "about.now.body":
     "We're focused on the chapters, systems and art of Shattered Realms while continuing to improve Hoshi ID and related services",
   "about.values.title": "What we believe",
-  "about.v1.name": "Worth playing, or not at all",
-  "about.v1.desc":
-    "Every design choice should make exploration, thought and play more rewarding",
-  "about.v2.name": "Players are companions",
-  "about.v2.desc":
-    "Players witness these worlds grow with us, so long-term experience matters more than today's numbers",
-  "about.v3.name": "Built to last",
-  "about.v3.desc":
-    "Games and communities should still be worth returning to years from now",
+  "about.v1.name": "Games should be games first",
+  "about.v1.p1": "We make games because games themselves are worth making fun.",
+  "about.v1.p2": "Revenue, daily active users, retention and playtime can measure a game, but they should not decide what it becomes.",
+  "about.v1.p3": "We do not design around making players log in more often, stay longer or pay more.",
+  "about.v1.quote": "Don't design players. Design games.",
+  "about.v2.name": "A game is not a second job",
+  "about.v2.p1": "We do not rely on daily quests, check-ins, energy systems or fear of missing out to sustain activity, nor do we want progression caps deciding how long someone should play today.",
+  "about.v2.p2": "You can stay away for days, or keep playing when you genuinely have the time and desire.",
+  "about.v2.p3": "A game should be opened because someone wants to play, not because they feel obliged to log in.",
+  "about.v3.name": "PVP should be PVP",
+  "about.v3.p1": "When players choose matchmaking, they should expect to meet another player.",
+  "about.v3.p2": "We will not quietly add bots to PVP to control win rates, frustration or retention. Nor will recent results, spending tendencies or other hidden states decide whether you should win or lose your next match.",
+  "about.v3.quote": "Matchmaking serves competition, not the manipulation of players.",
+  "about.v3.p3": "The outcome should belong to you and your opponent, not to an experience curve arranged by an algorithm.",
+  "about.v4.name": "We don't sell “must-pulls”",
+  "about.v4.p1": "Characters can be powerful, distinctive and capable of changing how the game is played.",
+  "about.v4.p2": "But we will not deliberately create an obviously overpowered must-pull, weaken it after the sale is made, then repeat the cycle with the next one.",
+  "about.v4.p3": "Balance will change, and design can be wrong.",
+  "about.v4.quote_prefix": "But ",
+  "about.v4.quote": "“pull or fall behind” will not be our business model.",
+  "about.v4.p4": "We want you to choose a character because you like them, understand them or find them interesting—not because the game is unplayable without them.",
+  "about.v5.name": "Make games worth staying for",
+  "about.v5.p1": "Profit allows a work to exist, but profit is not the reason it exists.",
+  "about.v5.p2": "We do not want to study how to bind players to a game for longer.",
+  "about.v5.p3": "We would rather study how to make the next match more interesting, a character worth caring about and a world worth returning to.",
+  "about.v5.quote1": "The best way to keep players is not to hold them captive.",
+  "about.v5.quote2": "It is to make a game worth staying for.",
+  "about.values.closing": "From a Star-Sail to a Sea of Stars.",
   "about.contact.title": "Contact",
   "about.contact.body":
     "For partnerships, press or anything else, reach us by email",
