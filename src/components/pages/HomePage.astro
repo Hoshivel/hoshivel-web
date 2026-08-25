@@ -42,7 +42,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
               </p>
             )
           }
-          <p class="hv-hero__creed hv-display" data-reveal>{t("site.creed")}</p>
+          <p class="hv-hero__creed hv-display" data-reveal>{t("home.hero.creed")}</p>
           <p class="hv-lead hv-hero__lead" data-reveal>{t("home.hero.lead")}</p>
           <div class="hv-hero__cta" data-reveal>
             <a class="hv-btn hv-btn--primary" href={localizedPath(locale, "/works#shattered-realms")}>
@@ -154,9 +154,14 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
   }
   .hv-hero__title {
     margin-top: var(--hv-space-6);
-    /* 題詞是門面第一句：大而不溢出文字欄（zh 10 字單行成立） */
-    font-size: clamp(2.1rem, 4.6vw, 3.35rem);
+    /* Keep all four locales one step below the generic display scale in this two-column hero. */
+    font-size: clamp(1.95rem, 4.1vw, 3rem);
     /* CJK 下 ch 單位失真，不設 max-width */
+  }
+  /* A restrained warm starlight distinguishes the English homepage without a solid gold block. */
+  :global(html[lang="en"]) .hv-hero__title {
+    color: var(--hv-gold-soft);
+    color: color-mix(in srgb, var(--hv-starlight) 68%, var(--hv-gold));
   }
   /* 題詞的拉丁書寫：等寬寬字距的一行金 */
   .hv-hero__latin {
@@ -209,6 +214,13 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     .hv-hero__inner {
       grid-template-columns: 1fr;
       gap: var(--hv-space-12);
+    }
+  }
+
+  @media (min-width: 901px) {
+    /* The Traditional Chinese face is wider; preserve the complete line while two columns fit. */
+    :global(html[lang="zh-Hant"]) .hv-hero__title {
+      white-space: nowrap;
     }
   }
 
