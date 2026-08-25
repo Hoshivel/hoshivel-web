@@ -48,6 +48,11 @@ Hoshivel（星帆）的組織門面網站：作品（《碎界 Shattered Realms�
 - 招募職位放在**專案根目錄 `roles.config.ts`**（四語文案就地寫齊，不必動字典）
 - 設計 tokens 集中於 `src/styles/tokens.css`（`--hv-*`）；全站不寫裸 hex
 
+公開頁面以 `hoshi_cookie_consent` 記錄「只用必要 Cookie」或「記住偏好」。訪客明確
+選擇語言或接受偏好後，語言會寫入 `.hoshivel.com` 範圍的 `hoshi_lang`，供官網、
+Hoshi ID、SR 官網與遊戲入口共用；外觀偏好則由支援主題切換的頁面共用
+`hoshi_theme`。這些偏好不承載分析或追蹤資料，登入與安全 Cookie 也不受其停用。
+
 ## 開發
 
 ```bash

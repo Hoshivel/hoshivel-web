@@ -3,6 +3,8 @@ import "@/styles/global.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Starfield from "@/components/sky/Starfield.astro";
+import PreferenceBootstrap from "@/components/PreferenceBootstrap.astro";
+import CookiePreferences from "@/components/CookiePreferences.astro";
 import { newsFeedPath, newsFeedTitle } from "@/lib/rss";
 import {
   useTranslations,
@@ -62,6 +64,11 @@ const xDefault = Astro.site
     <script is:inline>
       document.documentElement.classList.add("hv-js");
     </script>
+    <PreferenceBootstrap
+      locale={locale}
+      path={logicalPath}
+      enabled={navigationPath === undefined}
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- 自訂明體：標題與字標的 LCP 依賴它，先行預載（依語言各載一支漢字面） -->
     <link
@@ -120,6 +127,7 @@ const xDefault = Astro.site
     <Header locale={locale} path={chromePath} />
     <slot />
     <Footer locale={locale} path={chromePath} />
+    <CookiePreferences locale={locale} />
 
     <script>
       // 捲動動效：reveal-on-scroll ＋ 星空微視差（皆 reduced-motion 友善）。
