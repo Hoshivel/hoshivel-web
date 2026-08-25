@@ -102,8 +102,6 @@ const zhHant = {
   "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
   /** SEO 與分享卡片專用：拉丁題詞在前，再接本地語言。 */
   "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星",
-  /** 定位第二句：位階小於題詞，但同在 Hero 的醒目處。 */
-  "site.creed": "不把遊戲做成另一份工作，只做真正值得玩的世界",
   "site.summary":
     "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星；Hoshivel（星帆）是獨立遊戲與世界創作團隊，從回合制策略遊戲《碎界 Shattered Realms》開始。",
 
@@ -139,6 +137,8 @@ const zhHant = {
 
   // 首頁 Hero
   "home.hero.eyebrow": "獨立遊戲與世界創作團隊",
+  /** Concise homepage positioning; the full statement remains in the brand docs and About values. */
+  "home.hero.creed": "只做真正值得玩的世界",
   /*
     導語的斷行是**手工指定的**（`\n`，由 `.hv-hero__lead` 的 `white-space: pre-line`
     落實）。漢字可在任兩字之間斷開，交給瀏覽器會把《碎界 Shattered Realms》攔腰
@@ -301,7 +301,6 @@ const zhCN: Record<UIKey, string> = {
   "site.tagline": "始于星帆，盛于繁星",
   "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
   "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 始于星帆，盛于繁星",
-  "site.creed": "不把游戏做成另一份工作，只做真正值得玩的世界",
   "site.summary":
     "From a Star-Sail to a Sea of Stars. — 始于星帆，盛于繁星；Hoshivel（星帆）是独立游戏与世界创作团队，从回合制策略游戏《碎界 Shattered Realms》开始。",
 
@@ -335,6 +334,7 @@ const zhCN: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "独立游戏与世界创作团队",
+  "home.hero.creed": "只做真正值得玩的世界",
   "home.hero.lead":
     "Hoshivel 正在打造\n《碎界 Shattered Realms》——\n一个持续展开、值得反复探索的架空世界",
 
@@ -477,14 +477,13 @@ const zhCN: Record<UIKey, string> = {
     「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
   · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
     読点「、」・コロン「：」・ダッシュ「——」は文の切れ目に数えない。
-    正式な日英タグラインは確定稿の句点を残す。
+    正式な英語タグラインだけは確定稿のピリオドを残す。
 */
 const ja: Record<UIKey, string> = {
   "site.name": "Hoshivel",
-  "site.tagline": "星の帆から始まり、星々の海へ。",
+  "site.tagline": "星の帆から始まり、星々の海へ",
   "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
-  "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 星の帆から始まり、星々の海へ。",
-  "site.creed": "ゲームをもうひとつの仕事にはしない、本当に遊ぶ価値のある世界だけを作る",
+  "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 星の帆から始まり、星々の海へ",
   "site.summary":
     "From a Star-Sail to a Sea of Stars. — 星の帆から始まり、星々の海へ。Hoshivel はゲームと世界観をつくるインディーチーム。ターン制ストラテジー『砕界 Shattered Realms』を開発しています。",
 
@@ -518,6 +517,7 @@ const ja: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "ゲームと世界観をつくるインディーチーム",
+  "home.hero.creed": "本当に遊ぶ価値のある世界だけを作る",
   /*
     漢字も仮名も任意の二文字間で折れるため、正體中文と同じく改行を手で指定する
     （作品名が途中で切られないように）。三行目は Hero 右側に星図が並ぶぶん
@@ -616,7 +616,7 @@ const ja: Record<UIKey, string> = {
   "about.v5.p3": "次の一戦をもっと面白くする方法、好きになれるキャラクター、戻る価値のある世界を研究したいと考えています。",
   "about.v5.quote1": "プレイヤーに残ってもらう最良の方法は、縛りつけることではありません。",
   "about.v5.quote2": "ゲームそのものを、残る価値のあるものにすることです。",
-  "about.values.closing": "星の帆から始まり、星々の海へ。",
+  "about.values.closing": "星の帆から始まり、星々の海へ",
   "about.contact.title": "お問い合わせ",
   "about.contact.body":
     "協業、取材、その他のご相談はメールでご連絡ください",
@@ -664,7 +664,6 @@ const en: Record<UIKey, string> = {
   "site.tagline": "From a Star-Sail to a Sea of Stars.",
   "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
   "site.metaTagline": "From a Star-Sail to a Sea of Stars.",
-  "site.creed": "We don't build games you clock into — only worlds worth playing",
   "site.summary":
     "From a Star-Sail to a Sea of Stars. Hoshivel creates original games and worlds, beginning with the turn-based strategy game Shattered Realms.",
 
@@ -698,6 +697,7 @@ const en: Record<UIKey, string> = {
   "footer.rights": "Hoshivel",
 
   "home.hero.eyebrow": "Independent games & world-building",
+  "home.hero.creed": "Only worlds worth playing",
   "home.hero.lead":
     "Hoshivel is building Shattered Realms — an original world that unfolds chapter by chapter and rewards returning to explore",
 
