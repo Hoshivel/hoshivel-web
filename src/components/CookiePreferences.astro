@@ -29,17 +29,22 @@ const language = globalLanguageForLocale(locale);
 
 <style>
   .hv-cookie {
+    --cookie-inset: 1rem;
+    --cookie-toggle-height: 2.4rem;
     position: fixed;
-    right: 1rem;
-    bottom: 1rem;
+    right: var(--cookie-inset);
+    bottom: var(--cookie-inset);
     z-index: var(--hv-z-overlay);
-    width: min(28rem, calc(100% - 2rem));
+    width: min(28rem, calc(100% - 2 * var(--cookie-inset)));
+    pointer-events: none;
   }
   .hv-cookie > summary {
     width: fit-content;
     max-width: 100%;
     margin-left: auto;
+    min-height: var(--cookie-toggle-height);
     padding: 0.4rem 0.75rem;
+    line-height: 1.4;
     border: 1px solid var(--hv-line-strong);
     border-radius: var(--hv-radius);
     list-style: none;
@@ -48,16 +53,25 @@ const language = globalLanguageForLocale(locale);
     box-shadow: var(--hv-shadow-plate);
     font-size: var(--hv-text-xs);
     cursor: pointer;
+    pointer-events: auto;
   }
   .hv-cookie > summary::-webkit-details-marker {
     display: none;
   }
   .hv-cookie[open] > summary {
-    margin-bottom: 0.5rem;
     color: var(--hv-gold);
     border-color: var(--hv-line-gold);
   }
   .hv-cookie__card {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    width: 100%;
+    max-height: calc(100vh - 2 * var(--cookie-inset) - var(--cookie-toggle-height) - 0.5rem);
+    max-height: calc(100dvh - 2 * var(--cookie-inset) - var(--cookie-toggle-height) - 0.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    pointer-events: auto;
     padding: 1.25rem;
     border: 1px solid var(--hv-line-gold);
     border-radius: var(--hv-radius-lg);
@@ -89,8 +103,7 @@ const language = globalLanguageForLocale(locale);
   }
   @media (max-width: 520px) {
     .hv-cookie {
-      right: 0.6rem;
-      bottom: 0.6rem;
+      --cookie-inset: 0.6rem;
       width: calc(100% - 1.2rem);
     }
     .hv-cookie__actions,
