@@ -7,8 +7,12 @@
 /** GitHub 組織頁。 */
 export const GITHUB_URL = "https://github.com/Hoshivel";
 
-/** 《碎界 Shattered Realms》官方網站（sr-web 的部署網域）。 */
-export const SR_URL = "https://sr.hoshivel.com";
+/**
+ * 《碎界 Shattered Realms》官方網站（sr-web 的部署網域）。
+ * 帶尾斜線：它同時是結構化資料裡那個作品實體的 `url`，而 schema.org 的
+ * 標識靠字串相等——兩份標記寫成兩種形狀就連不起來。
+ */
+export const SR_URL = "https://sr.hoshivel.com/";
 
 /**
  * Hoshi ID 帳戶中心。

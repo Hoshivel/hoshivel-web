@@ -6,6 +6,7 @@ import Starfield from "@/components/sky/Starfield.astro";
 import PreferenceBootstrap from "@/components/PreferenceBootstrap.astro";
 import CookiePreferences from "@/components/CookiePreferences.astro";
 import { newsFeedPath, newsFeedTitle } from "@/lib/rss";
+import { GITHUB_URL, SOCIAL_LINKS, SR_URL } from "@/lib/site";
 import {
   useTranslations,
   localizedPath,
@@ -53,6 +54,45 @@ const alternates = LOCALES.map((l) => ({
 const xDefault = Astro.site
   ? new URL(localizedPath(DEFAULT_LOCALE, logicalPath), Astro.site).href
   : localizedPath(DEFAULT_LOCALE, logicalPath);
+
+// 結構化資料（首頁）。它回答「這個網域是誰」，並把 sr-web 那邊指過來的
+// `https://hoshivel.com/#organization` 變成一個真的存在的節點——兩份標記
+// 用同一個 @id 才連得起來，改動這裡的 @id 就要同時改 sr-web 的 Layout。
+const isHomePage = logicalPath === "/";
+const siteRoot = Astro.site?.href ?? "https://hoshivel.com/";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://hoshivel.com/#organization",
+      name: "Hoshivel",
+      alternateName: ["星帆"],
+      url: "https://hoshivel.com/",
+      sameAs: [GITHUB_URL, ...SOCIAL_LINKS.map((link) => link.url)],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteRoot}#website`,
+      url: siteRoot,
+      name: "Hoshivel",
+      alternateName: ["星帆"],
+      inLanguage: LOCALES.map((l) => HTML_LANG[l]),
+      publisher: { "@id": "https://hoshivel.com/#organization" },
+    },
+    {
+      // 作品實體的正本在 sr-web（同一個 @id）；這裡只是從門戶這一側指認它，
+      // 讓「碎界」「Shattered Realms」「Hoshivel」在兩個網域上是同一件事。
+      "@type": "VideoGame",
+      "@id": "https://sr.hoshivel.com/#game",
+      url: SR_URL,
+      name: "Shattered Realms",
+      alternateName: ["碎界", "砕界"],
+      author: { "@id": "https://hoshivel.com/#organization" },
+      publisher: { "@id": "https://hoshivel.com/#organization" },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -118,6 +158,14 @@ const xDefault = Astro.site
     <meta property="og:image:alt" content={`${siteName} — ${metaTagline}`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og.png" />
+
+    {isHomePage && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(structuredData)}
+      />
+    )}
     <meta name="twitter:image:alt" content={`${siteName} — ${metaTagline}`} />
   </head>
   <body>
