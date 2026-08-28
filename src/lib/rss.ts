@@ -63,11 +63,11 @@ export async function newsFeedResponse(
   const origin = (site?.href ?? "https://hoshivel.com/").replace(/\/$/, "");
   const abs = (path: string) => `${origin}${path}`;
 
-  // 內頁 URL 一律帶尾斜線，與 Layout 的 canonical 一致（產物是
-  // `<路徑>/index.html`）。少了它，讀者從閱讀器點進來要多吃一次轉址，
-  // 而 guid 也就和 canonical 對不上——那正是重複收錄的來源。
-  const pageUrl = (logical: string) =>
-    abs(localizedPath(locale, logical).replace(/\/?$/, "/"));
+  // 內頁 URL 帶尾斜線（產物是 `<路徑>/index.html`），與 canonical 一致：
+  // 少了它，讀者從閱讀器點進來要多吃一次轉址，而 guid 也就和 canonical 對不上
+  // ——那正是重複收錄的來源。尾斜線由 `localizedPath` 補（見 i18n/utils.ts 的
+  // `pagePath`）；這裡先前就地補過一次，那是同一件事修在錯的一層。
+  const pageUrl = (logical: string) => abs(localizedPath(locale, logical));
 
   const posts = await getNewsForLocale(locale);
 
