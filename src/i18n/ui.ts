@@ -114,7 +114,7 @@ const zhHant = {
   "cta.sr": "探索《碎界》",
   "cta.about": "認識我們",
   "cta.visitWork": "前往《碎界》（Shattered Realms）官網",
-  "cta.visitService": "開啟帳戶中心",
+  "cta.visitService": "前往帳戶中心",
   "cta.detail": "作品詳情",
   "cta.detailService": "服務詳情",
   "cta.allNews": "查看全部新聞",
@@ -122,9 +122,9 @@ const zhHant = {
 
   "a11y.skip": "跳到主要內容",
   "a11y.langMenu": "切換語言",
-  "a11y.home": "回首頁",
+  "a11y.home": "返回首頁",
   "a11y.menu": "選單",
-  "a11y.external": "（外部連結，另開新視窗）",
+  "a11y.external": "（外部連結，另開分頁）",
 
   "footer.summary": "獨立遊戲與世界創作團隊",
   "footer.worksLabel": "作品",
@@ -134,7 +134,7 @@ const zhHant = {
   "footer.langLabel": "語言",
   "cookie.settings": "Cookie 設定",
   "cookie.title": "記住你的顯示偏好",
-  "cookie.body": "我們只用偏好 Cookie 在 Hoshivel 網站間記住語言，以及在支援的頁面記住外觀，不用於分析或追蹤。登入與安全所需的 Cookie 會一直啟用。",
+  "cookie.body": "偏好 Cookie 會在 Hoshivel 各網站間記住你的語言，並在支援的頁面套用外觀設定，不用於分析或追蹤。登入與安全所需的 Cookie 一律啟用。",
   "cookie.essential": "只使用必要 Cookie",
   "cookie.remember": "記住偏好",
   "footer.github": "GitHub",
@@ -291,14 +291,14 @@ const zhHant = {
   "news.eyebrow": "新聞",
   "news.title": "公告與動態",
   "news.lead": "Hoshivel 與旗下作品的最新消息",
-  "news.empty": "目前還沒有更多消息",
-  "news.back": "返回新聞",
+  "news.empty": "目前尚無消息",
+  "news.back": "返回新聞列表",
   "news.readMore": "閱讀全文",
 
   // 404
   "notfound.title": "這片夜空還沒有這顆星",
   "notfound.body": "你要找的頁面不存在，或已移往別處",
-  "notfound.back": "回首頁",
+  "notfound.back": "返回首頁",
 } satisfies Record<string, string>;
 
 export type UIKey = keyof typeof zhHant;
@@ -319,7 +319,7 @@ const zhCN: Record<UIKey, string> = {
   "cta.sr": "探索《碎界》",
   "cta.about": "认识我们",
   "cta.visitWork": "前往《碎界》（Shattered Realms）官网",
-  "cta.visitService": "打开账户中心",
+  "cta.visitService": "前往账户中心",
   "cta.detail": "作品详情",
   "cta.detailService": "服务详情",
   "cta.allNews": "查看全部新闻",
@@ -327,9 +327,9 @@ const zhCN: Record<UIKey, string> = {
 
   "a11y.skip": "跳到主要内容",
   "a11y.langMenu": "切换语言",
-  "a11y.home": "回首页",
+  "a11y.home": "返回首页",
   "a11y.menu": "菜单",
-  "a11y.external": "（外部链接，新窗口打开）",
+  "a11y.external": "（外部链接，在新标签页打开）",
 
   "footer.summary": "独立游戏与世界创作团队",
   "footer.worksLabel": "作品",
@@ -339,7 +339,7 @@ const zhCN: Record<UIKey, string> = {
   "footer.langLabel": "语言",
   "cookie.settings": "Cookie 设置",
   "cookie.title": "记住你的显示偏好",
-  "cookie.body": "我们只使用偏好 Cookie 在 Hoshivel 网站间记住语言，以及在支持的页面记住外观，不用于分析或跟踪。登录与安全所需的 Cookie 会始终启用。",
+  "cookie.body": "偏好 Cookie 会在 Hoshivel 各网站间记住你的语言，并在支持的页面应用外观设置，不用于分析或跟踪。登录与安全所需的 Cookie 始终启用。",
   "cookie.essential": "仅使用必要 Cookie",
   "cookie.remember": "记住偏好",
   "footer.github": "GitHub",
@@ -468,13 +468,13 @@ const zhCN: Record<UIKey, string> = {
   "news.eyebrow": "新闻",
   "news.title": "公告与动态",
   "news.lead": "Hoshivel 与旗下作品的最新消息",
-  "news.empty": "目前还没有更多消息",
-  "news.back": "返回新闻",
+  "news.empty": "目前暂无消息",
+  "news.back": "返回新闻列表",
   "news.readMore": "阅读全文",
 
   "notfound.title": "这片夜空还没有这颗星",
   "notfound.body": "你要找的页面不存在，或已移往别处",
-  "notfound.back": "回首页",
+  "notfound.back": "返回首页",
 };
 
 /*
@@ -507,7 +507,7 @@ const ja: Record<UIKey, string> = {
   "cta.sr": "『砕界』を見る",
   "cta.about": "私たちについて",
   "cta.visitWork": "『砕界』（Shattered Realms）公式サイトへ",
-  "cta.visitService": "アカウントセンターを開く",
+  "cta.visitService": "アカウントページへ",
   "cta.detail": "作品の詳細",
   "cta.detailService": "サービスの詳細",
   "cta.allNews": "すべてのニュースを見る",
@@ -515,7 +515,7 @@ const ja: Record<UIKey, string> = {
 
   "a11y.skip": "本文へスキップ",
   "a11y.langMenu": "言語を切り替える",
-  "a11y.home": "ホームへ戻る",
+  "a11y.home": "ホームに戻る",
   "a11y.menu": "メニュー",
   "a11y.external": "（外部リンク、新しいタブで開きます）",
 
@@ -527,7 +527,7 @@ const ja: Record<UIKey, string> = {
   "footer.langLabel": "言語",
   "cookie.settings": "Cookie 設定",
   "cookie.title": "表示設定を記憶する",
-  "cookie.body": "Hoshivel のサイト間で言語を、対応ページで外観を記憶するためだけに設定 Cookie を使用します。分析や追跡には使用しません。ログインとセキュリティに必要な Cookie は常に有効です。",
+  "cookie.body": "設定 Cookie は、Hoshivel の各サイトで言語を記憶し、対応ページで外観の設定を反映するために使います。分析や追跡には使用しません。ログインとセキュリティに必要な Cookie は常に有効です。",
   "cookie.essential": "必須 Cookie のみ",
   "cookie.remember": "設定を記憶",
   "footer.github": "GitHub",
@@ -667,13 +667,13 @@ const ja: Record<UIKey, string> = {
   "news.eyebrow": "ニュース",
   "news.title": "お知らせと更新",
   "news.lead": "Hoshivel と各作品の最新情報",
-  "news.empty": "いまのところ、これ以上のお知らせはありません",
-  "news.back": "ニュースへ戻る",
+  "news.empty": "お知らせはまだありません",
+  "news.back": "お知らせ一覧に戻る",
   "news.readMore": "続きを読む",
 
   "notfound.title": "この夜空に、その星はまだありません",
   "notfound.body": "お探しのページは存在しないか、別の場所へ移動しました",
-  "notfound.back": "ホームへ戻る",
+  "notfound.back": "ホームに戻る",
 };
 
 const en: Record<UIKey, string> = {
@@ -692,7 +692,7 @@ const en: Record<UIKey, string> = {
   "cta.sr": "Explore Shattered Realms",
   "cta.about": "About us",
   "cta.visitWork": "Visit Shattered Realms",
-  "cta.visitService": "Open account center",
+  "cta.visitService": "Go to account",
   "cta.detail": "Details",
   "cta.detailService": "Details",
   "cta.allNews": "All news",
@@ -700,7 +700,7 @@ const en: Record<UIKey, string> = {
 
   "a11y.skip": "Skip to main content",
   "a11y.langMenu": "Switch language",
-  "a11y.home": "Back to home",
+  "a11y.home": "Return to home",
   "a11y.menu": "Menu",
   "a11y.external": "(external link, opens in a new tab)",
 
@@ -712,7 +712,7 @@ const en: Record<UIKey, string> = {
   "footer.langLabel": "Language",
   "cookie.settings": "Cookie settings",
   "cookie.title": "Remember your display preferences",
-  "cookie.body": "We use preference cookies only to remember your language across Hoshivel sites and your appearance on supported pages. They are not used for analytics or tracking. Cookies required for sign-in and security always remain enabled.",
+  "cookie.body": "Preference cookies remember your language across Hoshivel sites and your appearance settings on supported pages. We do not use them for analytics or tracking. Cookies needed for sign-in and security are always enabled.",
   "cookie.essential": "Essential cookies only",
   "cookie.remember": "Remember preferences",
   "footer.github": "GitHub",
@@ -846,13 +846,13 @@ const en: Record<UIKey, string> = {
   "news.eyebrow": "News",
   "news.title": "Announcements & updates",
   "news.lead": "The latest from Hoshivel and our games",
-  "news.empty": "No more news for now",
-  "news.back": "Back to news",
+  "news.empty": "No news yet",
+  "news.back": "Back to all news",
   "news.readMore": "Read more",
 
   "notfound.title": "No star at these coordinates",
   "notfound.body": "The page you're looking for doesn't exist, or has moved",
-  "notfound.back": "Back to home",
+  "notfound.back": "Return to home",
 };
 
 export const ui: Record<Locale, Record<UIKey, string>> = {
