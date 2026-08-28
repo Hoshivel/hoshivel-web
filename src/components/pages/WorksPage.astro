@@ -81,7 +81,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
               </span>
               <div>
                 <h2 id={`${p.id}-title`} class="hv-work__name hv-display">
-                  {t(p.nameKey)}
+                  {t(p.nameKey)}{" "}
                   {t(p.latinKey).toLowerCase() !== t(p.nameKey).toLowerCase() && (
                     <span class="hv-work__latin">{t(p.latinKey)}</span>
                   )}
@@ -192,6 +192,9 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     font-size: var(--hv-text-2xl);
   }
   .hv-work__latin {
+    /* 字典裡存的是真正的名字（`Shattered Realms`），不是全大寫的字面值——
+       搜尋引擎讀的是文字本身。外觀的全大寫在這一行。 */
+    text-transform: uppercase;
     font-family: var(--hv-font-mono);
     font-size: var(--hv-text-xs);
     letter-spacing: var(--hv-tracking-wide);

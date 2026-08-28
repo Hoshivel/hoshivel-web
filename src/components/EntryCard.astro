@@ -53,7 +53,7 @@ const isWork = entry.kind === "work";
       </span>
     </div>
     <h3 class="hv-entry__name hv-display">
-      {name}
+      {name}{" "}
       {showLatin && <span class="hv-entry__latin">{latin}</span>}
     </h3>
     <p class="hv-entry__kind">{t(entry.kindKey)}</p>
@@ -129,6 +129,9 @@ const isWork = entry.kind === "work";
     font-size: var(--hv-text-xl);
   }
   .hv-entry__latin {
+    /* 字典裡存的是真正的名字（`Shattered Realms`），不是全大寫的字面值——
+       搜尋引擎讀的是文字本身。外觀的全大寫在這一行。 */
+    text-transform: uppercase;
     font-family: var(--hv-font-mono);
     font-size: var(--hv-text-xs);
     letter-spacing: var(--hv-tracking-wide);

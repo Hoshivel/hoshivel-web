@@ -113,7 +113,7 @@ const zhHant = {
   /** 首頁 Hero 的主行動：指向旗艦作品，不是泛稱的「作品」。 */
   "cta.sr": "探索《碎界》",
   "cta.about": "認識我們",
-  "cta.visitWork": "前往《碎界》官網",
+  "cta.visitWork": "前往《碎界》（Shattered Realms）官網",
   "cta.visitService": "開啟帳戶中心",
   "cta.detail": "作品詳情",
   "cta.detailService": "服務詳情",
@@ -188,18 +188,20 @@ const zhHant = {
 
   // 作品：碎界 Shattered Realms
   "p.sr.name": "碎界",
-  "p.sr.latin": "SHATTERED REALMS",
+  "p.sr.latin": "Shattered Realms",
   "p.sr.kind": "架空世界觀 · 2D 回合制策略遊戲",
   "p.sr.status": "開發中 · 瀏覽器可玩",
   "p.sr.short": "在六角棋盤上調度角色，探索隨篇章展開的架空世界",
+  // 第一句刻意讓三個名字（碎界／Shattered Realms／Hoshivel）共現：它就印在
+  // 那條連往 sr.hoshivel.com 的連結上方，是本站對那個作品最完整的一段話。
   "p.sr.desc":
-    "踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，無需下載",
+    "《碎界》（Shattered Realms）是 Hoshivel 旗下的 2D 六角格回合制策略遊戲。踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，無需下載",
   "p.sr.f1": "行動點、地形高低與戰爭迷霧，構成每一步選擇",
   "p.sr.f2": "角色成長與英雄技能，組合自己的戰術",
 
   // 服務：Hoshi ID
   "p.id.name": "Hoshi ID",
-  "p.id.latin": "UNIVERSAL ACCOUNT",
+  "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 通用帳號服務",
   "p.id.status": "已上線 · 《碎界》已接入",
   "p.id.short": "一個帳號，連接所有 Hoshivel 世界",
@@ -316,7 +318,7 @@ const zhCN: Record<UIKey, string> = {
 
   "cta.sr": "探索《碎界》",
   "cta.about": "认识我们",
-  "cta.visitWork": "前往《碎界》官网",
+  "cta.visitWork": "前往《碎界》（Shattered Realms）官网",
   "cta.visitService": "打开账户中心",
   "cta.detail": "作品详情",
   "cta.detailService": "服务详情",
@@ -375,17 +377,17 @@ const zhCN: Record<UIKey, string> = {
   "label.service": "服务",
 
   "p.sr.name": "碎界",
-  "p.sr.latin": "SHATTERED REALMS",
+  "p.sr.latin": "Shattered Realms",
   "p.sr.kind": "架空世界观 · 2D 回合制策略游戏",
   "p.sr.status": "开发中 · 浏览器可玩",
   "p.sr.short": "在六角棋盘上调度角色，探索随篇章展开的架空世界",
   "p.sr.desc":
-    "踏上漂浮于虚空的碎片大地，在六角棋盘上调度角色、运用地形，探索随篇章展开的架空世界。点击即玩，无需下载",
+    "《碎界》（Shattered Realms）是 Hoshivel 旗下的 2D 六角格回合制策略游戏。踏上漂浮于虚空的碎片大地，在六角棋盘上调度角色、运用地形，探索随篇章展开的架空世界。点击即玩，无需下载",
   "p.sr.f1": "行动点、地形高低与战争迷雾，构成每一步选择",
   "p.sr.f2": "角色成长与英雄技能，组合自己的战术",
 
   "p.id.name": "Hoshi ID",
-  "p.id.latin": "UNIVERSAL ACCOUNT",
+  "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 通用账号服务",
   "p.id.status": "已上线 · 《碎界》已接入",
   "p.id.short": "一个账号，连接所有 Hoshivel 世界",
@@ -504,7 +506,7 @@ const ja: Record<UIKey, string> = {
 
   "cta.sr": "『砕界』を見る",
   "cta.about": "私たちについて",
-  "cta.visitWork": "『砕界』公式サイトへ",
+  "cta.visitWork": "『砕界』（Shattered Realms）公式サイトへ",
   "cta.visitService": "アカウントセンターを開く",
   "cta.detail": "作品の詳細",
   "cta.detailService": "サービスの詳細",
@@ -571,17 +573,17 @@ const ja: Record<UIKey, string> = {
   "label.service": "サービス",
 
   "p.sr.name": "砕界",
-  "p.sr.latin": "SHATTERED REALMS",
+  "p.sr.latin": "Shattered Realms",
   "p.sr.kind": "架空世界 · 2D ターン制ストラテジー",
   "p.sr.status": "開発中 · ブラウザでプレイ可能",
   "p.sr.short": "ヘクスボードで仲間を動かし、章ごとに広がる架空世界を探索します",
   "p.sr.desc":
-    "虚空に浮かぶ砕けた大地を舞台に、ヘクスボードで仲間を動かし、地形を生かして、章ごとに広がる世界を探索します。クリックしてすぐに遊べ、ダウンロードは不要です。",
+    "『砕界』（Shattered Realms）は Hoshivel が手がける 2D ヘックス制ターンベース・ストラテジーです。虚空に浮かぶ砕けた大地を舞台に、ヘクスボードで仲間を動かし、地形を生かして、章ごとに広がる世界を探索します。クリックしてすぐに遊べ、ダウンロードは不要です。",
   "p.sr.f1": "行動ポイント、地形の高低、戦場の霧が一手ごとの判断を形づくります",
   "p.sr.f2": "キャラクターの成長とスキルを組み合わせ、自分の戦術をつくります",
 
   "p.id.name": "Hoshi ID",
-  "p.id.latin": "UNIVERSAL ACCOUNT",
+  "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 共通アカウント",
   "p.id.status": "公開中 · 砕界 連携済み",
   "p.id.short": "ひとつのアカウントで、すべての Hoshivel の世界へ",
@@ -750,17 +752,17 @@ const en: Record<UIKey, string> = {
   "label.service": "SERVICE",
 
   "p.sr.name": "Shattered Realms",
-  "p.sr.latin": "SHATTERED REALMS",
+  "p.sr.latin": "Shattered Realms",
   "p.sr.kind": "2D turn-based strategy in an original world",
   "p.sr.status": "In development · playable in browser",
   "p.sr.short": "Position your cast on a hex board and explore an original world that unfolds chapter by chapter",
   "p.sr.desc":
-    "Cross fragmented lands adrift in the void, position your cast on a hex board and use the terrain as an original world unfolds chapter by chapter. Click to play, no download required.",
+    "Shattered Realms (碎界) is a 2D turn-based strategy game on a hex grid, made by Hoshivel. Cross fragmented lands adrift in the void, position your cast on a hex board and use the terrain as an original world unfolds chapter by chapter. Click to play, no download required.",
   "p.sr.f1": "Action points, elevation and fog of war make every move a choice",
   "p.sr.f2": "Combine character growth and hero skills into your own tactics",
 
   "p.id.name": "Hoshi ID",
-  "p.id.latin": "UNIVERSAL ACCOUNT",
+  "p.id.latin": "Universal Account",
   "p.id.kind": "The account for every Hoshivel world",
   "p.id.status": "Live · Shattered Realms connected",
   "p.id.short": "One account for every Hoshivel world",
