@@ -22,7 +22,7 @@ export const SR_URL = "https://sr.hoshivel.com/";
 export const HOSHI_ID_URL: string | null = "https://id.hoshivel.com";
 
 /**
- * 對外聯繫信箱（關於 / 合作頁使用）。
+ * 對外聯絡信箱（關於 / 合作頁使用）。
  * 上線前確認正式信箱；追蹤於 workspace/todo/hoshivel-web/站台功能.md。
  */
 export const CONTACT_EMAIL = "contact@hoshivel.com";

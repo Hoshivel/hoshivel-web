@@ -138,8 +138,8 @@ Noto Serif 是泛 CJK 家族，TC／SC 的 cmap 其實也有假名，不濾就�
    （canonical / hreflang / sitemap 全跟著它），`public/robots.txt` 的 Sitemap 行同步改。
 2. **Hoshi ID 入口**：`src/lib/site.ts` 的 `HOSHI_ID_URL` 設 `https://id.hoshivel.com`
    （同上推定）；設為 `null` 可隱藏外部按鈕。
-3. **聯繫信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
-4. **協作方向**：目前公開視覺與美術、宣發與內容，以及限已有共同專案經驗者的長期技術夥伴。
+3. **聯絡信箱**：`src/lib/site.ts` 的 `CONTACT_EMAIL`（目前佔位 `contact@hoshivel.com`）。
+4. **協作方向**：目前公開視覺與美術、宣傳與內容，以及限已有共同專案經驗者的長期技術夥伴。
    首頁導語不列舉工種，調整公開方向時不必同步改文案。
 5. **社群帳號**：`src/lib/site.ts` 的 `SOCIAL_LINKS`——X／YouTube／GitHub 皆為 `hoshivel`；
    Reddit 目前指向使用者頁 `u/hoshivel`，日後若開 `r/hoshivel` 版改該行即可。
