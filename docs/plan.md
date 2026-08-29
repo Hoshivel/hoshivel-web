@@ -14,8 +14,8 @@
 - 呈現**作品**（《碎界 Shattered Realms》→ sr.hoshivel.com）與**服務**
   （Hoshi ID → id.hoshivel.com；**服務不是產品**，另立一節、不佔作品編號）
 - **新聞**（組織與作品公告）
-- **關於**（我們是誰／現在正在做的事／價值觀／聯繫／社群入口）
-- **合作**（**預設是短期彈性協作**／開放式自我推薦／聯繫方式）
+- **關於**（我們是誰／現在正在做的事／價值觀／聯絡／社群入口）
+- **合作**（**預設是短期彈性協作**／開放式自我推薦／聯絡方式）
 - **社群入口**（X／YouTube／GitHub／Reddit，帳號一律 hoshivel）
 
 需求方要求：**簡潔但不簡陋、大氣風度；不堆特效；更注重 UX；
@@ -94,7 +94,7 @@ v3 追加：**要星空元素，點題「星」**；以及——
 ## 事實對齊（與 hoshi-identity repo 校準）
 
 - Hoshi ID 已上線：OIDC / OAuth2+PKCE、帳戶中心（個人檔案、安全工作階段、
-  已連接服務、登入稽核）、短效 token＋refresh rotation＋重用偵測；SR 為首個第一方 client。
+  已連結的服務、登入稽核）、短效 token＋refresh rotation＋重用偵測；SR 為首個第一方 client。
 - 網域：`id.hoshivel.com`（deployment.md 正式範例）→ 門戶網域推定 `hoshivel.com`。
 - 作品頁與新聞的 Hoshi ID 文案均以上述事實書寫，不再寫「建置中／暫無入口」。
 
@@ -105,7 +105,7 @@ v3 追加：**要星空元素，點題「星」**；以及——
              → 理念一句 → δ 協作　（重心：品牌 →《碎界》→ 支援服務 → 動態 → 協作）
 /works       作品（α，#shattered-realms）＋服務另立一節（#hoshi-id）；星表編號／服務籤＋特點清單
 /news        新聞列表（β）；/news/<slug> 內頁
-/about       關於（γ）：…→ 聯繫（信箱／GitHub）＋社群圖版籤列
+/about       關於（γ）：…→ 聯絡（信箱／GitHub）＋社群圖版籤列
 /join        合作（δ）：協作說明 → 目前的協作方向 → 開放式自我推薦
 /404         「這片夜空還沒有這顆星」
 sitemap.xml  全頁 × 四語互標 hreflang；robots.txt 指向

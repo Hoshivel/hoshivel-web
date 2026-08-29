@@ -182,7 +182,7 @@ const zhHant = {
   // 作品頁
   "works.eyebrow": "作品",
   "works.title": "正在成形的世界",
-  "works.lead": "從《碎界》到 Hoshi ID，每個項目都為同一件事服務：讓值得玩的世界長久存在",
+  "works.lead": "從《碎界》到 Hoshi ID，每一項都為同一件事服務：讓值得玩的世界長久存在",
   "label.work": "作品",
   "label.service": "服務",
 
@@ -195,7 +195,7 @@ const zhHant = {
   // 第一句刻意讓三個名字（碎界／Shattered Realms／Hoshivel）共現：它就印在
   // 那條連往 sr.hoshivel.com 的連結上方，是本站對那個作品最完整的一段話。
   "p.sr.desc":
-    "《碎界》（Shattered Realms）是 Hoshivel 旗下的 2D 六角格回合制策略遊戲。踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，無需下載",
+    "《碎界》（Shattered Realms）是 Hoshivel 旗下的 2D 六角格回合制策略遊戲。踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，不必下載",
   "p.sr.f1": "行動點、地形高低與戰爭迷霧，構成每一步選擇",
   "p.sr.f2": "角色成長與英雄技能，組合自己的戰術",
 
@@ -203,12 +203,12 @@ const zhHant = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 通用帳號服務",
-  "p.id.status": "已上線 · 《碎界》已接入",
+  "p.id.status": "已上線 · 可用於《碎界》",
   "p.id.short": "一個帳號，連接所有 Hoshivel 世界",
   "p.id.desc":
-    "一個帳號，連接所有 Hoshivel 世界。登入、帳號安全與已連接服務，都能在同一處管理。",
+    "一個帳號，連接所有 Hoshivel 世界。登入、帳號安全與已連結的服務，都能在同一處管理。",
   "p.id.f1": "一次註冊，即可登入旗下作品",
-  "p.id.f2": "在帳戶中心管理個人檔案、登入紀錄與已連接服務",
+  "p.id.f2": "在帳戶中心管理個人檔案、登入紀錄與已連結的服務",
 
   // 關於頁
   "about.eyebrow": "關於",
@@ -224,9 +224,9 @@ const zhHant = {
   "about.now.body":
     "目前我們正集中完成《碎界》的章節、玩法與美術，並持續改善 Hoshi ID 與相關服務",
   "about.values.title": "我們相信",
-  "about.v1.name": "遊戲首先應當是遊戲",
+  "about.v1.name": "遊戲首先應該是遊戲",
   "about.v1.p1": "我們做遊戲，是因為遊戲本身值得被做得有趣。",
-  "about.v1.p2": "營收、日活、留存與遊玩時長可以衡量一款遊戲，卻不應決定它要成為什麼。",
+  "about.v1.p2": "營收、每日活躍人數、留存率與遊玩時間可以衡量一款遊戲，卻不應決定它要成為什麼。",
   "about.v1.p3": "我們不以讓玩家登入得更頻繁、停留得更久、付得更多為設計目的。",
   "about.v1.quote": "不要設計玩家。設計遊戲。",
   "about.v2.name": "遊戲不是第二份工作",
@@ -234,34 +234,34 @@ const zhHant = {
   "about.v2.p2": "你可以幾天不登入，也可以在真正有時間、有興致的時候一直玩下去。",
   "about.v2.p3": "遊戲應該讓人因為想玩而打開，而不是因為義務而登入。",
   "about.v3.name": "PVP 就應該是 PVP",
-  "about.v3.p1": "玩家選擇匹配，期待遇見的就應該是另一個玩家。",
-  "about.v3.p2": "我們不會為了控制勝率、挫敗感或留存，在 PVP 中悄悄加入人機；也不會根據近期勝負、付費傾向或其他隱藏狀態，安排你下一場應該贏還是輸。",
-  "about.v3.quote": "匹配服務於競技，而不是服務於操控玩家。",
+  "about.v3.p1": "玩家選擇配對，期待遇見的就應該是另一個玩家。",
+  "about.v3.p2": "我們不會為了控制勝率、挫敗感或留存率，在 PVP 中悄悄加入 AI 對手；也不會根據近期勝負、付費傾向或其他隱藏狀態，安排你下一場應該贏還是輸。",
+  "about.v3.quote": "配對服務於競技，而不是服務於操控玩家。",
   "about.v3.p3": "勝負應該屬於你和對手，而不是演算法安排好的體驗曲線。",
   "about.v4.name": "我們不賣「人權」",
   "about.v4.p1": "角色可以強，可以有特色，也可以改變玩法。",
-  "about.v4.p2": "但我們不會刻意製造明顯超模的「必抽角色」，等完成銷售後再削弱，然後重複出售下一個「人權」。",
+  "about.v4.p2": "但我們不會刻意推出強度明顯超標的「必抽角色」，等完成銷售後再削弱，然後重複出售下一個「人權」。",
   "about.v4.p3": "平衡會調整，設計也可能犯錯。",
   "about.v4.quote_prefix": "但",
   "about.v4.quote": "「不抽就落後」不會成為我們的商業模式。",
   "about.v4.p4": "我們希望你選擇一個角色，是因為喜歡它、理解它，或者覺得它有趣，而不是因為沒有它就不能玩。",
   "about.v5.name": "做值得留下的遊戲",
-  "about.v5.p1": "盈利讓作品得以存在，但盈利不是作品存在的理由。",
-  "about.v5.p2": "我們不想研究怎樣把玩家綁得更久。",
-  "about.v5.p3": "我們更願意研究，怎樣讓下一局更有趣，讓一個角色值得喜歡，讓一個世界值得回來。",
+  "about.v5.p1": "獲利讓作品得以存在，但獲利不是作品存在的理由。",
+  "about.v5.p2": "我們不想研究如何把玩家綁得更久。",
+  "about.v5.p3": "我們更願意研究，如何讓下一局更有趣，讓一個角色值得喜歡，讓一個世界值得回來。",
   "about.v5.quote1": "因為留下玩家最好的方式，不是把玩家綁住。",
   "about.v5.quote2": "而是讓遊戲值得留下。",
   "about.values.closing": "始於星帆，盛於繁星",
-  "about.contact.title": "聯繫我們",
+  "about.contact.title": "聯絡我們",
   "about.contact.body":
-    "合作、媒體或其他事宜，歡迎寄信與我們聯繫",
+    "合作、媒體或其他事宜，歡迎寄信聯絡我們",
   "about.contact.social": "或在這些地方找到我們",
 
   // 合作
   "join.eyebrow": "合作",
   "join.title": "與我們合作",
   "join.lead":
-    "我們尋找能把想法落成作品，也願意一起把事情做完的人",
+    "我們尋找能把想法化為作品，也願意一起把事情做完的人",
   "join.collab.title": "我們怎麼合作",
   "join.collab.body":
     "每次合作都從明確的工作開始。範圍、時程與報酬先談清楚；彼此合拍，再一起走得更遠。",
@@ -284,7 +284,7 @@ const zhHant = {
 
   "join.open.title": "不在上面的方向裡？",
   "join.open.body": "沒有完全對上的方向？仍歡迎自我推薦",
-  "join.how.title": "如何聯繫",
+  "join.how.title": "聯絡方式",
   "join.how.body": "寄信附上作品集或 GitHub，告訴我們你想做什麼，以及你能讓哪一部分變得更好",
 
   // 新聞
@@ -389,7 +389,7 @@ const zhCN: Record<UIKey, string> = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 通用账号服务",
-  "p.id.status": "已上线 · 《碎界》已接入",
+  "p.id.status": "已上线 · 可用于《碎界》",
   "p.id.short": "一个账号，连接所有 Hoshivel 世界",
   "p.id.desc":
     "一个账号，连接所有 Hoshivel 世界。登录、账号安全与已连接服务，都能在同一处管理。",
@@ -585,7 +585,7 @@ const ja: Record<UIKey, string> = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 共通アカウント",
-  "p.id.status": "公開中 · 砕界 連携済み",
+  "p.id.status": "公開中 · 『砕界』で利用可能",
   "p.id.short": "ひとつのアカウントで、すべての Hoshivel の世界へ",
   "p.id.desc":
     "ひとつのアカウントで、すべての Hoshivel の世界へ。ログイン、セキュリティ、連携済みサービスを一か所で管理できます。",
@@ -764,7 +764,7 @@ const en: Record<UIKey, string> = {
   "p.id.name": "Hoshi ID",
   "p.id.latin": "Universal Account",
   "p.id.kind": "The account for every Hoshivel world",
-  "p.id.status": "Live · Shattered Realms connected",
+  "p.id.status": "Live · Available in Shattered Realms",
   "p.id.short": "One account for every Hoshivel world",
   "p.id.desc":
     "One Hoshi ID. Every Hoshivel world. Manage sign-in, account security and connected services in one place.",
