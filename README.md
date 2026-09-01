@@ -71,8 +71,15 @@ RSS 依 locale 建置為 `/rss.xml`、`/zh-cn/rss.xml`、`/ja/rss.xml`、`/en/rs
 
 ## 部署
 
-`hoshi build` 產生 `dist/` 靜態檔，直接由 nginx 服務。不得加入 SSR adapter、
-server／hybrid output、Node runtime 或容器產物。
+**Cloudflare Pages，從 `main` 部署。** 推上 `main` 之後由 Pages 自己建置並上線
+——本倉庫沒有部署指令，CI 也不部署。`wrangler.jsonc` 是給 Pages 的建置／部署
+步驟讀的，本機用不到它（所以 wrangler 不在 dependencies）。
+
+`hoshi build` 產生 `dist/` 靜態檔。不得加入 SSR adapter、server／hybrid output、
+Node runtime 或容器產物——Pages 服務的是純靜態檔。
+
+**這個站不落在任何節點上**，所以它不在 hoshi-deploy 的 inventory 裡，
+origin 憑證的 SAN 也沒有 `hoshivel.com`——那是對的，不是漏掉。
 
 正式值集中於：
 
