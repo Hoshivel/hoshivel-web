@@ -71,15 +71,17 @@ RSS 依 locale 建置為 `/rss.xml`、`/zh-cn/rss.xml`、`/ja/rss.xml`、`/en/rs
 
 ## 部署
 
-**Cloudflare Pages，從 `main` 部署。** 推上 `main` 之後由 Pages 自己建置並上線
-——本倉庫沒有部署指令，CI 也不部署。`wrangler.jsonc` 是給 Pages 的建置／部署
-步驟讀的，本機用不到它（所以 wrangler 不在 dependencies）。
+**Cloudflare Workers（僅靜態資產），生產分支 `main`。** 推上 `main` 由
+Cloudflare 建置：`npm run build` → `npx wrangler deploy`。建置設定在 Cloudflare
+主控臺，不在本倉庫；CI 不部署。
 
-`hoshi build` 產生 `dist/` 靜態檔。不得加入 SSR adapter、server／hybrid output、
-Node runtime 或容器產物——Pages 服務的是純靜態檔。
+- Workers 與 Pages 已整合為同一流程。本站只部署靜態資產，兩者無差異。
+- `wrangler.jsonc` 供 `npx wrangler deploy` 讀取，在 Cloudflare 的建置環境執行。
+  本機不需要 wrangler，因此不在 dependencies，也沒有 `deploy` script。
+- 本站不落在任何節點上：不進 hoshi-deploy inventory，origin 憑證不含 `hoshivel.com`。
 
-**這個站不落在任何節點上**，所以它不在 hoshi-deploy 的 inventory 裡，
-origin 憑證的 SAN 也沒有 `hoshivel.com`——那是對的，不是漏掉。
+`hoshi build` 產生 `dist/` 靜態檔。**不得**加入 SSR adapter、server／hybrid
+output、Node runtime 或容器產物——部署的是純靜態資產。
 
 正式值集中於：
 
