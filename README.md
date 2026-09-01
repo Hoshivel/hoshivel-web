@@ -71,8 +71,15 @@ RSS 依 locale 建置為 `/rss.xml`、`/zh-cn/rss.xml`、`/ja/rss.xml`、`/en/rs
 
 ## 部署
 
-`hoshi build` 產生 `dist/` 靜態檔，直接由 nginx 服務。不得加入 SSR adapter、
-server／hybrid output、Node runtime 或容器產物。
+**本站不落在任何 Hoshivel 節點上，由 Cloudflare 建置並服務。**
+`hoshi build`（＝`npm run build`）產生的 `dist/` 就是全部產物。不得加入 SSR
+adapter、server／hybrid output、Node runtime 或容器產物。
+
+倉庫這一側**沒有任何一步會推送產物**：CI 只驗建置過不過，`wrangler`
+不在相依裡，`wrangler.jsonc` 的 `assets.directory: ./dist` 是給 Cloudflare
+那一側讀的。所以「這個 commit 上線了沒有」不由本倉庫回答，也不由
+`hoshi-deploy` 的節點清單回答——它在 Cloudflare 專案那裡。理由與誰負責見
+workspace 的 `decisions/infrastructure/兩個公開前端由-Cloudflare-服務.md`。
 
 正式值集中於：
 
