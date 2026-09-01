@@ -1,4 +1,0 @@
-git switch production
-git merge --ff-only main
-git push
-git switch main
