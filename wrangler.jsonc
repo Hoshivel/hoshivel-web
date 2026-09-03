@@ -6,6 +6,12 @@
   "name": "hoshivel-web",
   "compatibility_date": "2026-08-10",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // 未匹配的路徑要拿到 `dist/404.html`。這個鍵的預設值是 `"none"`，而 `"none"`
+    // 回的是一份**零位元組**的 404：瀏覽器把空 body 畫成白頁、分頁標題退回原始
+    // URL，看起來就像站掛了。`src/pages/404.astro` 在、`dist/404.html` 也一直
+    // 建置得出來，缺的只有這一行——三者單獨看都正常，症狀卻指向別處。
+    // 理由見 workspace 的 decisions/infrastructure/Workers-靜態站要顯式開啟-404-頁.md。
+    "not_found_handling": "404-page"
   }
 }
