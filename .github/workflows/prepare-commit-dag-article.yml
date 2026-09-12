@@ -1,0 +1,133 @@
+# Temporary branch-only preparation; removed before the publication PR.
+name: Prepare Commit DAG Article
+
+on:
+  push:
+    branches: [docs/hoshi-data-commit-dag-article]
+    paths: [news/hoshi-data-commit-dag.ja.md]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    if: github.repository == 'Hoshivel/hoshivel-web' && github.ref == 'refs/heads/docs/hoshi-data-commit-dag-article'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install build and font dependencies
+        run: |
+          npm ci
+          python3 -m pip install 'fonttools==4.59.0' 'brotli==1.1.0' 'opencc-python-reimplemented==0.1.7'
+      - name: Normalize Chinese variants
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from opencc import OpenCC
+          source = Path('news/hoshi-data-commit-dag.zh-hant.md')
+          text = source.read_text(encoding='utf-8')
+          for old, new in [('来源', '來源'), ('与', '與'), ('验证', '驗證')]:
+              text = text.replace(old, new)
+          source.write_text(text, encoding='utf-8')
+          simplified = OpenCC('t2s').convert(text).replace('locale: zh-Hant', 'locale: zh-cn', 1)
+          Path('news/hoshi-data-commit-dag.zh-cn.md').write_text(simplified, encoding='utf-8')
+          for locale in ('zh-hant', 'zh-cn', 'en', 'ja'):
+              article = Path(f'news/hoshi-data-commit-dag.{locale}.md').read_text(encoding='utf-8')
+              assert article.count('\n## ') == 11, locale
+              assert article.count('```') == 8, locale
+              for paper in ('2004.00107', '1402.2237', '1302.0309'):
+                  assert f'https://arxiv.org/abs/{paper}' in article, (locale, paper)
+              assert 'github.com/Hoshivel/' not in article, locale
+          print('Four complete locales and public references verified.')
+          PY
+      - name: Regenerate font subsets
+        run: npm run fonts
+      - name: Unit tests, Astro check, and static build
+        run: npm run build
+      - name: Install isolated browser checks
+        run: |
+          npm install --prefix "$RUNNER_TEMP/hoshi-article-browser" --no-package-lock --ignore-scripts 'playwright@1.55.0'
+          "$RUNNER_TEMP/hoshi-article-browser/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Check articles, discovery, and responsive overflow
+        env:
+          NODE_PATH: ${{ runner.temp }}/hoshi-article-browser/node_modules
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/article-server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          cat > "$RUNNER_TEMP/check-article.cjs" <<'JS'
+          const assert = require('node:assert/strict');
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            try {
+              const slug = 'hoshi-data-commit-dag';
+              for (const prefix of ['', '/zh-cn', '/ja', '/en']) {
+                for (const viewport of [{width: 390, height: 844}, {width: 1440, height: 1000}]) {
+                  const context = await browser.newContext({viewport, reducedMotion: 'reduce'});
+                  const page = await context.newPage();
+                  const errors = [];
+                  page.on('pageerror', error => errors.push(error.message));
+                  const path = `${prefix}/news/${slug}`;
+                  const response = await page.goto(`http://127.0.0.1:8765${path}`, {waitUntil: 'networkidle'});
+                  assert.equal(response.status(), 200, path);
+                  await page.evaluate(async () => { await document.fonts.ready; });
+                  assert.equal(await page.locator('h1').count(), 1, path);
+                  assert.equal(await page.locator('.hv-post__body h2').count(), 11, path);
+                  assert.equal(await page.locator('.hv-post__body pre').count(), 4, path);
+                  assert((await page.locator('h1').innerText()).includes('hoshi-data'), path);
+                  const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+                  assert.equal(new URL(canonical).pathname.replace(/\/$/, ''), path);
+                  assert((await page.locator('link[rel="alternate"][hreflang]').count()) >= 4, path);
+                  for (const paper of ['2004.00107', '1402.2237', '1302.0309']) {
+                    assert((await page.locator(`.hv-post__body a[href="https://arxiv.org/abs/${paper}"]`).count()) >= 1, path);
+                  }
+                  const layout = await page.evaluate(() => ({
+                    width: document.documentElement.clientWidth,
+                    scroll: document.documentElement.scrollWidth,
+                    codeOverflow: [...document.querySelectorAll('.hv-post__body pre')].map(el => getComputedStyle(el).overflowX)
+                  }));
+                  assert(layout.scroll <= layout.width + 1, `${path}: page overflow ${JSON.stringify(layout)}`);
+                  assert(layout.codeOverflow.every(value => value === 'auto'), path);
+                  assert.deepEqual(errors, [], path);
+                  console.log(`PASS ${path} at ${viewport.width}px: headings, diagrams, metadata, links, overflow, runtime`);
+                  await context.close();
+                }
+                const context = await browser.newContext({viewport: {width: 390, height: 844}, reducedMotion: 'reduce'});
+                const page = await context.newPage();
+                for (const suffix of ['/news', '/rss.xml', '']) {
+                  const response = await page.request.get(`http://127.0.0.1:8765${prefix}${suffix || '/'}`);
+                  assert.equal(response.status(), 200, `${prefix}${suffix}`);
+                  assert((await response.text()).includes(slug), `${prefix}${suffix}: missing article`);
+                }
+                const response = await page.goto(`http://127.0.0.1:8765${prefix}/news/hoshi-id-intro`, {waitUntil: 'networkidle'});
+                assert.equal(response.status(), 200);
+                assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
+                console.log(`PASS ${prefix || '/'}: news, RSS, homepage, and existing article regression`);
+                await context.close();
+              }
+            } finally {
+              await browser.close();
+            }
+          })().catch(error => { console.error(error); process.exit(1); });
+          JS
+          node "$RUNNER_TEMP/check-article.cjs"
+      - name: Commit only prepared article and font assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add news/hoshi-data-commit-dag.zh-hant.md news/hoshi-data-commit-dag.zh-cn.md public/fonts/noto-serif-tc-600.woff2 public/fonts/noto-serif-sc-600.woff2 public/fonts/noto-serif-jp-600.woff2 public/fonts/playfair-display-600.woff2
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: complete Chinese article variants and regenerate font subsets'
+            git push origin HEAD:refs/heads/docs/hoshi-data-commit-dag-article
+          fi
