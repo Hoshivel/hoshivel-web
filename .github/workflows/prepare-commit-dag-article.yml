@@ -1,12 +1,14 @@
-# Temporary branch-only preparation; removed before the publication PR.
+# Temporary branch-only preparation; removed before review.
 name: Prepare Commit DAG Article
 
 on:
   push:
     branches: [docs/hoshi-data-commit-dag-article]
-    paths:
-      - news/hoshi-data-commit-dag.ja.md
-      - .github/workflows/prepare-commit-dag-article.yml
+    paths: [.github/workflows/prepare-commit-dag-article.yml]
+
+concurrency:
+  group: prepare-commit-dag-article
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -29,28 +31,89 @@ jobs:
       - name: Install build and font dependencies
         run: |
           npm ci
-          python3 -m pip install 'fonttools==4.59.0' 'brotli==1.1.0' 'opencc-python-reimplemented==0.1.7'
-      - name: Normalize Chinese variants
+          python3 -m pip install 'fonttools==4.59.0' 'brotli==1.1.0'
+      - name: Prepare localized summaries
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          from opencc import OpenCC
           source = Path('news/hoshi-data-commit-dag.zh-hant.md')
           text = source.read_text(encoding='utf-8')
-          for old, new in [('来源', '來源'), ('与', '與'), ('验证', '驗證'), ('接入', '整合'), ('保存', '儲存')]:
+          for old, new in [('来源', '來源'), ('与', '與'), ('验证', '驗證'), ('接入', '採用'), ('保存', '儲存'), ('已整合操作日誌', '已採用操作日誌'), ('對整合日誌的資料集', '對採用日誌的資料集')]:
               text = text.replace(old, new)
           source.write_text(text, encoding='utf-8')
-          simplified = OpenCC('t2s').convert(text).replace('locale: zh-Hant', 'locale: zh-CN', 1)
-          Path('news/hoshi-data-commit-dag.zh-cn.md').write_text(simplified, encoding='utf-8')
-          for locale in ('zh-hant', 'zh-cn', 'en', 'ja'):
-              article = Path(f'news/hoshi-data-commit-dag.{locale}.md').read_text(encoding='utf-8')
-              assert article.count('\n## ') == 11, locale
-              assert article.count('```') == 8, locale
-              for paper in ('2004.00107', '1402.2237', '1302.0309'):
-                  assert f'https://arxiv.org/abs/{paper}' in article, (locale, paper)
-              assert 'github.com/Hoshivel/' not in article, locale
-          print('Four complete locales and public references verified.')
+          Path('news/hoshi-data-commit-dag.zh-cn.md').write_text('''---
+          slug: hoshi-data-commit-dag
+          locale: zh-CN
+          title: 复制事实，而不是覆盖状态：hoshi-data 的 Commit DAG
+          summary: 用不可变提交和确定性重放保留数据的来历；技术正文保留英文，这里介绍成果、用途与边界
+          date: 2026-09-12T10:00:00Z
+          tag: hoshi-data
+          ---
+
+          hoshi-data 的核心思路是：**节点复制不可变的事实，再按明确的规则推导当前状态。** 这篇摘要介绍截至 2026 年 9 月 12 日的工程成果与作用；算法、示例和参考文献见[英文技术正文：Replicate Facts, Not Overwrites](/en/news/hoshi-data-commit-dag/)。
+
+          ## 做到了什么
+
+          对已采用 operation log 的数据集，hoshi-data 使用 Commit DAG 保留操作及其因果关系，而不只是交换当前值。节点可以识别重复提交与历史缺口，并在依赖补齐后，通过 deterministic replay 重建可查询的 projection。PostgreSQL 仍负责持久化与查询，并未被 DAG 取代。
+
+          它还区分不同操作的语义：可以安全合并的操作不必每次都先确定全局顺序；有额度限制的操作使用 escrow，有排他约束的操作仍需 coordination。结果的 finality 也被明确表示，避免把 provisional 的结果当作不可推翻的承诺。
+
+          核心条件是：相同的有效起点、相同且依赖完整的有效提交集合，以及语义相同的规则，才能要求得到相同投影。
+
+          ## 有什么作用
+
+          不可变历史让同步成为“补齐缺少的事实”，也为故障后的状态核对、投影重建和问题追溯提供依据。我们不仅知道数据现在是什么，也保留了它如何形成的记录。
+
+          明确区分已写入、已收敛和已定案，可以帮助外部副作用遵守正确的边界。数据库投影可以重建，但已发送的邮件或已交付的资源不能靠 replay 自动收回；outbox 与接收端必须按结果保证处理事件，而不是只看到一次 append 成功。
+
+          ## 结论与边界
+
+          **收敛不等于业务正确，也不等于所有副本和备份均已持久化。** DAG 不会让任意操作自动免于协调，不会提供端到端 exactly-once，也不能恢复所有副本都已丢失的提交。复制仍不能替代独立备份。
+
+          这些能力只适用于已经接入相应机制的数据集和操作策略。Checkpoint 不等于可以安全删除全部历史；当前新节点仍需补齐历史并自行重放核对，不能把取得快照误解为已经可以跳过所有历史。
+
+          跨版本语义、安全历史裁剪与可验证恢复是后续研究方向，而不是已完成的功能或论文创新声明。本文没有声称优于共识复制的性能；这样的判断需要在可比较的保证下进行可复现测试。
+
+          完整的设计推导、Commit DAG 示例、finality 与 checkpoint 讨论，以及相关研究引用，均保留在[英文技术正文](/en/news/hoshi-data-commit-dag/)。
+          ''', encoding='utf-8')
+          Path('news/hoshi-data-commit-dag.ja.md').write_text('''---
+          slug: hoshi-data-commit-dag
+          locale: ja
+          title: 状態を上書きせず、事実を複製する：hoshi-data の Commit DAG
+          summary: 不変のコミットと決定的な再実行でデータの来歴を保持する仕組み、その成果と用途、保証の範囲
+          date: 2026-09-12T10:00:00Z
+          tag: hoshi-data
+          ---
+
+          hoshi-data の中心にある考え方は、**ノードが不変の事実を複製し、明示的な規則から現在の状態を導くこと**です。この記事は 2026 年 9 月 12 日時点の成果と用途をまとめます。アルゴリズム、具体例、参考文献は[英語の技術本文：Replicate Facts, Not Overwrites](/en/news/hoshi-data-commit-dag/)に掲載しています。
+
+          ## 実装したこと
+
+          Operation log に対応したデータセットでは、現在の値だけでなく、操作と因果関係を Commit DAG に記録します。ノードは重複コミットや履歴の欠落を識別し、必要な依存関係が揃った後に deterministic replay で検索可能な projection を再構築できます。永続化と検索は引き続き PostgreSQL が担います。
+
+          操作の意味も区別します。安全にマージできる操作は毎回グローバルな順序を取得する必要がなく、数量の制約には escrow、排他条件には必要な coordination を使います。結果の finality を明示し、provisional な結果を取り消し不能の約束として扱わないようにします。
+
+          同じ結果を要求できる条件は、同じ有効な起点、依存関係が揃った同じ有効なコミット集合、同じ意味を持つ規則が揃うことです。
+
+          ## 何に役立つか
+
+          不変の履歴があれば、同期を「不足する事実を補う」問題として扱えます。障害後の状態確認、投影の再構築、問題の追跡にも利用できます。データの現在の形だけでなく、その状態に至った記録を保持するためです。
+
+          書き込み済み、収束済み、確定済みを区別することは、外部への副作用にも重要です。投影は再構築できますが、送信済みのメールや引き渡した資源は replay だけでは取り戻せません。Outbox と受信側は、一度の append の成功だけでなく、結果の保証に従って処理する必要があります。
+
+          ## 結論と保証の範囲
+
+          **収束は業務上の正しさを意味せず、全レプリカやバックアップへの永続化完了も意味しません。** DAG は任意の操作から協調を不要にするものではなく、エンドツーエンドの exactly-once を保証するものでもありません。すべてのコピーから失われたコミットは復元できず、独立したバックアップも必要です。
+
+          これらの能力は、対応する仕組みを導入したデータセットと操作ポリシーに限られます。Checkpoint があるだけで全履歴を安全に削除できるわけではありません。現在の新規ノードは履歴を取得し、自ら再実行して結果を照合するため、スナップショットだけで履歴を省略できるとは説明していません。
+
+          バージョンをまたぐ意味の維持、安全な履歴削減、検証可能な復旧は今後の研究課題です。完成済み機能や論文上の新規性として主張しているわけではありません。合意に基づく複製より高速だとも主張せず、性能比較には同等の保証の下で再現可能な実験が必要です。
+
+          設計の詳細、Commit DAG の例、finality と checkpoint の議論、関連研究の引用は[英語の技術本文](/en/news/hoshi-data-commit-dag/)を参照してください。
+          ''', encoding='utf-8')
           PY
+      - name: Check content and unit tests before font generation
+        run: npm test
       - name: Regenerate font subsets
         run: npm run fonts
       - name: Unit tests, Astro check, and static build
@@ -74,24 +137,31 @@ jobs:
             try {
               const slug = 'hoshi-data-commit-dag';
               for (const prefix of ['', '/zh-cn', '/ja', '/en']) {
+                const full = prefix === '' || prefix === '/en';
                 for (const viewport of [{width: 390, height: 844}, {width: 1440, height: 1000}]) {
                   const context = await browser.newContext({viewport, reducedMotion: 'reduce'});
                   const page = await context.newPage();
                   const errors = [];
                   page.on('pageerror', error => errors.push(error.message));
                   const path = `${prefix}/news/${slug}`;
-                  const response = await page.goto(`http://127.0.0.1:8765${path}`, {waitUntil: 'networkidle'});
+                  const response = await page.goto(`http://127.0.0.1:8765${path}/`, {waitUntil: 'networkidle'});
                   assert.equal(response.status(), 200, path);
                   await page.evaluate(async () => { await document.fonts.ready; });
                   assert.equal(await page.locator('h1').count(), 1, path);
-                  assert.equal(await page.locator('.hv-post__body h2').count(), 11, path);
-                  assert.equal(await page.locator('.hv-post__body pre').count(), 4, path);
+                  assert.equal(await page.locator('.hv-post__body h2').count(), full ? 11 : 3, path);
+                  assert.equal(await page.locator('.hv-post__body pre').count(), full ? 4 : 0, path);
                   assert((await page.locator('h1').innerText()).includes('hoshi-data'), path);
                   const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
                   assert.equal(new URL(canonical).pathname.replace(/\/$/, ''), path);
                   assert((await page.locator('link[rel="alternate"][hreflang]').count()) >= 4, path);
-                  for (const paper of ['2004.00107', '1402.2237', '1302.0309']) {
-                    assert((await page.locator(`.hv-post__body a[href="https://arxiv.org/abs/${paper}"]`).count()) >= 1, path);
+                  if (full) {
+                    for (const paper of ['2004.00107', '1402.2237', '1302.0309']) {
+                      assert((await page.locator(`.hv-post__body a[href="https://arxiv.org/abs/${paper}"]`).count()) >= 1, path);
+                    }
+                  } else {
+                    const target = `/en/news/${slug}/`;
+                    assert((await page.locator(`.hv-post__body a[href="${target}"]`).count()) >= 1, path);
+                    assert.equal((await page.request.get(`http://127.0.0.1:8765${target}`)).status(), 200, target);
                   }
                   const layout = await page.evaluate(() => ({
                     width: document.documentElement.clientWidth,
@@ -101,17 +171,17 @@ jobs:
                   assert(layout.scroll <= layout.width + 1, `${path}: page overflow ${JSON.stringify(layout)}`);
                   assert(layout.codeOverflow.every(value => value === 'auto'), path);
                   assert.deepEqual(errors, [], path);
-                  console.log(`PASS ${path} at ${viewport.width}px: headings, diagrams, metadata, links, overflow, runtime`);
+                  console.log(`PASS ${path} at ${viewport.width}px: content scope, metadata, links, overflow, runtime`);
                   await context.close();
                 }
                 const context = await browser.newContext({viewport: {width: 390, height: 844}, reducedMotion: 'reduce'});
                 const page = await context.newPage();
-                for (const suffix of ['/news', '/rss.xml', '']) {
-                  const response = await page.request.get(`http://127.0.0.1:8765${prefix}${suffix || '/'}`);
+                for (const suffix of ['/news/', '/rss.xml', '/']) {
+                  const response = await page.request.get(`http://127.0.0.1:8765${prefix}${suffix}`);
                   assert.equal(response.status(), 200, `${prefix}${suffix}`);
                   assert((await response.text()).includes(slug), `${prefix}${suffix}: missing article`);
                 }
-                const response = await page.goto(`http://127.0.0.1:8765${prefix}/news/hoshi-id-intro`, {waitUntil: 'networkidle'});
+                const response = await page.goto(`http://127.0.0.1:8765${prefix}/news/hoshi-id-intro/`, {waitUntil: 'networkidle'});
                 assert.equal(response.status(), 200);
                 assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
                 console.log(`PASS ${prefix || '/'}: news, RSS, homepage, and existing article regression`);
@@ -127,9 +197,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add news/hoshi-data-commit-dag.zh-hant.md news/hoshi-data-commit-dag.zh-cn.md public/fonts/noto-serif-tc-600.woff2 public/fonts/noto-serif-sc-600.woff2 public/fonts/noto-serif-jp-600.woff2 public/fonts/playfair-display-600.woff2
+          git add news/hoshi-data-commit-dag.zh-hant.md news/hoshi-data-commit-dag.zh-cn.md news/hoshi-data-commit-dag.ja.md public/fonts/noto-serif-tc-600.woff2 public/fonts/noto-serif-sc-600.woff2 public/fonts/noto-serif-jp-600.woff2 public/fonts/playfair-display-600.woff2
           git diff --cached --check
           if ! git diff --cached --quiet; then
-            git commit -m 'docs: complete Chinese article variants and regenerate font subsets'
+            git commit -m 'docs: localize technical outcomes and refresh article font subsets'
             git push origin HEAD:refs/heads/docs/hoshi-data-commit-dag-article
           fi
