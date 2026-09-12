@@ -4,7 +4,9 @@ name: Prepare Commit DAG Article
 on:
   push:
     branches: [docs/hoshi-data-commit-dag-article]
-    paths: [news/hoshi-data-commit-dag.ja.md]
+    paths:
+      - news/hoshi-data-commit-dag.ja.md
+      - .github/workflows/prepare-commit-dag-article.yml
 
 permissions:
   contents: read
@@ -35,10 +37,10 @@ jobs:
           from opencc import OpenCC
           source = Path('news/hoshi-data-commit-dag.zh-hant.md')
           text = source.read_text(encoding='utf-8')
-          for old, new in [('来源', '來源'), ('与', '與'), ('验证', '驗證')]:
+          for old, new in [('来源', '來源'), ('与', '與'), ('验证', '驗證'), ('接入', '整合'), ('保存', '儲存')]:
               text = text.replace(old, new)
           source.write_text(text, encoding='utf-8')
-          simplified = OpenCC('t2s').convert(text).replace('locale: zh-Hant', 'locale: zh-cn', 1)
+          simplified = OpenCC('t2s').convert(text).replace('locale: zh-Hant', 'locale: zh-CN', 1)
           Path('news/hoshi-data-commit-dag.zh-cn.md').write_text(simplified, encoding='utf-8')
           for locale in ('zh-hant', 'zh-cn', 'en', 'ja'):
               article = Path(f'news/hoshi-data-commit-dag.{locale}.md').read_text(encoding='utf-8')
