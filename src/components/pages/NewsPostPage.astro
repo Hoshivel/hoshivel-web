@@ -88,8 +88,10 @@ const backHref = localizedPath(locale, "/news");
   }
 
   .hv-post__body {
+    min-width: 0;
     padding-block: var(--hv-space-12);
     font-size: var(--hv-text-base);
+    overflow-wrap: anywhere;
   }
   /* Markdown 內文（渲染後的元素以 :global 指定） */
   .hv-post__body :global(p) {
@@ -131,6 +133,36 @@ const backHref = localizedPath(locale, "/news");
     font-family: var(--hv-font-display);
     color: var(--hv-starlight);
     line-height: var(--hv-leading-tight);
+    scroll-margin-top: 6rem;
+  }
+  .hv-post__body :global(h2) {
+    font-size: 1.5em;
+  }
+  .hv-post__body :global(h3) {
+    font-size: 1.2em;
+  }
+  /* Keep diagrams intact while limiting overflow to the code block. */
+  .hv-post__body :global(pre) {
+    max-width: 100%;
+    margin-block: var(--hv-space-6);
+    padding: var(--hv-space-4);
+    overflow-x: auto;
+    border: 1px solid var(--hv-line-strong);
+    border-radius: var(--hv-radius-sm);
+    font-size: 0.875em;
+    line-height: 1.7;
+    white-space: pre;
+    overflow-wrap: normal;
+    tab-size: 2;
+  }
+  .hv-post__body :global(code) {
+    font-family: var(--hv-font-mono);
+  }
+  .hv-post__body :global(:not(pre) > code) {
+    padding: 0.1em 0.3em;
+    border: 1px solid var(--hv-line-strong);
+    border-radius: var(--hv-radius-sm);
+    font-size: 0.9em;
   }
   .hv-post__body :global(blockquote) {
     margin-block: var(--hv-space-6);
