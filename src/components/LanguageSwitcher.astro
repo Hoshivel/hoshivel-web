@@ -1,9 +1,11 @@
 ---
 /*
-  語言切換器 —— 純 SSR 連結（無 JS）。
-  各語系連到「同一邏輯頁」的對應 locale URL；目前語言標 aria-current。
-  精簡標籤（繁/简/日/EN）＋完整名放 title/aria-label。
-  格數跟著 LOCALES 走：窄螢幕下整條會被壓縮，故 min-width 收在 2rem。
+  Language switcher -- plain SSR links, no JS.
+  Each locale links to its own URL for the same logical page; the current
+  language carries aria-current.
+  Short labels (繁/简/日/EN) with the full name in title/aria-label.
+  The number of cells follows LOCALES: a narrow screen squeezes the whole strip,
+  so min-width is held at 2rem.
 */
 import {
   useTranslations,
@@ -18,7 +20,7 @@ import { globalLanguageForLocale } from "@/lib/preferences";
 
 interface Props {
   locale: Locale;
-  /** 邏輯路徑（不含 locale 前綴），預設首頁。 */
+  /** Logical path (no locale prefix); defaults to the home page. */
   path?: string;
   class?: string;
 }

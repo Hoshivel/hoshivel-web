@@ -21,10 +21,10 @@ import {
 
 interface Props {
   locale?: Locale;
-  /** 頁名（自動接上「— Hoshivel」）；不給 = 首頁形式（Hoshivel — 標語）。 */
+  /** Page name ("— Hoshivel" is appended automatically); omit it for the home form (Hoshivel — tagline). */
   title?: string;
   description?: string;
-  /** 語言切換器要使用的邏輯路徑；404 可指定首頁，避免建立不存在的多語 404。 */
+  /** Logical path for the language switcher; 404 can point at the home page, so no per-language 404 pages need to exist. */
   navigationPath?: string;
 }
 
@@ -42,7 +42,7 @@ const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.pathname;
 
-// hreflang：把同一頁的各語言版本互相標示（含 x-default → 預設語言）。
+// hreflang: cross-link every language version of the same page (x-default points at the default locale).
 const logicalPath = stripLocalePrefix(Astro.url.pathname);
 const chromePath = navigationPath ?? logicalPath;
 const alternates = LOCALES.map((l) => ({
@@ -55,9 +55,10 @@ const xDefault = Astro.site
   ? new URL(localizedPath(DEFAULT_LOCALE, logicalPath), Astro.site).href
   : localizedPath(DEFAULT_LOCALE, logicalPath);
 
-// 結構化資料（首頁）。它回答「這個網域是誰」，並把 sr-web 那邊指過來的
-// `https://hoshivel.com/#organization` 變成一個真的存在的節點——兩份標記
-// 用同一個 @id 才連得起來，改動這裡的 @id 就要同時改 sr-web 的 Layout。
+// Structured data (home page). It answers "who is this domain", and turns the
+// `https://hoshivel.com/#organization` that sr-web points at into a node that
+// actually exists -- the two markup blocks only link up while they share one
+// @id, so changing the @id here means changing sr-web's Layout in the same batch.
 const isHomePage = logicalPath === "/";
 const siteRoot = Astro.site?.href ?? "https://hoshivel.com/";
 const structuredData = {
@@ -81,8 +82,9 @@ const structuredData = {
       publisher: { "@id": "https://hoshivel.com/#organization" },
     },
     {
-      // 作品實體的正本在 sr-web（同一個 @id）；這裡只是從門戶這一側指認它，
-      // 讓「碎界」「Shattered Realms」「Hoshivel」在兩個網域上是同一件事。
+      // The canonical copy of the work entity lives in sr-web (same @id); this
+      // only identifies it from the portal's side, so that 碎界, Shattered
+      // Realms and Hoshivel are one thing across both domains.
       "@type": "VideoGame",
       "@id": "https://sr.hoshivel.com/#game",
       url: SR_URL,
@@ -100,7 +102,7 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- 盡早標記 JS 可用：reveal 內容只在有 JS 時預先隱藏，避免無 JS 環境被永久藏住 -->
+    <!-- Mark JS availability as early as possible: reveal content is only pre-hidden when JS is present, so a JS-less environment never hides it forever -->
     <script is:inline>
       document.documentElement.classList.add("hv-js");
     </script>
@@ -110,7 +112,7 @@ const structuredData = {
       enabled={navigationPath === undefined}
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- 自訂明體：標題與字標的 LCP 依賴它，先行預載（依語言各載一支漢字面） -->
+    <!-- Custom serif: headline and wordmark LCP depend on it, so preload it (one Han face per language) -->
     <link
       rel="preload"
       as="font"
@@ -127,8 +129,9 @@ const structuredData = {
     />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    <!-- 新聞 RSS：只掛本語系那一份。四份全掛上去，閱讀器會叫使用者從四個
-         看不懂的裡面挑一個——語言在訂閱時就該決定好（見 lib/rss.ts） -->
+    <!-- News RSS: advertise only this locale's feed. Listing all four makes the
+         reader ask the user to pick from four they cannot read -- the language
+         belongs to the subscribe step (see lib/rss.ts) -->
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -139,7 +142,7 @@ const structuredData = {
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#080b15" />
 
-    <!-- i18n 交替連結 -->
+    <!-- i18n alternate links -->
     {alternates.map((alt) => (
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
     ))}
@@ -169,7 +172,7 @@ const structuredData = {
     <meta name="twitter:image:alt" content={`${siteName} — ${metaTagline}`} />
   </head>
   <body>
-    <!-- 天：固定於所有內容之下（純裝飾） -->
+    <!-- The sky: fixed beneath all content (purely decorative) -->
     <Starfield />
 
     <Header locale={locale} path={chromePath} />
@@ -178,7 +181,7 @@ const structuredData = {
     <CookiePreferences locale={locale} />
 
     <script>
-      // 捲動動效：reveal-on-scroll ＋ 星空微視差（皆 reduced-motion 友善）。
+      // Scroll motion: reveal-on-scroll plus the starfield parallax (both reduced-motion aware).
       import { initScrollReveal, initSkyParallax } from "@/lib/motion";
       initScrollReveal();
       initSkyParallax();

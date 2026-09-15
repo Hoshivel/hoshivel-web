@@ -1,6 +1,6 @@
 /*
-  新聞資料存取：以「邏輯 slug」聚合各語言版本，
-  該語言缺譯時回退 zh-Hant（永不 404、列表不缺項）。
+  News data access: group each language's version under one logical slug and
+  fall back to zh-Hant when a translation is missing (never 404, never a gap in the list).
 */
 
 import { getCollection, type CollectionEntry } from "astro:content";
@@ -8,7 +8,7 @@ import { DEFAULT_LOCALE, type Locale } from "@/i18n/utils";
 
 export type NewsEntry = CollectionEntry<"news">;
 
-/** 該語言的新聞列表（缺譯回退預設語言），新 → 舊排序。 */
+/** News list for a locale (falls back to the default locale), newest first. */
 export async function getNewsForLocale(locale: Locale): Promise<NewsEntry[]> {
   const all = await getCollection("news");
   const bySlug = new Map<string, NewsEntry[]>();
@@ -30,7 +30,7 @@ export async function getNewsForLocale(locale: Locale): Promise<NewsEntry[]> {
   return picked.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-/** 單則新聞（該語言版本；缺譯回退預設語言）。 */
+/** A single news post in this locale (falls back to the default locale). */
 export async function getNewsPost(
   locale: Locale,
   slug: string,

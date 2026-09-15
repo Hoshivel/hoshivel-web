@@ -1,7 +1,8 @@
 ---
 /*
-  新聞內頁 —— 標題組（日期／標籤）＋ Markdown 內文 ＋ 返回連結。
-  內文樣式以 :global 作用於渲染後的 Markdown；標題明體、內文黑體。
+  News post page -- heading group (date / tag), the Markdown body, and a back link.
+  Body styles reach the rendered Markdown through :global; headings are serif and
+  the body is sans.
 */
 import Layout from "@/layouts/Layout.astro";
 import { render } from "astro:content";
@@ -93,7 +94,7 @@ const backHref = localizedPath(locale, "/news");
     font-size: var(--hv-text-base);
     overflow-wrap: anywhere;
   }
-  /* Markdown 內文（渲染後的元素以 :global 指定） */
+  /* Markdown body (rendered elements are targeted with :global) */
   .hv-post__body :global(p) {
     margin-block: var(--hv-space-4);
     color: var(--hv-text-soft);

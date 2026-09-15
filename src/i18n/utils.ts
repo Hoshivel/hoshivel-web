@@ -1,12 +1,14 @@
 /*
-  Hoshivel 官方門戶 —— i18n helper（沿用家族 sr-web 的路由策略）。
-  預設語言（zh-Hant）掛根 `/`，其餘掛 `/zh-cn`、`/ja`、`/en`。
-  以顯式 locale prop 傳遞，SSR 乾淨、無需 client context。
+  Hoshivel official portal -- i18n helpers (same routing strategy as sibling sr-web).
+  The default locale (zh-Hant) sits at the root `/`; the others at `/zh-cn`, `/ja`, `/en`.
+  The locale is passed down as an explicit prop, which keeps SSR clean and needs
+  no client-side context.
 */
 
-// 帶副檔名（`allowImportingTsExtensions`，見 astro/tsconfigs/base.json）：
-// `test/routing.test.mjs` 用 Node 的型別剝除直接載入這支檔案，而那條路徑
-// 不做無副檔名解析。少了它，釘住路由形狀的那幾條測試根本跑不起來。
+// Keep the file extension (`allowImportingTsExtensions`, see
+// astro/tsconfigs/base.json): `test/routing.test.mjs` loads this file directly
+// through Node's type stripping, and that path does no extensionless
+// resolution. Without it, the tests that pin the route shape cannot even start.
 import {
   ui,
   LOCALES,
@@ -31,7 +33,7 @@ export {
   type UIKey,
 } from "./ui.ts";
 
-/** 由 URL pathname 推導目前 locale（找不到前綴 → 預設語言）。 */
+/** Derive the current locale from a URL pathname (no prefix means the default locale). */
 export function getLocaleFromPath(pathname: string): Locale {
   const seg = pathname.split("/").filter(Boolean)[0]?.toLowerCase();
   for (const locale of LOCALES) {
@@ -41,30 +43,36 @@ export function getLocaleFromPath(pathname: string): Locale {
   return DEFAULT_LOCALE;
 }
 
-/** 取得某語言的翻譯函式：`t("nav.works")`；缺鍵回退預設語言。 */
+/** Build a translation function for a locale: `t("nav.works")`; a missing key falls back to the default locale. */
 export function useTranslations(locale: Locale): (key: UIKey) => string {
   return (key) => ui[locale][key] ?? ui[DEFAULT_LOCALE][key];
 }
 
 /**
- * 把邏輯路徑正規化成**主機真正提供的形狀**。
+ * Normalize a logical path into **the shape the host actually serves**.
  *
- * 產物是 `<路徑>/index.html`，所以頁面的網址帶尾斜線——`canonical` 一直是這樣
- * （它取自 `Astro.url.pathname`），而 `stripLocalePrefix()` 用
- * `split("/").filter(Boolean)` 重組，尾斜線一律掉。同一頁因此有了兩種寫法，
- * 而三個症狀都由它而來：
+ * The build emits `<path>/index.html`, so a page URL carries a trailing slash --
+ * `canonical` always had one (it comes from `Astro.url.pathname`), while
+ * `stripLocalePrefix()` rebuilds the path with `split("/").filter(Boolean)`,
+ * which always drops it. That gave one page two spellings, and all three
+ * symptoms follow from it:
  *
- * 1. **偏好轉址把「同一頁」判成「另一頁」**，轉去沒有尾斜線的那個，
- *    主機 307 轉回來，腳本再跑一次——`hoshivel.com` 的內頁曾經因此無限轉圈。
- * 2. hreflang 與 canonical 指向兩個字串（重複收錄的來源）。
- * 3. 站內每一條內頁連結都少一次尾斜線，於是每一次導覽都先吃一次 307。
+ * 1. **The preference redirect read "the same page" as "another page"** and sent
+ *    the visitor to the slashless one; the host 307'd back, the script ran
+ *    again -- this is what put `hoshivel.com` subpages in a redirect loop.
+ * 2. hreflang and canonical pointed at two different strings (a source of
+ *    duplicate indexing).
+ * 3. Every internal link was missing its trailing slash, so every navigation
+ *    paid for a 307 first.
  *
- * 所以正規化收在這一層，不在各消費端各補一次（`lib/rss.ts` 先前就是就地補的）。
- * 有副檔名的是檔案（`/rss.xml`），不加；查詢字串與錨點留在尾斜線之後。
+ * So normalization lives at this layer rather than being re-applied by each
+ * consumer (`lib/rss.ts` used to patch it locally). Anything with a file
+ * extension is a file (`/rss.xml`) and gets no slash; query strings and
+ * fragments stay after the trailing slash.
  *
- * @example pagePath("/about")            → "/about/"
- * @example pagePath("/works#sr")         → "/works/#sr"
- * @example pagePath("/rss.xml")          → "/rss.xml"
+ * @example pagePath("/about")            -> "/about/"
+ * @example pagePath("/works#sr")         -> "/works/#sr"
+ * @example pagePath("/rss.xml")          -> "/rss.xml"
  */
 export function pagePath(path = "/"): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
@@ -77,10 +85,10 @@ export function pagePath(path = "/"): string {
 }
 
 /**
- * 產生某語言下的頁面路徑（已是主機提供的形狀，見 `pagePath`）。
- * @example localizedPath("zh-CN", "/")      → "/zh-cn/"
- * @example localizedPath("en", "/about")     → "/en/about/"
- * @example localizedPath("zh-Hant", "/")     → "/"
+ * Build a page path for a locale (already in the shape the host serves, see `pagePath`).
+ * @example localizedPath("zh-CN", "/")      -> "/zh-cn/"
+ * @example localizedPath("en", "/about")     -> "/en/about/"
+ * @example localizedPath("zh-Hant", "/")     -> "/"
  */
 export function localizedPath(locale: Locale, path = "/"): string {
   const prefix = LOCALE_PATH[locale];
@@ -89,10 +97,11 @@ export function localizedPath(locale: Locale, path = "/"): string {
 }
 
 /**
- * 去掉 pathname 上的 locale 前綴，得到「邏輯路徑」。
- * 供 Layout 產生 hreflang 交替連結（把同一頁的各語言版本串起來）。
- * @example stripLocalePrefix("/en/about") → "/about"
- * @example stripLocalePrefix("/zh-cn/")    → "/"
+ * Strip the locale prefix from a pathname, leaving the logical path.
+ * Layout uses it to emit hreflang alternates (linking every language version of
+ * the same page).
+ * @example stripLocalePrefix("/en/about") -> "/about"
+ * @example stripLocalePrefix("/zh-cn/")    -> "/"
  */
 export function stripLocalePrefix(pathname: string): string {
   const parts = pathname.split("/").filter(Boolean);
@@ -108,7 +117,7 @@ export function stripLocalePrefix(pathname: string): string {
   return rest ? `/${rest}` : "/";
 }
 
-/** 以該語言慣例呈現日期（新聞列表 / 內文用）。 */
+/** Format a date the way the locale writes it (news list and post body). */
 export function formatDate(locale: Locale, date: Date): string {
   return new Intl.DateTimeFormat(DATE_LANG[locale], {
     year: "numeric",
@@ -120,16 +129,17 @@ export function formatDate(locale: Locale, date: Date): string {
 const BAYER = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"] as const;
 
 /**
- * 章節記號 —— 拜耳字母（α β γ…）。
- * 星表以拜耳字母標注一座星座裡由亮到暗的星；門戶以它編章節，
- * 各語系共用（希臘字母不隨語言變）。
- * @example bayer(1) → "α"
+ * Chapter mark -- a Bayer letter (alpha, beta, gamma...).
+ * A star catalog uses Bayer letters to rank the stars of a constellation from
+ * bright to faint; the portal numbers its chapters with them, shared across all
+ * locales (Greek letters do not vary by language).
+ * @example bayer(1) -> "α"
  */
 export function bayer(n: number): string {
   return BAYER[n - 1] ?? String(n);
 }
 
-/** 星表編號（作品：HV—01、HV—02…）。 */
+/** Catalog number for a work (HV-01, HV-02, ...). */
 export function catalogNo(n: number): string {
   return `HV—${String(n).padStart(2, "0")}`;
 }

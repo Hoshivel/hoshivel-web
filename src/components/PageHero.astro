@@ -1,13 +1,14 @@
 ---
 /*
-  子頁頁首 —— 拜耳記號眉標 + 明體大標 + 導語；星圖線收尾。
-  全站子頁的統一資訊節奏。
+  Subpage hero -- a Bayer-mark eyebrow, a serif headline and a lead paragraph,
+  closed by the star-map rule.
+  This is the shared information rhythm of every subpage.
 */
 interface Props {
   eyebrow: string;
   title: string;
   lead?: string;
-  /** 拜耳記號（α / β / γ…；由頁面以 bayer() 算好傳入）。 */
+  /** Bayer mark (α / β / γ...; the page computes it with bayer() and passes it in). */
   mark?: string;
 }
 const { eyebrow, title, lead, mark } = Astro.props;

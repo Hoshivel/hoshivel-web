@@ -1,11 +1,14 @@
 ---
 /*
-  站尾 Footer —— 地平線。
-  全站唯一不透星光的實面：星空到此為止，下面是地。
-  上緣一道極淡的暖光（地平線最後的光），再是 brand（含社群圖示列）
-  ＋ 三欄 ＋ 基線列。
-  社群入口放在 brand 欄下方而非另立一欄：欄位已滿，且社群屬於「署名」
-  這一側；GitHub 因此由「組織」欄移入社群列，不重複出現。
+  Footer -- the horizon.
+  The only solid surface on the site that starlight does not pass through: the
+  sky ends here and below is ground.
+  A very faint warm glow along the top edge (the horizon's last light), then the
+  brand block (with its row of social icons), three columns, and the baseline row.
+  The social entry points sit under the brand block rather than in a column of
+  their own: the columns are full, and social belongs on the signature side.
+  GitHub therefore moved out of the "organization" column into the social row
+  instead of appearing twice.
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
@@ -120,7 +123,7 @@ const org = [
     padding-block: var(--hv-space-16) var(--hv-space-8);
     border-top: 1px solid var(--hv-line);
   }
-  /* 地平線最後的光 */
+  /* The horizon's last light */
   .hv-footer::before {
     content: "";
     position: absolute;
@@ -161,7 +164,7 @@ const org = [
     color: var(--hv-text-soft);
     font-size: var(--hv-text-sm);
   }
-  /* 社群圖示列：署名之下的一行小記號 */
+  /* Social icon row: a small line of marks beneath the signature */
   .hv-footer__social {
     display: flex;
     flex-direction: column;

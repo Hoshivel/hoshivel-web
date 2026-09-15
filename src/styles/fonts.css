@@ -1,25 +1,31 @@
 /*
-  Hoshivel 官方門戶 —— 自訂字體（自行託管，不打第三方請求）。
+  Hoshivel official portal -- custom fonts (self-hosted, no third-party requests).
 
-  標題／字標＝明體：拉丁走 Playfair Display（字標的骨架就是它），
-  漢字走 Noto Serif TC／SC／JP。四支皆為子集檔（見 scripts/subset-fonts.py），
-  只含站上會出現的字；新增新聞後跑 `npm run fonts` 重出。
+  Headings and the wordmark are serif: Latin uses Playfair Display (the
+  wordmark's own skeleton), Han uses Noto Serif TC / SC / JP. All four are subset
+  files (see scripts/subset-fonts.py) carrying only the characters the site
+  actually shows; run `npm run fonts` after adding a news post to rebuild them.
 
-  漢字面分三支而不是共用一支：同一個碼位在三地的字形不同（関/關、発/發），
-  日文頁若套用正體那一支，標題會是中文字形——那比回退到系統明體還糟。
+  The Han faces are three files rather than one shared face: the same code point
+  is drawn differently in the three regions (関/關, 発/發), so serving the
+  Traditional face on a Japanese page renders headings in Chinese glyph shapes --
+  worse than falling back to the system serif.
 
-  三支漢字面刻意不設 unicode-range：拉丁面沒有的字（希臘字母、全形標點、漢字、
-  假名）由瀏覽器逐字回退到漢字面即可；各語系頁的字型堆疊只點名自己那一支，
-  正體頁不會下載簡體或日文檔，反之亦然。
+  The three Han faces deliberately declare no unicode-range: anything the Latin
+  face lacks (Greek letters, full-width punctuation, Han, kana) simply falls back
+  to the Han face character by character. Each locale's font stack names only its
+  own face, so a Traditional page never downloads the Simplified or Japanese
+  file, and vice versa.
 
-  內文與編號仍走系統字（黑體／等寬）：正文用字量大，
-  自帶一套 CJK 黑體要再多幾百 KB，划不來——版面個性由明體標題承擔。
+  Body text and numbering stay on system fonts (sans and monospace): the body
+  uses a lot of characters, and shipping a CJK sans would add several hundred more
+  KB for a poor trade -- the serif headings carry the page's character.
 */
 
 @font-face {
   font-family: "Hoshivel Display";
   src: url("/fonts/playfair-display-600.woff2") format("woff2");
-  /* 只有一支實體字重；宣告成一段區間，避免瀏覽器合成假粗體 */
+  /* Only one real weight exists; declaring it as a range keeps the browser from synthesizing a fake bold */
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;

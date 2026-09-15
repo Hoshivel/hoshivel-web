@@ -1,29 +1,32 @@
 ---
 /*
-  星空 —— 全站固定背景（門戶的「天」）。
+  Starfield -- the site-wide fixed background (the portal's sky).
 
-  三層：銀河與星雲的極淡漸層 → 遠星（密、暗、細）→ 近星（疏、亮、少數閃爍）。
-  星點在建置期以固定種子的 PRNG 生成（每次建置結果相同，不靠 client JS），
-  並沿一條斜向銀河帶加密——真實夜空的密度分布，不是均勻灑點。
+  Three layers: the very faint gradient of the galaxy and nebulae, then far
+  stars (dense, dim, fine), then near stars (sparse, bright, a few twinkling).
+  Star positions are generated at build time by a fixed-seed PRNG (same result
+  every build, no client JS) and are packed more tightly along a diagonal galactic
+  band -- the density distribution of a real night sky, not an even sprinkle.
 
-  動態預算：少數星的呼吸閃爍 ＋ 極罕見的流星 ＋ 捲動時的微視差
-  （視差由 lib/motion.ts 寫入 --hv-sky-y；reduced-motion 一律關閉）。
-  aria-hidden：純氛圍，不進無障礙樹。
+  Motion budget: a few stars breathing, a very rare shooting star, and a subtle
+  parallax while scrolling (lib/motion.ts writes --hv-sky-y for the parallax;
+  reduced motion turns all of it off).
+  aria-hidden: pure atmosphere, so it stays out of the accessibility tree.
 */
 
 interface Star {
   x: number;
   y: number;
   r: number;
-  /** 基準亮度 */
+  /** Base brightness */
   o: number;
-  /** 有值＝會呼吸閃爍（動畫延遲，秒） */
+  /** Set means this star breathes (animation delay, in seconds) */
   twinkle?: number;
-  /** 最亮的幾顆帶四芒光芒 */
+  /** The brightest few carry four-pointed rays */
   glint?: boolean;
 }
 
-/** mulberry32：固定種子 → 每次建置生成同一片星空。 */
+/** mulberry32: a fixed seed, so every build generates the same sky. */
 function makeRandom(seed: number): () => number {
   let s = seed >>> 0;
   return () => {
@@ -35,8 +38,9 @@ function makeRandom(seed: number): () => number {
 }
 
 /**
- * 生成一層星點（座標為 0–1000 的 viewBox 單位）。
- * `bandBias` 比例的星沿銀河帶（左下 → 右上）散布，其餘均勻。
+ * Generate one layer of stars (coordinates are viewBox units, 0-1000).
+ * A `bandBias` fraction of them follows the galactic band (lower left to upper
+ * right); the rest are spread evenly.
  */
 function makeLayer(
   seed: number,
@@ -57,7 +61,7 @@ function makeLayer(
     let x: number;
     let y: number;
     if (rand() < opts.bandBias) {
-      // 銀河帶：y = 880 − 0.74x，帶寬以三次均勻和逼近常態分布
+      // Galactic band: y = 880 - 0.74x, its width approximated by summing three uniforms into a near-normal spread
       x = rand() * 1000;
       const spread = (rand() + rand() + rand() - 1.5) * 210;
       y = 880 - 0.74 * x + spread;
@@ -67,7 +71,7 @@ function makeLayer(
     }
     if (y < 0 || y > 1000) continue;
 
-    // 亮度偏暗：多數星是背景，少數才顯眼（rand³ 壓向下限）
+    // Brightness skews dim: most stars are background and only a few stand out (rand^3 pushes toward the lower bound)
     const bias = rand() ** 3;
     stars.push({
       x: Math.round(x * 10) / 10,
@@ -76,13 +80,13 @@ function makeLayer(
       o: Math.round((opts.oMin + (opts.oMax - opts.oMin) * bias) * 100) / 100,
     });
   }
-  // 閃爍：每 n 顆挑一顆，延遲錯開，避免同步呼吸
+  // Twinkle: pick one star in every n and stagger the delays, so they never breathe in unison
   if (opts.twinkleEvery) {
     for (let i = 0; i < stars.length; i += opts.twinkleEvery) {
       stars[i]!.twinkle = Math.round(((i * 1.37) % 7) * 10) / 10;
     }
   }
-  // 光芒：取最亮的幾顆
+  // Rays: take the brightest few
   if (opts.glintCount) {
     [...stars]
       .sort((a, b) => b.o - a.o)
@@ -111,7 +115,7 @@ const near = makeLayer(981231, 58, {
   glintCount: 4,
 });
 
-/** 四芒光芒（星體本身之外的十字光） */
+/** Four-pointed rays (the cross of light outside the star body) */
 const glintPath = (s: Star) => {
   const a = s.r * 3.4;
   const b = s.r * 0.6;
@@ -158,7 +162,7 @@ const glintPath = (s: Star) => {
     }
   </svg>
 
-  <!-- 流星：極罕見（20 秒以上才劃過一次），短、細、安靜 -->
+  <!-- Shooting star: very rare (one streak every 20s at most), short, thin, quiet -->
   <span class="hv-sky__meteor hv-sky__meteor--a"></span>
   <span class="hv-sky__meteor hv-sky__meteor--b"></span>
 </div>
@@ -173,7 +177,7 @@ const glintPath = (s: Star) => {
     background: var(--hv-night);
   }
 
-  /* 銀河帶 ＋ 兩處極淡星雲 ＋ 邊緣暗角 */
+  /* The galactic band, two very faint nebulae, and a vignette at the edges */
   .hv-sky__wash {
     position: absolute;
     inset: 0;
@@ -203,7 +207,7 @@ const glintPath = (s: Star) => {
       );
   }
 
-  /* 視差：兩層以不同係數跟隨捲動（--hv-sky-y 由 lib/motion.ts 寫入） */
+  /* Parallax: the two layers follow the scroll by different factors (lib/motion.ts writes --hv-sky-y) */
   .hv-sky__layer {
     position: absolute;
     inset: -10vh 0;
@@ -224,9 +228,10 @@ const glintPath = (s: Star) => {
   }
 
   /*
-    呼吸閃爍：只調亮度，不改幾何。
-    各星的基準亮度由 --hv-o 帶入（CSS 規則會蓋過 opacity 屬性），
-    動畫在「基準 ↔ 基準×0.3」之間呼吸——不會把暗星閃成亮星。
+    Breathing twinkle: brightness only, never geometry.
+    Each star's base brightness arrives through --hv-o (the CSS rule overrides
+    the opacity attribute), and the animation breathes between the base value
+    and base x 0.3 -- so a dim star never flashes as bright as a bright one.
   */
   .hv-sky__near circle.is-twinkle {
     opacity: var(--hv-o, 0.8);
@@ -242,7 +247,7 @@ const glintPath = (s: Star) => {
     }
   }
 
-  /* 流星 */
+  /* Shooting star */
   .hv-sky__meteor {
     position: absolute;
     width: 132px;
@@ -275,7 +280,7 @@ const glintPath = (s: Star) => {
     1% {
       opacity: 0.9;
     }
-    /* 約 1.4 秒的滑行，其餘時間不存在 */
+    /* About 1.4s of travel; it does not exist the rest of the time */
     6% {
       opacity: 0;
       transform: translate3d(46vw, 20vw, 0) rotate(24deg);
@@ -286,7 +291,7 @@ const glintPath = (s: Star) => {
     }
   }
 
-  /* 減少動態：星空靜止，流星不出現（視差另由 JS 端關閉） */
+  /* Reduced motion: the sky holds still and no shooting star appears (the JS side turns off the parallax separately) */
   @media (prefers-reduced-motion: reduce) {
     .hv-sky__meteor {
       display: none;

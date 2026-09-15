@@ -1,4 +1,4 @@
-/* /zh-cn/rss.xml —— 简体中文的新聞 feed（見 lib/rss.ts）。 */
+/* /zh-cn/rss.xml -- the Simplified Chinese news feed (see lib/rss.ts). */
 import type { APIRoute } from "astro";
 import { newsFeedResponse } from "@/lib/rss";
 

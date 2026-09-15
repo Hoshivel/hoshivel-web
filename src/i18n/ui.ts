@@ -1,35 +1,46 @@
 /*
-  Hoshivel 官方門戶 —— 介面文案字典（四語）。
+  Hoshivel official portal -- the UI copy dictionary (four languages).
 
-  慣例沿用家族（sr-web）：zh-Hant 為主語言與鍵的權威來源；
-  zh-CN / ja / en 逐鍵齊備（型別強制完整，缺鍵編譯不過）。
-  品牌名 Hoshivel 一律整詞使用：不拆字、不解字源、不加註解；
-  中文品牌名「星帆」與它並用，同樣是完整的詞——但它是**中文**品牌名，
-  日文與英文頁一律只用 Hoshivel，不另立一個日文品牌名。
+  Conventions follow the family (sr-web): zh-Hant is the primary language and the
+  authoritative source of keys; zh-CN / ja / en carry every key (the type
+  enforces completeness, so a missing key fails to compile).
+  The brand name Hoshivel is always used as one whole word: never split, never
+  explained etymologically, never annotated. The Chinese brand name 「星帆」 is
+  used alongside it and is likewise a complete word -- but it is the **Chinese**
+  brand name, so Japanese and English pages use only Hoshivel and no separate
+  Japanese brand name is coined.
 
-  ── 用語規則（全站一致，改文案前先看）──────────────
-  · **句號看句數**：一句不加，兩句以上才加。標題、標籤與按鈕一律不加；正式中英
-    英文正式題詞保留品牌定稿中的句點，是唯一例外。
-    硬換行（`\n`）不影響判斷——`home.hero.lead` 排成三行仍是一句，不加。
-    分號、冒號、破折號都不算斷句。`astro check` 驗不到標點，改文案時自己看。
-  · 使用者持有的是「帳號」；管理它的介面叫「帳戶中心」。
-  · 遊戲類型一律寫「回合制策略」，不寫「回合策略」。
-  · Hoshi ID 是**服務**，不是作品——但不必反覆聲明它「不是產品」；
-    講它做什麼就好。短效憑證、Refresh Token 輪替、重用偵測這類
-    技術細節屬於 Hoshi ID 自己的技術／安全頁，母品牌站不列。
-  ─────────────────────────────────────────
+  -- Copy rules (site-wide; read before editing any string) ------------------
+  - **A period depends on the sentence count**: one sentence takes none, two or
+    more take them. Headings, labels and buttons never take one. The official
+    English tagline keeps the period from the finalized brand copy, and is the
+    only exception.
+    A hard line break (`\n`) does not affect the count -- `home.hero.lead` is set
+    over three lines and is still one sentence, so it takes none.
+    Semicolons, colons and dashes do not end a sentence. `astro check` cannot
+    verify punctuation, so check it yourself when editing copy.
+  - What a user holds is an 「帳號」 (account); the interface that manages it is
+    the 「帳戶中心」 (account center).
+  - The genre is always written 「回合制策略」, never 「回合策略」.
+  - Hoshi ID is a **service**, not a work -- but there is no need to keep
+    declaring that it "is not a product"; just say what it does. Technical
+    details such as short-lived credentials, refresh token rotation and reuse
+    detection belong to Hoshi ID's own technical and security pages, not to the
+    parent brand site.
+  ---------------------------------------------------------------------------
 */
 
 /*
-  陣列順序＝語言切換器與 sitemap 的呈現順序：三個漢字圈語系相鄰，
-  拉丁的 en 收尾。改順序只影響呈現，不影響路由。
+  The array order is the display order in the language switcher and the sitemap:
+  the three Han-script locales sit together and Latin-script en closes the list.
+  Reordering changes presentation only, never routing.
 */
 export const LOCALES = ["zh-Hant", "zh-CN", "ja", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "zh-Hant";
 
-/** URL 路徑前綴（預設語言掛根，其餘掛子路徑）。 */
+/** URL path prefix (the default locale lives at the root, the rest under a subpath). */
 export const LOCALE_PATH: Record<Locale, string> = {
   "zh-Hant": "",
   "zh-CN": "zh-cn",
@@ -37,7 +48,7 @@ export const LOCALE_PATH: Record<Locale, string> = {
   en: "en",
 };
 
-/** `<html lang>` 屬性值。 */
+/** The `<html lang>` attribute value. */
 export const HTML_LANG: Record<Locale, string> = {
   "zh-Hant": "zh-Hant",
   "zh-CN": "zh-CN",
@@ -45,7 +56,7 @@ export const HTML_LANG: Record<Locale, string> = {
   en: "en",
 };
 
-/** `og:locale` 值。 */
+/** The `og:locale` value. */
 export const OG_LOCALE: Record<Locale, string> = {
   "zh-Hant": "zh_Hant",
   "zh-CN": "zh_CN",
@@ -53,7 +64,7 @@ export const OG_LOCALE: Record<Locale, string> = {
   en: "en_US",
 };
 
-/** 日期呈現用的 BCP-47 標籤。 */
+/** BCP-47 tag used to format dates. */
 export const DATE_LANG: Record<Locale, string> = {
   "zh-Hant": "zh-Hant-TW",
   "zh-CN": "zh-Hans-CN",
@@ -61,7 +72,7 @@ export const DATE_LANG: Record<Locale, string> = {
   en: "en-US",
 };
 
-/** 語言切換器顯示名（各以自身語言書寫）。 */
+/** Display name in the language switcher (each written in its own language). */
 export const LOCALE_LABEL: Record<Locale, string> = {
   "zh-Hant": "正體中文",
   "zh-CN": "简体中文",
@@ -69,7 +80,7 @@ export const LOCALE_LABEL: Record<Locale, string> = {
   en: "English",
 };
 
-/** 精簡標籤（header 語言切換器用；完整名放 title/aria-label）。 */
+/** Short label (for the header language switcher; the full name goes in title/aria-label). */
 export const LOCALE_SHORT: Record<Locale, string> = {
   "zh-Hant": "繁",
   "zh-CN": "简",
@@ -78,29 +89,33 @@ export const LOCALE_SHORT: Record<Locale, string> = {
 };
 
 /**
- * 該語系要預載的漢字面子集檔（見 styles/fonts.css 與 scripts/subset-fonts.py）。
- * 同一個碼位在三地的字形不同（関/關、発/發、直/直），所以 TC／SC／JP 各一支，
- * 不能共用——共用的話日文頁的標題會是中文字形。
- * 寫成 `Record<Locale, …>` 而不是三元運算：新增語系時漏填會編譯不過，
- * 不會安靜地回退成正體那一支。
+ * The Han subset file this locale preloads (see styles/fonts.css and
+ * scripts/subset-fonts.py).
+ * The same code point is drawn differently in the three regions (関/關, 発/發,
+ * 直/直), so TC, SC and JP are three separate files and cannot be shared --
+ * sharing one would render Japanese headings in Chinese glyph shapes.
+ * Written as `Record<Locale, ...>` rather than a chain of ternaries: forgetting
+ * an entry when adding a locale fails to compile instead of silently falling
+ * back to the Traditional face.
  */
 export const HAN_FONT: Record<Locale, string> = {
   "zh-Hant": "/fonts/noto-serif-tc-600.woff2",
   "zh-CN": "/fonts/noto-serif-sc-600.woff2",
   ja: "/fonts/noto-serif-jp-600.woff2",
-  // 英文頁沒有漢字，但拜耳字母（α β γ δ）這類 Playfair 未必有的字仍落在漢字面，
-  // 故維持既有行為：預載正體那一支。
+  // English pages carry no Han, but characters Playfair may lack -- Bayer
+  // letters (α β γ δ) among them -- still fall through to the Han face, so keep
+  // the existing behavior and preload the Traditional file.
   en: "/fonts/noto-serif-tc-600.woff2",
 };
 
-// zh-Hant 為鍵的權威來源；其餘語言以 Record<UIKey, string> 強制對齊。
+// zh-Hant is the authoritative source of keys; the other languages are forced into alignment by Record<UIKey, string>.
 const zhHant = {
   "site.name": "Hoshivel",
-  /** 正式題詞（首頁 UI 使用；metadata 有獨立順序）。 */
+  /** The official tagline (used by the home page UI; metadata has its own ordering). */
   "site.tagline": "始於星帆，盛於繁星",
-  /** 題詞的拉丁書寫（漢字語系頁面在題詞下並排一行）。 */
+  /** The tagline in Latin script (Han-script pages set it on its own line below the tagline). */
   "site.taglineLatin": "From a Star-Sail to a Sea of Stars.",
-  /** SEO 與分享卡片專用：拉丁題詞在前，再接本地語言。 */
+  /** For SEO and share cards only: the Latin tagline first, then the local language. */
   "site.metaTagline": "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星",
   "site.summary":
     "From a Star-Sail to a Sea of Stars. — 始於星帆，盛於繁星；Hoshivel（星帆）是獨立遊戲與世界創作團隊，從回合制策略遊戲《碎界 Shattered Realms》開始。",
@@ -110,7 +125,7 @@ const zhHant = {
   "nav.about": "關於",
   "nav.join": "合作",
 
-  /** 首頁 Hero 的主行動：指向旗艦作品，不是泛稱的「作品」。 */
+  /** The home hero's primary action: it points at the flagship work, not at "works" in general. */
   "cta.sr": "探索《碎界》",
   "cta.about": "認識我們",
   "cta.visitWork": "前往《碎界》（Shattered Realms）官網",
@@ -140,66 +155,70 @@ const zhHant = {
   "footer.github": "GitHub",
   "footer.rights": "Hoshivel",
 
-  // 首頁 Hero
+  // Home hero
   "home.hero.eyebrow": "獨立遊戲與世界創作團隊",
   /** Concise homepage positioning; the full statement remains in the brand docs and About values. */
   "home.hero.creed": "只做真正值得玩的世界",
   /*
-    導語的斷行是**手工指定的**（`\n`，由 `.hv-hero__lead` 的 `white-space: pre-line`
-    落實）。漢字可在任兩字之間斷開，交給瀏覽器會把《碎界 Shattered Realms》攔腰
-    截斷；三行的斷點取在「遊戲｜作品全名｜並為……」，作品全名獨佔一行。
-    漢字語系才需要，英文自己在空白處斷得乾淨——en 不插 `\n`。
+    The lead's line breaks are **specified by hand** (`\n`, realized by
+    `white-space: pre-line` on `.hv-hero__lead`). Han text may break between any
+    two characters, so leaving it to the browser cuts 《碎界 Shattered Realms》 in
+    half; the three lines break after the genre, after the full work title, and
+    before the closing clause, giving the full title a line of its own.
+    Only the Han-script locales need this -- English breaks cleanly at spaces, so
+    en inserts no `\n`.
   */
   "home.hero.lead":
     "Hoshivel 正在打造\n《碎界 Shattered Realms》——\n一個持續展開、值得反覆探索的架空世界",
 
-  // 首頁 作品（α）
+  // Home works (alpha)
   "home.works.eyebrow": "作品",
   "home.works.title": "從第一個世界開始，把每一寸做好",
   "home.works.lead":
     "《碎界》是我們的第一個世界：從六角戰場到每一段旅途，都要讓玩家願意再次回來",
 
-  // 首頁 服務（不編章節：以環標另立一節）
+  // Home services (no chapter letter: its own section, marked by a ring)
   "home.services.eyebrow": "服務",
   "home.services.title": "讓作品專注於世界本身",
   "home.services.lead": "Hoshi ID 讓玩家用一個帳號往返旗下世界，作品則專注於遊玩本身",
 
-  // 首頁 星圖（Hero 圖版）
+  // Home star chart (the hero plate)
   "home.chart.title": "HOSHIVEL 星圖",
 
-  // 首頁 開發動態（β）
+  // Home development news (beta)
   "home.news.eyebrow": "新聞",
   "home.news.title": "最新消息",
   "home.news.lead":
     "追蹤《碎界》的開發進度、世界觀內容與 Hoshivel 最新消息",
 
-  // 首頁 協作（δ）
+  // Home collaboration (delta)
   "home.join.title": "與我們協作",
-  // 不列舉工種：公開方向會由 roles.config.ts 調整，首頁不重複一份容易過期的清單。
+  // Do not enumerate disciplines: the open directions are adjusted in roles.config.ts, and the home page should not carry a second list that goes stale.
   "home.join.lead":
     "我們以按件、短期專案或彈性兼職展開合作，也期待遇見願意一起把作品做完整、長期同行的夥伴",
 
-  // 作品頁
+  // Works page
   "works.eyebrow": "作品",
   "works.title": "正在成形的世界",
   "works.lead": "從《碎界》到 Hoshi ID，每一項都為同一件事服務：讓值得玩的世界長久存在",
   "label.work": "作品",
   "label.service": "服務",
 
-  // 作品：碎界 Shattered Realms
+  // Work: Shattered Realms
   "p.sr.name": "碎界",
   "p.sr.latin": "Shattered Realms",
   "p.sr.kind": "架空世界觀 · 2D 回合制策略遊戲",
   "p.sr.status": "開發中 · 瀏覽器可玩",
   "p.sr.short": "在六角棋盤上調度角色，探索隨篇章展開的架空世界",
-  // 第一句刻意讓三個名字（碎界／Shattered Realms／Hoshivel）共現：它就印在
-  // 那條連往 sr.hoshivel.com 的連結上方，是本站對那個作品最完整的一段話。
+  // The first sentence deliberately brings all three names together (碎界 /
+  // Shattered Realms / Hoshivel): it sits directly above the link out to
+  // sr.hoshivel.com and is this site's fullest statement about that work.
   "p.sr.desc":
     "《碎界》（Shattered Realms）是 Hoshivel 旗下的 2D 六角格回合制策略遊戲。踏上漂浮於虛空的碎片大地，在六角棋盤上調度角色、運用地形，探索隨篇章展開的架空世界。點擊即玩，不必下載",
   "p.sr.f1": "行動點、地形高低與戰爭迷霧，構成每一步選擇",
   "p.sr.f2": "角色成長與英雄技能，組合自己的戰術",
 
-  // 服務：Hoshi ID
+  // Service: Hoshi ID
   "p.id.name": "Hoshi ID",
   "p.id.latin": "Universal Account",
   "p.id.kind": "Hoshivel 通用帳號服務",
@@ -210,7 +229,7 @@ const zhHant = {
   "p.id.f1": "一次註冊，即可登入旗下作品",
   "p.id.f2": "在帳戶中心管理個人檔案、登入紀錄與已連結的服務",
 
-  // 關於頁
+  // About page
   "about.eyebrow": "關於",
   "about.title": "關於 Hoshivel",
   "about.lead": "我們相信，值得長久存在的世界，需要時間、專注與清楚的選擇",
@@ -257,7 +276,7 @@ const zhHant = {
     "合作、媒體或其他事宜，歡迎寄信聯絡我們",
   "about.contact.social": "或在這些地方找到我們",
 
-  // 合作
+  // Join
   "join.eyebrow": "合作",
   "join.title": "與我們合作",
   "join.lead":
@@ -266,7 +285,7 @@ const zhHant = {
   "join.collab.body":
     "每次合作都從明確的工作開始。範圍、時程與報酬先談清楚；彼此合拍，再一起走得更遠。",
   "join.roles.title": "目前的協作方向",
-  // 卡上的模式籤：隨型態換（長期夥伴那張若寫「彈性協作」會自相矛盾）
+  // The mode tag on the card: it follows the kind (a long-term partner card reading "flexible collaboration" would contradict itself)
   "join.mode.collab": "遠端 · 彈性協作",
   "join.mode.partner": "遠端 · 長期同行",
   "join.kind.collab": "協作",
@@ -274,8 +293,10 @@ const zhHant = {
   "join.apply.collab": "洽談協作",
   "join.apply.partner": "談長期參與",
   /*
-    B2B：對象不是個人協作者，是公司。與上面的協作方向刻意分開一節，
-    信件主旨前綴走 `[Business]`（協作是 `[Collab]`／`[Partner]`），收信端一眼可分。
+    B2B: the audience is companies, not individual collaborators. Deliberately
+    kept in its own section away from the collaboration directions above, with
+    the mail subject prefixed `[Business]` (collaboration uses `[Collab]` /
+    `[Partner]`), so the recipient can tell them apart at a glance.
   */
   "join.biz.title": "發行與商務合作",
   "join.biz.body":
@@ -287,7 +308,7 @@ const zhHant = {
   "join.how.title": "聯絡方式",
   "join.how.body": "寄信附上作品集或 GitHub，告訴我們你想做什麼，以及你能讓哪一部分變得更好",
 
-  // 新聞
+  // News
   "news.eyebrow": "新聞",
   "news.title": "公告與動態",
   "news.lead": "Hoshivel 與旗下作品的最新消息",
@@ -478,18 +499,24 @@ const zhCN: Record<UIKey, string> = {
 };
 
 /*
-  日本語 —— 漢字圈だが正體中文の訳ではない。以下は本語系だけの決めごと：
+  Japanese -- a Han-script locale, but not a translation of the Traditional
+  Chinese. The rules below apply to this locale only:
 
-  · 品牌名は「Hoshivel」のみ。中文品牌名「星帆」は**中文**の名前であり、
-    日本語には持ち込まない（日本語の品牌名を新たに立てることはしない）。
-  · 作品名は「砕界」（2026-08-07 決定）。中文の《碎界 Shattered Realms》に
-    倣い、正式名は『砕界 Shattered Realms』、それ以外は『砕界』。
-    品牌名とは扱いが違う——作品には日本語題があり、品牌名にはない。
-  · 用語：ユーザーが持つのは「アカウント」、それを管理する画面は
-    「アカウントセンター」。ジャンルは一律「ターン制ストラテジー」。
-  · 句点は全站規則どおり——一文なら付けない、二文以上なら付ける。
-    読点「、」・コロン「：」・ダッシュ「——」は文の切れ目に数えない。
-    正式な英語タグラインだけは確定稿のピリオドを残す。
+  - The brand name is 「Hoshivel」 and nothing else. The Chinese brand name
+    「星帆」 is a **Chinese** name and is not carried into Japanese (no separate
+    Japanese brand name is coined).
+  - The work's title is 「砕界」 (decided 2026-08-07). Following the Chinese
+    《碎界 Shattered Realms》, the formal title is 『砕界 Shattered Realms』 and
+    everything else uses 『砕界』.
+    This differs from the brand name: the work has a Japanese title, the brand
+    name does not.
+  - Terminology: what a user holds is an 「アカウント」, and the screen that
+    manages it is the 「アカウントセンター」. The genre is always
+    「ターン制ストラテジー」.
+  - Periods follow the site-wide rule: none for one sentence, periods for two or
+    more. The reading comma 「、」, the colon 「：」 and the dash 「——」 do not
+    count as sentence breaks.
+    Only the official English tagline keeps the period from the finalized copy.
 */
 const ja: Record<UIKey, string> = {
   "site.name": "Hoshivel",
@@ -536,10 +563,12 @@ const ja: Record<UIKey, string> = {
   "home.hero.eyebrow": "ゲームと世界観をつくるインディーチーム",
   "home.hero.creed": "本当に遊ぶ価値のある世界だけを作る",
   /*
-    漢字も仮名も任意の二文字間で折れるため、正體中文と同じく改行を手で指定する
-    （作品名が途中で切られないように）。三行目は Hero 右側に星図が並ぶぶん
-    column が狭い——長くすると末尾の一文字だけが四行目に落ちるので、
-    ここは 25 文字前後を上限とみておくこと。
+    Both kanji and kana may break between any two characters, so the line
+    breaks are specified by hand just as in Traditional Chinese (to keep the work
+    title from being cut in the middle). The third line has a narrower column
+    because the star chart sits beside the hero on the right -- make it longer
+    and a single trailing character drops to a fourth line, so treat roughly 25
+    characters as the ceiling here.
   */
   "home.hero.lead":
     "Hoshivel がつくっているのは\n『砕界 Shattered Realms』——\n何度でも探索したくなる、章ごとに広がる架空世界",

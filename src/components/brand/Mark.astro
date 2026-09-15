@@ -1,14 +1,19 @@
 ---
 /*
-  Hoshivel 品牌標記 —— 依使用者提供的 logo 重繪為向量。
+  Hoshivel brand mark -- redrawn as vectors from the supplied logo.
 
-  四芒星（星光漸層、芯上一點白）＋ 兩道交錯軌道環（青與金，各帶一顆行星點）
-  ＋ 星後一圈極淡的光暈。純幾何、無點陣、無濾鏡，縮到 20px 仍成立。
+  A four-pointed star (starlight gradient, a white point at the core), two
+  crossing orbit rings (cyan and gold, each carrying a planet dot), and a very
+  faint halo behind the star. Pure geometry: no raster, no filters, and it still
+  reads at 20px.
 
-  variant：
-    - orbit —— 正式標記（雙軌道，預設；依使用者提供的 logo 重繪）
-    - world —— 備選版本（星生界：星落在世界的邊上，扣「始於星帆，盛於繁星」）
-  title 有值 → role="img" + aria-label；無值 → aria-hidden（純裝飾）。
+  variant:
+    - orbit -- the official mark (two orbits, the default; redrawn from the
+      supplied logo)
+    - world -- the alternate (a star giving birth to a world: the star rests on
+      the world's edge, echoing "begun under starsail, grown among the stars")
+  With a title it renders role="img" + aria-label; without one it is
+  aria-hidden, i.e. purely decorative.
 */
 interface Props {
   size?: number;
@@ -27,14 +32,14 @@ const a11y = title
   ? { role: "img" as const, "aria-label": title }
   : { "aria-hidden": "true" as const };
 
-/** 漸層 id 必須全站唯一（同頁可能出現多枚標記）。 */
+/** Gradient ids must be unique site-wide (one page can hold several marks). */
 const uid = `hv-mark-${Math.random().toString(36).slice(2, 9)}`;
 
-/** 四芒星（中心 32,32；縱向略長於橫向，與原稿一致）。 */
+/** The four-pointed star (centered at 32,32; slightly taller than wide, as in the original). */
 const STAR =
   "M32 16.4 Q33.6 30.4 46.2 32 Q33.6 33.6 32 47.6 Q30.4 33.6 17.8 32 Q30.4 30.4 32 16.4 Z";
 
-/** 備選版的小星（世界之上的第二顆）。 */
+/** The alternate's small star (the second one, above the world). */
 const SMALL_STAR =
   "M50 8.5 Q50.8 14.6 57 15.4 Q50.8 16.2 50 22.3 Q49.2 16.2 43 15.4 Q49.2 14.6 50 8.5 Z";
 ---
@@ -61,15 +66,15 @@ const SMALL_STAR =
     </linearGradient>
   </defs>
 
-  <!-- 星後的光暈 -->
+  <!-- Halo behind the star -->
   <circle cx="32" cy="32" r="15" fill={`url(#${uid}-halo)`}></circle>
 
   {
     variant === "orbit" ? (
       <>
-        {/* 內圈：極淡的一圈，讓星有「所在」 */}
+        {/* Inner ring: a very faint circle, giving the star somewhere to be */}
         <circle class="hv-mark__disc" cx="32" cy="32" r="12.6" />
-        {/* 青軌道（立） */}
+        {/* Cyan orbit (upright) */}
         <ellipse
           class="hv-mark__orbit-a"
           cx="32"
@@ -78,7 +83,7 @@ const SMALL_STAR =
           ry="26.5"
           transform="rotate(24 32 32)"
         />
-        {/* 金軌道（平） */}
+        {/* Gold orbit (flat) */}
         <ellipse
           class="hv-mark__orbit-b"
           cx="32"
@@ -87,13 +92,13 @@ const SMALL_STAR =
           ry="12"
           transform="rotate(-24 32 32)"
         />
-        {/* 兩顆行星點 */}
+        {/* The two planet dots */}
         <circle class="hv-mark__planet-a" cx="26.4" cy="14.7" r="2.1" />
         <circle class="hv-mark__planet-b" cx="47.8" cy="16.6" r="2.1" />
       </>
     ) : (
       <>
-        {/* 世界：一顆帶赤道線的球 */}
+        {/* The world: a sphere with an equator line */}
         <circle class="hv-mark__world" cx="29" cy="36" r="21" />
         <ellipse class="hv-mark__equator" cx="29" cy="36" rx="21" ry="6.5" />
         <path class="hv-mark__small-star" d={SMALL_STAR} />
@@ -101,7 +106,7 @@ const SMALL_STAR =
     )
   }
 
-  <!-- 四芒星 -->
+  <!-- The four-pointed star -->
   {
     variant === "orbit" ? (
       <>
@@ -110,7 +115,7 @@ const SMALL_STAR =
       </>
     ) : (
       <>
-        {/* 星落在世界的邊上：星在球緣，正要成為那個世界 */}
+        {/* The star rests on the world's edge: sitting on the rim, about to become that world */}
         <path
           class="hv-mark__star"
           d="M29 17.5 Q30.4 28.6 41.5 30 Q30.4 31.4 29 42.5 Q27.6 31.4 16.5 30 Q27.6 28.6 29 17.5 Z"
@@ -153,7 +158,7 @@ const SMALL_STAR =
     fill: #ffffff;
   }
 
-  /* 備選：星生界 */
+  /* Alternate: a star giving birth to a world */
   .hv-mark__world {
     fill: none;
     stroke: var(--hv-gold-deep);

@@ -1,9 +1,12 @@
 ---
 /*
-  作品頁 —— 星表：作品在前（各一則完整條目），服務另立一節在後。
-  服務不是產品：不給星表編號、以環標記號呈現，但同樣有完整條目。
-  結構：記號＋編號／籤＋明體名／類型／狀態 → 摘要 → 重點（髮絲清單）→ 入口。
-  錨點 = 條目 id。
+  Works page -- the catalog: works first (one full entry each), services in
+  their own section after.
+  A service is not a product: it gets no catalog number and is drawn with a ring
+  marker, but it still gets a full entry.
+  Structure: mark + number or label + serif name / kind / status -> summary ->
+  highlights (a hairline list) -> entry point.
+  The anchor is the entry id.
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
@@ -17,7 +20,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-/** 兩節共用的條目版式（作品＝星芒＋編號；服務＝環標＋「服務」籤）。 */
+/** The entry layout shared by both sections (a work is rays plus a number; a service is a ring plus the "service" label). */
 const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title: string; lead: string } }[] = [
   { entries: WORKS, head: null },
   {
@@ -143,7 +146,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
 <style>
   .hv-work {
     padding-block: clamp(3.5rem, 7vw, 6rem);
-    /* sticky header 下的錨點落點 */
+    /* Where an anchor lands, allowing for the sticky header */
     scroll-margin-top: 90px;
   }
   .hv-work + .hv-work {
@@ -156,7 +159,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     align-items: flex-start;
     gap: var(--hv-space-6);
   }
-  /* 名稱區塊可伸縮；空間不足時狀態徽章自然換行 */
+  /* The name block can shrink; when space runs out the status badge wraps naturally */
   .hv-work__head > div {
     flex: 1 1 260px;
   }
@@ -178,7 +181,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     filter: none;
   }
 
-  /* 服務節的標題組：與上一節之間拉開一條星圖線 */
+  /* Heading group of the services section: a star-chart rule sets it apart from the section above */
   .hv-work-sep {
     margin-top: clamp(2rem, 5vw, 3.5rem);
     padding-top: clamp(3rem, 7vw, 5rem);
@@ -192,8 +195,9 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     font-size: var(--hv-text-2xl);
   }
   .hv-work__latin {
-    /* 字典裡存的是真正的名字（`Shattered Realms`），不是全大寫的字面值——
-       搜尋引擎讀的是文字本身。外觀的全大寫在這一行。 */
+    /* The dictionary stores the real name (`Shattered Realms`), not an
+       all-caps literal -- a search engine reads the text itself. The all-caps
+       look is purely this line. */
     text-transform: uppercase;
     font-family: var(--hv-font-mono);
     font-size: var(--hv-text-xs);
@@ -218,7 +222,7 @@ const sections: { entries: CatalogEntry[]; head: null | { eyebrow: string; title
     font-size: var(--hv-text-base);
   }
 
-  /* 特點：沿用作品星／服務環標作為視覺記號，不再用序號重述順序 */
+  /* Highlights: reuse the work star / service ring as the visual marker instead of restating the order with numerals */
   .hv-work__features {
     list-style: none;
     padding: 0;

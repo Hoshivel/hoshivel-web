@@ -1,42 +1,50 @@
 /*
-  協作設定 —— 「加入我們」頁面上「目前的協作方向」的唯一來源。
+  Role configuration -- the single source for "current collaboration directions"
+  on the Join page.
 
-  刻意放在專案根目錄（與 `src/`、`news/` 平級）：這裡調整頻繁，
-  不必進到程式碼裡改。增刪一個方向＝只改這一個檔，四語文案就地寫齊，
-  不再散落到 `src/i18n/ui.ts` 的字典鍵。
+  Deliberately kept at the project root (a sibling of `src/` and `news/`): this
+  changes often and editing it should not mean going into the code. Adding or
+  removing a direction means editing this one file, with all four languages
+  written in place rather than scattered across dictionary keys in
+  `src/i18n/ui.ts`.
 
-  ── 常用操作 ────────────────────────────────────────────
-  · 新增：在 ROLES 陣列尾端加一筆（zh-Hant 必填，其餘缺了自動回退）
-  · 暫時下架：該筆加 `open: false`（保留資料，頁面不顯示）
-  · 長期夥伴（非按件協作）：該筆加 `kind: "partner"`
-  · 全站預設型態：改 DEFAULT_ROLE_KIND
-  ─────────────────────────────────────────────────────
-  （聯絡信箱與社群連結見 `src/lib/site.ts`；此檔不依賴任何模組。）
+  -- Common operations --------------------------------------------------------
+  - Add: append an entry to the ROLES array (zh-Hant is required, the rest fall
+    back automatically when missing)
+  - Take down temporarily: add `open: false` to that entry (keeps the data,
+    hides it from the page)
+  - Long-term partner (not per-project collaboration): add `kind: "partner"`
+  - Site-wide default kind: change DEFAULT_ROLE_KIND
+  -----------------------------------------------------------------------------
+  (Contact mailbox and social links live in `src/lib/site.ts`; this file depends
+  on no module.)
 */
 
 /**
- * 協作型態。
- * `collab`  協作——按件、短期專案或彈性兼職，範圍與報酬先談清楚再開始（預設）。
- * `partner` 長期夥伴——參與作品方向、長期同行；通常由既有協作延續而來。
+ * Kind of role.
+ * `collab`  Collaboration -- per-project, short-term or flexible part-time, with
+ *           scope and compensation settled before starting (the default).
+ * `partner` Long-term partner -- involved in a work's direction and in it for
+ *           the long run; usually grown out of an existing collaboration.
  */
 export type RoleKind = "collab" | "partner";
 
-/** 未標註 `kind` 的位置一律視為協作。 */
+/** A position with no `kind` is treated as collaboration. */
 export const DEFAULT_ROLE_KIND: RoleKind = "collab";
 
-/** 一個位置的文案（單一語言）。 */
+/** The copy for one position, in a single language. */
 export interface RoleText {
-  /** 職稱（如「視覺與美術協作者」）。 */
+  /** Title (e.g. 「視覺與美術協作者」). */
   title: string;
-  /** 所屬範疇（作品或領域）。 */
+  /** Scope it belongs to (a work or a discipline). */
   area: string;
-  /** 這個位置在做什麼（2～3 句）。 */
+  /** What this position does (two or three sentences). */
   desc: string;
-  /** 期待的能力，以「 · 」分隔。 */
+  /** Skills we hope for, separated by " · ". */
   skills: string;
 }
 
-/** 四語文案；zh-Hant 為權威版本，其餘缺譯時自動回退。 */
+/** Copy in all four languages; zh-Hant is authoritative and the rest fall back when untranslated. */
 export interface RoleTextByLocale {
   "zh-Hant": RoleText;
   "zh-CN"?: RoleText;
@@ -45,11 +53,11 @@ export interface RoleTextByLocale {
 }
 
 export interface RoleEntry {
-  /** 穩定識別（頁內錨點 `#id` 與 mailto 主旨用；小寫英數與連字號）。 */
+  /** Stable identifier (used by the in-page anchor `#id` and the mailto subject; lowercase alphanumerics and hyphens). */
   id: string;
-  /** 協作型態；省略＝ DEFAULT_ROLE_KIND（協作）。 */
+  /** Kind of role; omitted means DEFAULT_ROLE_KIND (collaboration). */
   kind?: RoleKind;
-  /** 是否公開；省略＝公開。設 `false` 可暫時下架而不刪資料。 */
+  /** Whether it is public; omitted means public. Set `false` to take it down temporarily without deleting the data. */
   open?: boolean;
   text: RoleTextByLocale;
 }

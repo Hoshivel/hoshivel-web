@@ -1,7 +1,9 @@
 ---
 /*
-  星表卡（首頁用）—— 作品是亮星卡（帶星表編號），服務是環標卡（帶「服務」籤）。
-  識別色只出現在記號與類型字，不染整卡（夜面要乾淨）。
+  Catalog card (home page) -- a work is a bright-star card carrying its catalog
+  number, a service is a ring-marker card carrying the "service" label.
+  The accent color appears only on the mark and the kind label; it never tints
+  the whole card, because the night side has to stay clean.
 */
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 import type { CatalogEntry } from "@/lib/catalog";
@@ -15,7 +17,7 @@ const t = useTranslations(locale);
 const detailHref = localizedPath(locale, `/works#${entry.id}`);
 const name = t(entry.nameKey);
 const latin = t(entry.latinKey);
-/** 名稱本身已是拉丁字時（en 語系），副標重複就不顯示。 */
+/** When the name is already Latin (the en locale), the subtitle would repeat it, so it is hidden. */
 const showLatin = latin.toLowerCase() !== name.toLowerCase();
 const isWork = entry.kind === "work";
 ---
@@ -91,9 +93,11 @@ const isWork = entry.kind === "work";
     flex: 1;
   }
   /*
-    編號列與狀態徽章同排；**必須可換行**——徽章的文字長度隨語言差很多
-    （「開發中 · 官網已上線」約 130px，英文的 In development · site live
-    要 259px），不給換行的話窄螢幕上撐破的是整個頁面，不只是這張卡。
+    The number row and the status badge share a line, and it **must be allowed
+    to wrap**: badge text length varies a lot by language (zh-Hant
+    "開發中 · 官網已上線" is about 130px, English "In development · site live"
+    needs 259px). Without wrapping, a narrow screen breaks the whole page
+    layout, not just this card.
   */
   .hv-entry__top {
     display: flex;
@@ -102,7 +106,7 @@ const isWork = entry.kind === "work";
     justify-content: space-between;
     gap: var(--hv-space-4);
   }
-  /* 星表列首：識別色記號 ＋ 編號（作品）或「服務」籤 */
+  /* Head of the catalog row: the accent mark plus either a number (work) or the "service" label */
   .hv-entry__id {
     display: inline-flex;
     align-items: center;
@@ -129,8 +133,9 @@ const isWork = entry.kind === "work";
     font-size: var(--hv-text-xl);
   }
   .hv-entry__latin {
-    /* 字典裡存的是真正的名字（`Shattered Realms`），不是全大寫的字面值——
-       搜尋引擎讀的是文字本身。外觀的全大寫在這一行。 */
+    /* The dictionary stores the real name (`Shattered Realms`), not an
+       all-caps literal -- a search engine reads the text itself. The all-caps
+       look is purely this line. */
     text-transform: uppercase;
     font-family: var(--hv-font-mono);
     font-size: var(--hv-text-xs);

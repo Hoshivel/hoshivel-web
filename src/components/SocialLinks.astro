@@ -1,13 +1,16 @@
 ---
 /*
-  社群入口 —— X / YouTube / GitHub / Reddit（帳號一律 hoshivel；來源見 lib/site.ts）。
-  圖示為內聯 SVG（零外部請求、無圖檔），一律 currentColor：常態星光白、
-  hover 落到星金——與全站唯一的互動色一致。
+  Social entry points -- X / YouTube / GitHub / Reddit (all on the hoshivel
+  account; the source is lib/site.ts).
+  Icons are inline SVG (no external request, no image files) and always use
+  currentColor: starlight white at rest, settling into star gold on hover --
+  the site's single interaction color.
 
-  三種面貌：
-  · row（預設）只有圖示的一列，帳號名放 title / aria-label（站尾 brand 欄用）
-  · boxed 圖示外加圖版框（關於頁的收尾列用）
-  · list  圖示＋平台名，一行一個
+  Three appearances:
+  - row (default): a row of icons only, with the handle in title / aria-label
+    (used by the footer brand block)
+  - boxed: the icon inside a plate frame (used by the About page's closing row)
+  - list: icon plus platform name, one per line
 */
 import { useTranslations, type Locale } from "@/i18n/utils";
 import { SOCIAL_LINKS, type SocialId } from "@/lib/site";
@@ -20,7 +23,7 @@ interface Props {
 const { locale, variant = "row", class: className } = Astro.props;
 const t = useTranslations(locale);
 
-/** 各平台官方標記（24×24 viewBox，單一 path，fill=currentColor）。 */
+/** Each platform's official mark (24x24 viewBox, a single path, fill=currentColor). */
 const ICONS: Record<SocialId, string> = {
   x: "M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932zM17.61 20.644h2.039L6.486 3.24H4.298z",
   youtube:
@@ -85,7 +88,7 @@ const ICONS: Record<SocialId, string> = {
     flex-shrink: 0;
   }
 
-  /* row：只有圖示的一列 */
+  /* row: a row of icons only */
   .hv-social--row,
   .hv-social--boxed {
     display: flex;
@@ -93,7 +96,7 @@ const ICONS: Record<SocialId, string> = {
     gap: var(--hv-space-3);
   }
 
-  /* boxed：圖示外加圖版框（銅版直角，hover 邊框轉金） */
+  /* boxed: the icon inside a plate frame (copperplate square corners; the border turns gold on hover) */
   .hv-social--boxed {
     justify-content: center;
   }
@@ -108,7 +111,7 @@ const ICONS: Record<SocialId, string> = {
     color: var(--hv-gold);
   }
 
-  /* list：一行一個平台，與相鄰的 footer 連結同節奏 */
+  /* list: one platform per line, on the same rhythm as the neighboring footer links */
   .hv-social--list {
     display: flex;
     flex-direction: column;

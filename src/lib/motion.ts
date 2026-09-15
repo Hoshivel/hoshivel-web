@@ -1,12 +1,13 @@
 /*
-  Hoshivel 官方門戶 —— 動效工具。
-  兩件事而已：reveal-on-scroll（進場淡入上移）與星空微視差。
-  一切以 prefers-reduced-motion 為基線；偵測到就直接全部呈現、不動。
+  Hoshivel official portal -- motion helpers.
+  Just two things: reveal-on-scroll (fade and rise into view) and a subtle
+  starfield parallax. prefers-reduced-motion is the baseline throughout: when it
+  is set, everything is shown at once and nothing moves.
 */
 
 const RM_QUERY = "(prefers-reduced-motion: reduce)";
 
-/** 目前是否偏好減少動態（SSR 安全：伺服器端一律 false）。 */
+/** Whether reduced motion is currently preferred (SSR-safe: always false on the server). */
 export function prefersReducedMotion(): boolean {
   return (
     typeof window !== "undefined" &&
@@ -16,19 +17,22 @@ export function prefersReducedMotion(): boolean {
 }
 
 export interface ScrollRevealOptions {
-  /** 進入視窗的可見比例門檻（0–1）。 */
+  /** Visible-ratio threshold for entering the viewport (0-1). */
   threshold?: number;
-  /** IntersectionObserver 的 rootMargin（可提前 / 延後觸發）。 */
+  /** IntersectionObserver rootMargin (fires earlier or later). */
   rootMargin?: string;
-  /** 目標選擇器（預設 `[data-reveal]`）。 */
+  /** Target selector (defaults to `[data-reveal]`). */
   selector?: string;
 }
 
 /**
- * reveal-on-scroll：元素進入視窗時加上 `.is-visible`（實際過場交給 CSS）。
- * - 同一父層底下的元素依序寫入 `--hv-reveal-i`，達成 stagger 進場。
- * - reduced-motion 或不支援 IntersectionObserver → 立即全部呈現、不建立 observer。
- * @returns cleanup 函式（中止觀察）。
+ * reveal-on-scroll: add `.is-visible` as an element enters the viewport (CSS owns
+ * the actual transition).
+ * - Elements under the same parent get an increasing `--hv-reveal-i`, which
+ *   staggers their entrance.
+ * - Reduced motion, or no IntersectionObserver support, shows everything
+ *   immediately and creates no observer.
+ * @returns cleanup function (stops observing).
  */
 export function initScrollReveal(options: ScrollRevealOptions = {}): () => void {
   if (typeof document === "undefined") return () => {};
@@ -37,7 +41,7 @@ export function initScrollReveal(options: ScrollRevealOptions = {}): () => void 
   const els = Array.from(document.querySelectorAll<HTMLElement>(selector));
   if (els.length === 0) return () => {};
 
-  // stagger：為同一 parent 底下的第 n 個元素寫入序號
+  // Stagger: record the ordinal of the nth element under the same parent
   const counters = new WeakMap<Element, number>();
   for (const el of els) {
     if (el.style.getPropertyValue("--hv-reveal-i")) continue;
@@ -71,11 +75,13 @@ export function initScrollReveal(options: ScrollRevealOptions = {}): () => void 
 }
 
 /**
- * 星空微視差：把捲動位置寫進 `--hv-sky-y`，遠近兩層以不同係數位移
- * （係數在 Starfield 的 CSS 裡，這裡只提供數值）。
- * - rAF 節流，一幀最多寫一次；passive 監聽不擋捲動。
- * - reduced-motion 或找不到星空 → 不掛任何監聽。
- * @returns cleanup 函式（移除監聽）。
+ * Starfield parallax: write the scroll position into `--hv-sky-y`; the near and
+ * far layers shift by different factors (the factors live in Starfield's CSS,
+ * this only supplies the number).
+ * - rAF-throttled, so at most one write per frame; the passive listener never
+ *   blocks scrolling.
+ * - Reduced motion, or no starfield on the page, attaches no listener at all.
+ * @returns cleanup function (removes the listener).
  */
 export function initSkyParallax(): () => void {
   if (typeof document === "undefined") return () => {};

@@ -1,24 +1,28 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 
-// Hoshivel 官方門戶 —— 靜態優先、輕載為上。
-// 門戶不堆動效（家族的旗艦動效屬 sr-web）；效能與可讀性即體驗。
-// 部署目標：hoshivel.com（網域依 hoshi-identity 部署文件的
-// id.hoshivel.com 推定；若另有安排，改這裡的 site 即可，
-// canonical / hreflang / sitemap 會一併跟著換）。
+// Hoshivel official portal -- static first, light payload above all.
+// The portal does not pile on motion (the family's flagship motion work belongs
+// to sr-web); performance and readability are the experience.
+// Deploy target: hoshivel.com (the domain was inferred from id.hoshivel.com in
+// hoshi-identity's deployment doc; if that changes, edit `site` here and
+// canonical, hreflang and the sitemap all follow).
 export default defineConfig({
   site: "https://hoshivel.com",
-  // 本站在埠計畫裡的區塊是 26820-26829（平臺與業務服務）。純靜態站不進
-  // hoshi-deploy 的 inventory `nodes`，但 dev server 照樣和其他倉庫搶同一臺
-  // 開發機上的號碼，所以號碼取自同一份計畫而不是 astro 的預設 4321。
+  // This site's block in the port plan is 26820-26829 (platform and business
+  // services). A purely static site never enters hoshi-deploy's inventory
+  // `nodes`, but the dev server still competes for numbers with other repos on
+  // the same development machine, so the number comes from that same plan
+  // rather than astro's default 4321.
   //
-  // strictPort：撞到就失敗，不要滑到下一個空號。本站與 sr-web 先前都停在
-  // 4321，兩個一起開時本站被 astro 靜靜地搬到 4322——而 .hoshi-build.yaml
-  // 宣告的是 4321，於是 `hoshi dev` 直接拒絕啟動。
+  // strictPort: fail on a collision instead of sliding to the next free number.
+  // This site and sr-web both used to sit on 4321, and starting both moved this
+  // one to 4322 silently -- while .hoshi-build.yaml declared 4321, so
+  // `hoshi dev` refused to start.
   server: { port: 26820 },
   vite: { server: { strictPort: true } },
   build: {
-    // 站內樣式量小，內聯省請求
+    // There is little CSS on the site, so inlining saves a request
     inlineStylesheets: "auto",
   },
 });
