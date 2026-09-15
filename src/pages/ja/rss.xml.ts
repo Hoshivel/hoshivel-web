@@ -1,4 +1,4 @@
-/* /ja/rss.xml —— 日本語的新聞 feed（見 lib/rss.ts）。 */
+/* /ja/rss.xml -- the Japanese news feed (see lib/rss.ts). */
 import type { APIRoute } from "astro";
 import { newsFeedResponse } from "@/lib/rss";
 

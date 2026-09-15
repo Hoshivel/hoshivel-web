@@ -1,7 +1,9 @@
 ---
 /*
-  關於頁 —— 我們是誰 → 現在正在做的事 → 我們相信（五項）→ 聯絡。
-  夜面敘事：左標題右正文；現況以圖版卡標出；完整主張以編號長文呈現。
+  About page -- who we are, what we are working on now, what we believe (five
+  points), and how to reach us.
+  Night-side narrative: headings left, body right; the current state is called
+  out on a plate card; the full positions are numbered long-form entries.
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
@@ -78,7 +80,7 @@ const values = [
       lead={t("about.lead")}
     />
 
-    <!-- 我們是誰 -->
+    <!-- Who we are -->
     <section class="hv-section hv-about-who" aria-labelledby="about-who">
       <div class="hv-container hv-about-who__grid">
         <h2 id="about-who" class="hv-about__h2 hv-display" data-reveal>
@@ -91,7 +93,7 @@ const values = [
       </div>
     </section>
 
-    <!-- 現在正在做的事：圖版卡 -->
+    <!-- What we are working on now: plate card -->
     <section class="hv-about-now" aria-labelledby="about-now">
       <div class="hv-container">
         <div class="hv-about-now__card" data-reveal>
@@ -106,7 +108,7 @@ const values = [
       </div>
     </section>
 
-    <!-- 我們相信：五項完整主張 -->
+    <!-- What we believe: five full positions -->
     <section class="hv-section" aria-labelledby="about-values">
       <div class="hv-container">
         <h2 id="about-values" class="hv-about__h2 hv-display" data-reveal>
@@ -140,7 +142,7 @@ const values = [
       </div>
     </section>
 
-    <!-- 聯絡：夜色帶收尾 -->
+    <!-- Contact: closed by a night band -->
     <section class="hv-section hv-about-contact" aria-labelledby="about-contact">
       <div class="hv-container hv-narrow hv-about-contact__inner">
         <h2 id="about-contact" class="hv-about__h2 hv-display" data-reveal>
@@ -153,7 +155,7 @@ const values = [
           </a>
         </div>
 
-        <!-- 社群入口：四個平台一列圖版籤 -->
+        <!-- Social entry points: four platforms as a row of plate tags -->
         <div data-reveal>
           <p class="hv-about-contact__social-label">
             {t("about.contact.social")}
@@ -174,7 +176,7 @@ const values = [
     font-size: var(--hv-text-xl);
   }
 
-  /* 我們是誰：左標題右正文 */
+  /* Who we are: heading left, body right */
   .hv-about-who__grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -189,7 +191,7 @@ const values = [
     max-width: 62ch;
   }
 
-  /* 現在正在做的事：星盤 + 圖版卡 */
+  /* What we are working on now: astrolabe plus plate card */
   .hv-about-now__card {
     display: flex;
     align-items: flex-start;
@@ -205,7 +207,7 @@ const values = [
     max-width: 58ch;
   }
 
-  /* 我們相信：五項長文，每項沿同一條編號軸閱讀 */
+  /* What we believe: five long entries, each read along the same numbered axis */
   .hv-about-values {
     display: grid;
     max-width: 58rem;
@@ -259,7 +261,7 @@ const values = [
     text-align: right;
   }
 
-  /* 聯絡 */
+  /* Contact */
   .hv-about-contact {
     background: linear-gradient(
       180deg,

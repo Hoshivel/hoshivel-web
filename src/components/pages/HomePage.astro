@@ -1,12 +1,16 @@
 ---
 /*
-  首頁 —— 星圖版式。
-  重心：品牌 →《碎界》→ 支撐它的服務 → 開發動態 → 協作。
-  節奏：Hero（題詞 ＋ 定位一句 ＋ Hoshivel 星圖）→ α 作品 → 服務 → β 動態
-       → δ 協作。
-  主視覺是那張星圖：作品即星、服務為環；其餘一律以留白與髮絲線立大氣。
-  服務區不編拜耳字母——它不是作品，以環標記號另立一節；
-  章節字母一律向 `lib/chapters.ts` 要，不在頁面裡寫死（否則首頁與獨立頁會漂移）。
+  Home page -- star chart layout.
+  Emphasis: the brand, then Shattered Realms, then the services holding it up,
+  then development news, then collaboration.
+  Rhythm: hero (tagline + positioning line + the Hoshivel star chart) -> alpha
+  works -> services -> beta news -> delta collaboration.
+  The star chart is the key visual: works are stars, services are rings;
+  everything else builds its air out of whitespace and hairlines.
+  The services block carries no Bayer letter -- it is not a work, so it stands as
+  its own section marked by a ring.
+  Chapter letters always come from `lib/chapters.ts` and are never hardcoded in a
+  page (otherwise the home page and the standalone pages drift apart).
 */
 import Layout from "@/layouts/Layout.astro";
 import WorksChart from "@/components/sky/WorksChart.astro";
@@ -27,7 +31,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
 
 <Layout locale={locale}>
   <main id="main">
-    <!-- Hero：夜空下的宣言 ＋ 星圖 -->
+    <!-- Hero: the statement under the night sky, plus the star chart -->
     <section class="hv-hero">
       <div class="hv-container hv-hero__inner">
         <div class="hv-hero__main">
@@ -63,7 +67,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- α 作品 -->
+    <!-- alpha: works -->
     <section class="hv-section">
       <div class="hv-container">
         <div class="hv-section-head">
@@ -80,7 +84,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- 服務（不編號：以環標記號另立一節） -->
+    <!-- Services (unnumbered: their own section, marked by a ring) -->
     <section class="hv-section hv-home-services">
       <div class="hv-container">
         <div class="hv-section-head">
@@ -97,7 +101,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- β 開發動態 -->
+    <!-- beta: development news -->
     <section class="hv-section hv-home-news">
       <div class="hv-container">
         <div class="hv-home-news__head">
@@ -119,7 +123,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
       </div>
     </section>
 
-    <!-- δ 協作 -->
+    <!-- delta: collaboration -->
     <section class="hv-section hv-home-join">
       <div class="hv-container">
         <div class="hv-home-join__card" data-reveal>
@@ -156,14 +160,14 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     margin-top: var(--hv-space-6);
     /* Keep all four locales one step below the generic display scale in this two-column hero. */
     font-size: clamp(1.95rem, 4.1vw, 3rem);
-    /* CJK 下 ch 單位失真，不設 max-width */
+    /* The ch unit is unreliable for CJK, so no max-width here */
   }
   /* A restrained warm starlight distinguishes the English homepage without a solid gold block. */
   :global(html[lang="en"]) .hv-hero__title {
     color: var(--hv-gold-soft);
     color: color-mix(in srgb, var(--hv-starlight) 68%, var(--hv-gold));
   }
-  /* 題詞的拉丁書寫：等寬寬字距的一行金 */
+  /* The tagline in Latin: one gold line, monospaced and widely tracked */
   .hv-hero__latin {
     margin-top: var(--hv-space-4);
     font-family: var(--hv-font-mono);
@@ -172,8 +176,10 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     color: var(--hv-gold);
   }
   /*
-    定位一句：位階在題詞之下、導語之上——明體、星光色，以一道短金線起頭。
-    不設 ch 寬限（CJK 下 ch ≈ 半字寬，限出來的行寬不是想要的那個）。
+    Positioning line: ranked below the tagline and above the lead -- serif, in
+    starlight, opened by a short gold rule.
+    No ch-based width limit (for CJK one ch is about half a glyph, so the
+    resulting measure is not the one intended).
   */
   .hv-hero__creed {
     margin-top: var(--hv-space-8);
@@ -189,17 +195,21 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     background: var(--hv-line-gold);
   }
   /*
-    導語的斷行由字典裡的 `\n` 決定（見 `i18n/ui.ts` 的 `home.hero.lead`）：
-    漢字可在任兩字之間斷開，交給瀏覽器會把《碎界 Shattered Realms》攔腰截斷。
-    `pre-line` 只落實那幾個換行，行內仍正常回流——窄螢幕照樣自己再折。
+    The lead's line breaks come from the `\n` in the dictionary (see
+    `home.hero.lead` in `i18n/ui.ts`): Han text may break between any two
+    characters, so leaving it to the browser cuts 《碎界 Shattered Realms》 in half.
+    `pre-line` only honors those explicit breaks; the lines still reflow normally,
+    so a narrow screen wraps further on its own.
   */
   .hv-hero__lead {
     margin-top: var(--hv-space-6);
     max-width: 46ch;
     white-space: pre-line;
     /*
-      窄螢幕上第一段仍需再折一次；不平衡的話會掉出「略遊戲」這種三字孤行。
-      桌機上三段各自單行，balance 無事可做——只在該出手時出手。
+      On a narrow screen the first paragraph still wraps again, and without
+      balancing it drops a three-character orphan line such as 「略遊戲」.
+      On desktop all three paragraphs fit one line each and balance has nothing
+      to do -- it only acts when it is needed.
     */
     text-wrap: balance;
   }
@@ -224,19 +234,19 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     }
   }
 
-  /* ---- 作品 / 服務 ---- */
+  /* ---- Works / services ---- */
   .hv-home-works {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
     gap: var(--hv-space-6);
     margin-top: var(--hv-space-12);
   }
-  /* 服務緊接作品之後：同一段呼吸，不另起大留白 */
+  /* Services follow works directly: one breath, no new block of whitespace */
   .hv-home-services {
     padding-top: 0;
   }
 
-  /* ---- 新聞：夜色帶（比站底深一階，上下髮絲線） ---- */
+  /* ---- News: night band (a step darker than the page base, hairlines above and below) ---- */
   .hv-home-news {
     background: linear-gradient(
       180deg,
@@ -248,9 +258,10 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     border-block: 1px solid var(--hv-line);
   }
   /*
-    標題組與「查看所有動態」同一列；窄螢幕整條換行。
-    （標題組多了導語之後，不換行的話收縮預算會全被它吃掉，
-    連結會被壓成一字一行的細長條。）
+    The heading group and the "view all news" link share a row, and the whole
+    row wraps on a narrow screen.
+    (Once the heading group gained a lead paragraph, refusing to wrap let it eat
+    the entire shrink budget, squeezing the link into a sliver one character wide.)
   */
   .hv-home-news__head {
     display: flex;
@@ -274,7 +285,7 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     }
   }
 
-  /* ---- 合作 ---- */
+  /* ---- Join ---- */
   .hv-home-join {
     padding-top: 0;
   }

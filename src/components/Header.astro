@@ -1,10 +1,13 @@
 ---
 /*
-  站首 Header —— 夜色玻璃 sticky 列，髮絲下框。
-  brand（連首頁）＋ 頁面導覽（作品/新聞/關於/合作）＋ 語言切換。
-  目前頁以 aria-current="page" 標示（星金短線；樣式跟著 aria 走）。
-  行動裝置（≤760px）：導覽收進 hamburger 下拉；可存取切換
-  （aria-expanded / aria-controls；Esc / 外點 / 點連結關閉）。
+  Header -- a sticky night-glass bar with a hairline bottom border.
+  Brand (linking home) + page navigation (works / news / about / join) + the
+  language switcher.
+  The current page is marked with aria-current="page" (a short gold rule; the
+  styling follows the aria attribute).
+  On mobile (<=760px) the navigation collapses into a hamburger dropdown, with
+  an accessible toggle (aria-expanded / aria-controls; closed by Esc, an outside
+  click, or following a link).
 */
 import Wordmark from "@/components/brand/Wordmark.astro";
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
@@ -12,7 +15,7 @@ import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
-  /** 邏輯路徑（不含 locale 前綴）；用於語言切換與目前頁判斷。 */
+  /** Logical path (no locale prefix); used by the language switcher and the current-page test. */
   path?: string;
 }
 const { locale, path = "/" } = Astro.props;
@@ -25,7 +28,7 @@ const nav = [
   { path: "/about", label: t("nav.about") },
   { path: "/join", label: t("nav.join") },
 ];
-/** 目前頁（含子頁，如 /news/xxx 之於 /news）。 */
+/** Current page, subpages included (e.g. /news/xxx counts as /news). */
 const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
 ---
 
@@ -67,7 +70,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
 </header>
 
 <style>
-  /* skip link：預設隱藏，聚焦時浮現於左上 */
+  /* Skip link: hidden by default, surfaces at the top left on focus */
   .hv-skip {
     position: fixed;
     top: 0.6rem;
@@ -85,7 +88,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     transform: translateY(0);
   }
 
-  /* 夜色玻璃：星空從底下透一點點過來 */
+  /* Night glass: a little of the starfield shows through from below */
   .hv-header {
     position: sticky;
     top: 0;
@@ -118,7 +121,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     color: var(--hv-text-soft);
     transition: color var(--hv-dur-fast) var(--hv-ease-out);
   }
-  /* 底線：星金短線，自中心展開 */
+  /* Underline: a short star-gold rule growing out from the center */
   .hv-header__link::after {
     content: "";
     position: absolute;
@@ -136,7 +139,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
   .hv-header__link:hover::after {
     transform: translateX(-50%) scaleX(1);
   }
-  /* 目前頁：星光字＋常駐金線 */
+  /* Current page: starlight text plus a permanent gold rule */
   .hv-header__link[aria-current="page"] {
     color: var(--hv-starlight);
   }
@@ -150,7 +153,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     margin-left: auto;
   }
 
-  /* hamburger：桌機隱藏 */
+  /* Hamburger: hidden on desktop */
   .hv-header__menu-btn {
     display: none;
     align-items: center;
@@ -191,7 +194,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
   .hv-burger::after {
     top: 6px;
   }
-  /* 開啟時 hamburger → ✕ */
+  /* Hamburger turns into a cross when open */
   .hv-header__menu-btn[aria-expanded="true"] .hv-burger {
     background: transparent;
   }
@@ -202,7 +205,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* ---- 行動裝置：導覽收進下拉選單 ---- */
+  /* ---- Mobile: navigation collapses into a dropdown ---- */
   @media (max-width: 760px) {
     .hv-header__menu-btn {
       display: inline-flex;
@@ -217,7 +220,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
       gap: 0;
       margin: 0;
       padding: 0.25rem var(--hv-gutter) 0.75rem;
-      /* 實面夜色：任何環境都可讀 */
+      /* Solid night surface: readable in any environment */
       background: var(--hv-surface-solid);
       border-bottom: 1px solid var(--hv-line);
       box-shadow: var(--hv-shadow-plate);
@@ -245,7 +248,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
 </style>
 
 <script>
-  // 行動選單：可存取切換（aria-expanded / data-open）；Esc / 外點 / 點連結 / 回桌機皆關閉。
+  // Mobile menu: accessible toggle (aria-expanded / data-open); closed by Esc, an outside click, following a link, or returning to desktop width.
   const btn = document.querySelector<HTMLButtonElement>(".hv-header__menu-btn");
   const nav = document.getElementById("hv-primary-nav");
   if (btn && nav) {

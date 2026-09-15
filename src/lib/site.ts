@@ -1,47 +1,49 @@
 /*
-  Hoshivel 官方門戶 —— 站點層級的組織資訊（唯一來源）。
-  網域 / 信箱 / 外部連結改這裡即可，全站引用跟著換。
-  （招募職位另見專案根目錄的 `roles.config.ts`；新聞稿見 `news/`。）
+  Hoshivel official portal -- site-level organization data (single source of truth).
+  Change a domain, mailbox or external link here and every reference follows.
+  (Open roles live in `roles.config.ts` at the project root; news posts in `news/`.)
 */
 
-/** GitHub 組織頁。 */
+/** GitHub organization page. */
 export const GITHUB_URL = "https://github.com/Hoshivel";
 
 /**
- * 《碎界 Shattered Realms》官方網站（sr-web 的部署網域）。
- * 帶尾斜線：它同時是結構化資料裡那個作品實體的 `url`，而 schema.org 的
- * 標識靠字串相等——兩份標記寫成兩種形狀就連不起來。
+ * Shattered Realms official site (the domain sr-web deploys to).
+ * Keep the trailing slash: this doubles as the `url` of the work entity in the
+ * structured data, and schema.org identity is string equality -- two spellings
+ * across the two markup blocks simply fail to link up.
  */
 export const SR_URL = "https://sr.hoshivel.com/";
 
 /**
- * Hoshi ID 帳戶中心。
- * 網域取自 hoshi-identity docs/deployment.md 的正式設定範例
- * （HOSHI_PUBLIC_URL=https://id.hoshivel.com）；上線前請確認。
+ * Hoshi ID account center.
+ * The domain comes from the production config example in hoshi-identity
+ * docs/deployment.md (HOSHI_PUBLIC_URL=https://id.hoshivel.com); confirm before launch.
  */
 export const HOSHI_ID_URL: string | null = "https://id.hoshivel.com";
 
 /**
- * 對外聯絡信箱（關於 / 合作頁使用）。
- * 上線前確認正式信箱；追蹤於 workspace/todo/hoshivel-web/站台功能.md。
+ * Public contact mailbox (used by the About and Join pages).
+ * Confirm the production mailbox before launch; tracked in
+ * workspace/todo/hoshivel-web/站台功能.md.
  */
 export const CONTACT_EMAIL = "contact@hoshivel.com";
 
-/** 社群平台識別（決定要畫哪個圖示；新增平台需同步 SocialLinks.astro）。 */
+/** Social platform id (selects the icon; a new platform also needs SocialLinks.astro). */
 export type SocialId = "x" | "youtube" | "github" | "reddit";
 
 export interface SocialLink {
   id: SocialId;
-  /** 平台名（品牌專名，三語通用，不進 i18n 字典）。 */
+  /** Platform name (a brand proper noun, identical in all languages, so not in the i18n dictionary). */
   label: string;
-  /** 帳號呈現形式（如 @hoshivel、u/hoshivel）。 */
+  /** How the account is displayed (e.g. @hoshivel, u/hoshivel). */
   handle: string;
   url: string;
 }
 
 /**
- * 社群入口（唯一來源）—— 四個平台皆為 hoshivel 帳號。
- * 增減平台改這裡；順序即呈現順序。
+ * Social entry points (single source of truth) -- all four use the hoshivel account.
+ * Add or remove a platform here; this order is the display order.
  */
 export const SOCIAL_LINKS: SocialLink[] = [
   { id: "x", label: "X", handle: "@hoshivel", url: "https://x.com/hoshivel" },

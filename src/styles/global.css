@@ -13,7 +13,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* 錨點 / 站內跳轉使用原生平滑捲動（reduced-motion 時於下方關閉） */
+  /* Anchors and in-site jumps use native smooth scrolling (turned off further down under reduced motion) */
   scroll-behavior: smooth;
   background: var(--hv-night);
 }
@@ -30,7 +30,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 內容一律浮在星空之上 */
+/* Content always floats above the starfield */
 body > *:not(.hv-sky) {
   position: relative;
   z-index: var(--hv-z-content);
@@ -87,12 +87,12 @@ button {
   border: 0;
 }
 
-/* 區塊節奏：統一的上下留白 */
+/* Section rhythm: one shared block of vertical space */
 .hv-section {
   padding-block: var(--hv-section-pad);
 }
 
-/* 標題字（明體）：星圖上的鐫刻標籤 */
+/* Headings (serif): engraved labels on the chart */
 .hv-display {
   font-family: var(--hv-font-display);
   font-weight: 600;
@@ -102,8 +102,9 @@ button {
 }
 
 /*
-  眉標：拜耳記號（金・明體）＋ 標籤。
-  星表以 α β γ 標注一座星座裡由亮到暗的星；門戶以它編章節。
+  Eyebrow: the Bayer mark (gold, serif) plus a label.
+  A star catalog uses α β γ to rank the stars of a constellation from bright to
+  faint; the portal numbers its chapters with them.
 */
 .hv-eyebrow {
   display: inline-flex;
@@ -121,7 +122,7 @@ button {
   letter-spacing: 0;
 }
 
-/* 服務的眉標記號：一枚小環（作品是拜耳字母，服務是環——與星圖同一套語彙） */
+/* Eyebrow mark for services: a small ring (works get a Bayer letter, services a ring -- the same vocabulary as the star chart) */
 .hv-eyebrow__ring {
   width: 0.85em;
   height: 0.85em;
@@ -130,7 +131,7 @@ button {
   align-self: center;
 }
 
-/* 星表編號（HV—01）：等寬、寬字距，圖版上的目錄號 */
+/* Catalog number (HV—01): monospace and widely tracked, the plate's index number */
 .hv-catalog {
   font-family: var(--hv-font-mono);
   font-size: var(--hv-text-xs);
@@ -138,13 +139,13 @@ button {
   color: var(--hv-text-faint);
 }
 
-/* 導語 */
+/* Lead paragraph */
 .hv-lead {
   color: var(--hv-text-soft);
   font-size: var(--hv-text-base);
 }
 
-/* 區塊標題組：eyebrow + 大標 + 導語 */
+/* Section heading group: eyebrow + headline + lead */
 .hv-section-head {
   max-width: 640px;
 }
@@ -162,8 +163,9 @@ button {
 }
 
 /*
-  按鈕基元：方正圖版。主按鈕＝一塊星金（夜裡唯一的實色光源）；
-  次按鈕＝髮絲線框，hover 才亮成金線。
+  Button primitive: a square plate. The primary button is a block of star gold
+  (the only solid light source in the night); the secondary is a hairline frame
+  that only brightens to a gold rule on hover.
 */
 .hv-btn {
   display: inline-flex;
@@ -207,7 +209,7 @@ button {
   color: var(--hv-gold);
 }
 
-/* 文字連結（帶箭頭的「更多」）：星光字→hover 星金 */
+/* Text link (the "more" link with an arrow): starlight text, star gold on hover */
 .hv-more {
   display: inline-flex;
   align-items: center;
@@ -234,8 +236,10 @@ button {
 }
 
 /*
-  圖版卡：半透夜面 + 髮絲框（星光透得過來）。
-  hover 邊框轉金、微升；四角以短刻線收邊——銅版圖框的記號。
+  Plate card: a semi-transparent night surface with a hairline frame, so
+  starlight comes through.
+  On hover the border turns gold and the card lifts slightly; short tick marks
+  close the four corners -- the sign of a copperplate frame.
 */
 .hv-plate {
   position: relative;
@@ -281,7 +285,7 @@ button {
   border-color: var(--hv-gold);
 }
 
-/* 星圖線：區塊之間的髮絲分隔 */
+/* Chart rule: the hairline separating sections */
 .hv-rule {
   height: 1px;
   background: linear-gradient(
@@ -293,7 +297,7 @@ button {
   border: 0;
 }
 
-/* 狀態徽章：線框小籤；帶「運行中」金點的變體 */
+/* Status badge: a small outlined tag, with a variant carrying the gold "live" dot */
 .hv-badge {
   display: inline-flex;
   align-items: center;
@@ -306,11 +310,13 @@ button {
   color: var(--hv-text-soft);
   background: rgba(8, 11, 21, 0.5);
   /*
-    單行是常態，但**不是不計代價**：狀態字的長度隨語言差一倍以上
-    （「開發中 · 官網已上線」約 130px，英文的 In development · site live
-    要 259px），容器放不下時寧可讓它折行，也不要把整個頁面推出橫向捲軸。
-    `nowrap` 的文字即使外框被 max-width 收住仍會照樣溢出，所以這裡是
-    「先給它換行的權利，再用 balance 讓兩行分得勻」，而不是硬鎖單行。
+    One line is the norm, but **not at any price**: status text more than
+    doubles in length between languages (zh-Hant 「開發中 · 官網已上線」 is about
+    130px, English "In development · site live" needs 259px). When the container
+    cannot hold it, wrapping beats pushing a horizontal scrollbar onto the whole
+    page. `nowrap` text overflows anyway even when a max-width holds the frame
+    in, so the approach here is to grant the right to wrap first and then let
+    balance split the two lines evenly -- not to lock it to one line.
   */
   max-width: 100%;
   text-wrap: balance;
@@ -325,8 +331,9 @@ button {
 }
 
 /*
-  reveal-on-scroll 基線：進場淡入 + 上移。
-  只有 <html class="hv-js"> 時才預先隱藏，無 JS 環境內容一律直接可見。
+  reveal-on-scroll baseline: fade in and rise on entry.
+  Content is only pre-hidden when <html class="hv-js"> is present, so a JS-less
+  environment always shows it outright.
 */
 html.hv-js [data-reveal] {
   opacity: 0;
@@ -342,7 +349,7 @@ html.hv-js [data-reveal].is-visible {
   transform: none;
 }
 
-/* 全站 reduced-motion 基線：關閉所有裝飾性動態、直接呈現最終狀態 */
+/* Site-wide reduced-motion baseline: turn off every decorative animation and show the final state directly */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

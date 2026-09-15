@@ -1,13 +1,16 @@
 ---
 /*
-  Hoshivel 星圖 —— 首頁 Hero 的圖版（門戶的主視覺）。
+  Hoshivel star chart -- the plate in the home hero (the portal's key visual).
 
-  一幅小小的星圖：座標網、星座連線、星表刻度。圖上最亮的是**作品**（可點，
-  直達該作品段落）；環標的是**服務**——不是作品，是撐著它的地基，
-  所以以軌道環而非星芒呈現。
+  A small star chart: a coordinate grid, constellation lines, catalog ticks. The
+  brightest things on it are **works** (clickable, jumping straight to that
+  work's section); the ring markers are **services** -- not works, but the ground
+  the works rest on, which is why they are drawn as orbit rings rather than rays.
 
-  連線在載入時以 stroke-dashoffset 描出（reduced-motion 下直接完成）。
-  網格與散星 aria-hidden；只有作品／服務標記是真的連結。
+  The constellation lines are drawn in on load via stroke-dashoffset (reduced
+  motion jumps straight to the finished state).
+  The grid and the scattered stars are aria-hidden; only the work and service
+  markers are real links.
 */
 import { useTranslations, localizedPath, type Locale } from "@/i18n/utils";
 import { WORKS, SERVICES } from "@/lib/catalog";
@@ -18,7 +21,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-/** 星座節點（viewBox 620×520）。 */
+/** Constellation nodes (viewBox 620x520). */
 const NODES = [
   { x: 96, y: 402 },
   { x: 196, y: 330 }, // 服務位（環標）
@@ -29,12 +32,12 @@ const NODES = [
   { x: 540, y: 104 },
 ] as const;
 
-/** 作品星的節點索引與標籤靠邊方向。 */
+/** Node index of each work star and which side its label sits on. */
 const WORK_SLOTS = [
   { node: 3, anchor: "end" as const },
   { node: 5, anchor: "start" as const },
 ];
-/** 服務環標的節點索引。 */
+/** Node index of each service ring marker. */
 const SERVICE_SLOTS = [{ node: 1, anchor: "start" as const }];
 
 type Marker = {
@@ -76,13 +79,13 @@ const works = place(WORKS, WORK_SLOTS, (e) => e.catalog ?? "");
 const services = place(SERVICES, SERVICE_SLOTS, () => t("label.service"));
 const marked = new Set([...works, ...services].map((m) => m.node));
 
-/** 連線：一筆閉合的圖形 ＋ 一條伸出的臂。 */
+/** The lines: one closed shape plus an arm reaching out of it. */
 const FIGURE = [0, 1, 2, 5, 4, 3, 1];
 const ARM = [4, 6];
 const toPoints = (idx: readonly number[]) =>
   idx.map((i) => `${NODES[i]!.x},${NODES[i]!.y}`).join(" ");
 
-/** 散星（不在連線上的背景星）。 */
+/** Scattered stars (background stars that are not on the lines). */
 const FIELD = [
   { x: 148, y: 128, r: 1.6 },
   { x: 322, y: 86, r: 1.2 },
@@ -99,7 +102,7 @@ const FIELD = [
 
 <figure class="hv-chart">
   <svg class="hv-chart__svg" viewBox="0 0 620 520" fill="none">
-    <!-- 座標網 -->
+    <!-- Coordinate grid -->
     <g class="hv-chart__grid" aria-hidden="true">
       {
         [155, 310, 465].map((x) => (
@@ -113,7 +116,7 @@ const FIELD = [
       }
     </g>
 
-    <!-- 圖版刻度：下緣與左緣的量測刻線（銅版星圖的邊） -->
+    <!-- Plate ticks: measuring marks along the bottom and left edges (the border of a copperplate chart) -->
     <g class="hv-chart__ticks" aria-hidden="true">
       {
         Array.from({ length: 15 }, (_, i) => (i + 1) * 38.75).map((x) => (
@@ -127,7 +130,7 @@ const FIELD = [
       }
     </g>
 
-    <!-- 星座連線（載入時描出） -->
+    <!-- Constellation lines (drawn in on load) -->
     <g class="hv-chart__lines" aria-hidden="true">
       <polyline points={toPoints(FIGURE)} class="hv-chart__line"></polyline>
       <polyline
@@ -135,12 +138,12 @@ const FIELD = [
         class="hv-chart__line hv-chart__line--arm"></polyline>
     </g>
 
-    <!-- 散星 -->
+    <!-- Scattered stars -->
     <g class="hv-chart__field" aria-hidden="true">
       {FIELD.map((s) => <circle cx={s.x} cy={s.y} r={s.r} />)}
     </g>
 
-    <!-- 連線上的無標記節點 -->
+    <!-- Unlabeled nodes on the lines -->
     <g class="hv-chart__nodes" aria-hidden="true">
       {
         NODES.map((n, i) =>
@@ -149,7 +152,7 @@ const FIELD = [
       }
     </g>
 
-    <!-- 作品：亮星 -->
+    <!-- Works: bright stars -->
     {
       works.map((w) => (
         <a
@@ -180,7 +183,7 @@ const FIELD = [
       ))
     }
 
-    <!-- 服務：環標（不是星芒——它撐著星，不與星爭亮） -->
+    <!-- Services: ring markers (not rays -- a service holds the stars up, it does not compete with them for brightness) -->
     {
       services.map((s) => (
         <a
@@ -244,7 +247,7 @@ const FIELD = [
       rgba(8, 11, 21, 0.25)
     );
   }
-  /* 圖版四角刻線 */
+  /* Corner ticks of the plate */
   .hv-chart::before,
   .hv-chart::after {
     content: "";
@@ -286,7 +289,7 @@ const FIELD = [
     opacity: 0.75;
   }
 
-  /* 連線：描出（總長取足夠大值，一次畫完） */
+  /* Lines: drawn in (the total length is set generously so one pass covers it) */
   .hv-chart__line {
     stroke: var(--hv-line-strong);
     stroke-width: 1;
@@ -305,7 +308,7 @@ const FIELD = [
     }
   }
 
-  /* 標記（作品星／服務環標共用） */
+  /* Markers (shared by work stars and service ring markers) */
   .hv-chart__marker {
     cursor: pointer;
   }
@@ -368,7 +371,7 @@ const FIELD = [
     fill: var(--hv-gold);
   }
 
-  /* 圖說 */
+  /* Caption */
   .hv-chart__caption {
     display: flex;
     align-items: center;

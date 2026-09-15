@@ -1,7 +1,8 @@
 /*
-  協作資料存取 —— 資料本身在專案根目錄的 `roles.config.ts`（與 src 平級）。
-  這裡只負責：過濾已下架的位置、補上預設型態、依語言取文案（缺譯回退 zh-Hant）。
-  要增刪協作方向或改文案，改 `roles.config.ts`，不必動這個檔。
+  Role data access -- the data itself lives in `roles.config.ts` at the project
+  root (a sibling of src). This file only filters out closed positions, fills in
+  the default kind, and resolves the copy for a locale (falling back to zh-Hant).
+  To add, remove or reword a role, edit `roles.config.ts`; this file stays put.
 */
 
 import {
@@ -14,18 +15,18 @@ import type { Locale } from "@/i18n/utils";
 
 export type { RoleKind };
 
-/** 已解析到單一語言的協作方向（頁面直接使用）。 */
+/** A role already resolved to one language, ready for a page to render. */
 export interface ResolvedRole extends RoleText {
   id: string;
   kind: RoleKind;
 }
 
-/** 該語言的公開協作方向列表（缺譯回退 zh-Hant，順序即設定檔順序）。 */
+/** Open roles for a locale (falls back to zh-Hant; config order is display order). */
 export function getRoles(locale: Locale): ResolvedRole[] {
   return ROLES.filter((role) => role.open !== false).map((role) => ({
     id: role.id,
     kind: role.kind ?? DEFAULT_ROLE_KIND,
-    // zh-Hant 為設定檔中唯一必填的語言，故必然可回退。
+    // zh-Hant is the only language the config requires, so the fallback always resolves.
     ...(role.text[locale] ?? role.text["zh-Hant"]),
   }));
 }

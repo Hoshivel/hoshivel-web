@@ -1,10 +1,14 @@
 ---
 /*
-  合作 —— 協作說明 → 目前的方向（圖版卡列）→ 開放式自我推薦 → 聯絡方式。
-  預設是**協作**（按件／短期專案／彈性兼職）；個別位置可在 roles.config.ts 標
-  `kind: "partner"` 改為長期夥伴，卡上的型態籤與洽談字樣跟著換。
-  角色卡：明體職稱＋型態籤／範疇／模式 → 描述 → 期待的能力 → mailto 洽談
-  （主旨自動帶職稱，降低來信摩擦）。
+  Join -- what collaboration means here, the directions open right now (a row of
+  plate cards), an open self-introduction, and how to get in touch.
+  The default is **collaboration** (per-project, short-term, flexible part-time);
+  an individual position can be marked `kind: "partner"` in roles.config.ts to
+  become a long-term partnership, and the card's kind tag and call to action
+  follow.
+  Role card: serif title plus kind tag / scope / mode -> description -> the
+  skills we hope for -> a mailto to start the conversation (the subject carries
+  the title automatically, to lower the friction of writing in).
 */
 import Layout from "@/layouts/Layout.astro";
 import PageHero from "@/components/PageHero.astro";
@@ -20,13 +24,13 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const roles = getRoles(locale);
 
-/** 信件主旨以型態分流，收信端一眼可分（長期夥伴 vs. 一般協作）。 */
+/** The subject line is split by kind, so the recipient can tell a long-term partnership from ordinary collaboration at a glance. */
 const applyHref = (kind: RoleKind, roleTitle: string) => {
   const prefix = kind === "partner" ? "Partner" : "Collab";
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[${prefix}] ${roleTitle}`)}`;
 };
 
-/** 商務來信走 `[Business]`：對象是公司，不該和個人協作的來信混在一起。 */
+/** Business mail uses `[Business]`: it comes from companies and should not sit in the same pile as individual collaboration mail. */
 const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
   `[Business] ${t("join.biz.title")}`,
 )}`;
@@ -41,7 +45,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
       lead={t("join.lead")}
     />
 
-    <!-- 協作是什麼意思：先把關係說清楚，再談方向 -->
+    <!-- What collaboration means: settle the relationship first, then talk about directions -->
     <section class="hv-collab" aria-labelledby="join-collab">
       <div class="hv-container">
         <div class="hv-plate hv-collab__card" data-reveal>
@@ -53,7 +57,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
       </div>
     </section>
 
-    <!-- 開放位置 -->
+    <!-- Open positions -->
     <section class="hv-section" aria-labelledby="join-roles">
       <div class="hv-container">
         <h2 id="join-roles" class="hv-join__h2 hv-display" data-reveal>
@@ -114,7 +118,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
       </div>
     </section>
 
-    <!-- 開放式申請＋聯絡方式：暖紙帶 -->
+    <!-- Open application plus contact details: warm paper band -->
     <section class="hv-section hv-join-open" aria-labelledby="join-open">
       <div class="hv-container hv-join-open__grid">
         <div data-reveal>
@@ -145,7 +149,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
     font-size: var(--hv-text-xl);
   }
 
-  /* 協作說明：圖版卡，左緣一道金線（先立關係，再列方向） */
+  /* What collaboration means: a plate card with a gold rule on its left edge (relationship first, directions after) */
   .hv-collab {
     padding-bottom: var(--hv-space-8);
   }
@@ -173,7 +177,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
     padding: var(--hv-space-8);
     scroll-margin-top: 90px;
   }
-  /* 職稱＋型態籤（協作／長期夥伴）同一行 */
+  /* Title and kind tag (collaboration / long-term partner) share one line */
   .hv-join-role__head {
     display: flex;
     flex-wrap: wrap;
@@ -218,7 +222,7 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
     flex-shrink: 0;
   }
 
-  /* 發行與商務合作：緊接協作方向，不另起大留白 */
+  /* Publishing and business partnerships: directly after the collaboration directions, with no new block of whitespace */
   .hv-join-biz {
     padding-top: 0;
   }

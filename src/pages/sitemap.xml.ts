@@ -1,7 +1,8 @@
 /*
-  /sitemap.xml —— 手捲 sitemap（零依賴），列出全部內容頁並互標 hreflang。
-  邏輯頁 × 四語系 ＋ 新聞內頁（以邏輯 slug 跨語系互標）。
-  靜態站預渲染為靜態檔；robots.txt 指向此處。
+  /sitemap.xml -- hand-rolled sitemap (zero dependencies) listing every content
+  page with hreflang alternates between them.
+  Logical pages x four locales, plus news post pages (cross-linked by logical
+  slug). The static site prerenders this to a file; robots.txt points here.
 */
 import type { APIRoute } from "astro";
 import { LOCALES, localizedPath, HTML_LANG, DEFAULT_LOCALE } from "@/i18n/utils";
@@ -9,14 +10,14 @@ import { getNewsForLocale } from "@/lib/news";
 
 export const prerender = true;
 
-// 邏輯頁（與語系無關）；日後新增子頁在此追加即可。
+// Logical pages (locale-independent); add a new subpage here.
 const LOGICAL_PAGES = ["/", "/works", "/about", "/join", "/news"];
 
 export const GET: APIRoute = async ({ site }) => {
   const origin = (site?.href ?? "https://hoshivel.com/").replace(/\/$/, "");
   const abs = (p: string) => `${origin}${p}`;
 
-  // 新聞內頁的邏輯路徑（各語系皆有該 slug 的頁面——缺譯已回退）
+  // Logical paths of news posts (every locale has a page for the slug -- missing translations already fell back)
   const newsSlugs = (await getNewsForLocale(DEFAULT_LOCALE)).map(
     (p) => `/news/${p.data.slug}`,
   );

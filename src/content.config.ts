@@ -1,10 +1,12 @@
 /*
-  內容集合：news（新聞 / 公告）。
-  稿件放在**專案根目錄的 `news/`**（與 `src/` 平級，不必進到程式碼裡改稿）；
-  建置時由此讀入（base 相對於專案根，即 work path 的 `./news/*.md`）。
-  檔名慣例：`<slug>.<locale>.md`（如 `hello-hoshivel.zh-hant.md`）。
-  同一則新聞的各語言版本共用 frontmatter 的 `slug`；
-  某語言缺譯時，列表與內頁自動回退 zh-Hant（見 lib/news.ts）。
+  Content collections: news (news and announcements).
+  Posts live in **`news/` at the project root** (a sibling of `src/`, so editing a
+  post never means going into the code); the build reads them from there (base is
+  relative to the project root, i.e. `./news/*.md` under the work path).
+  File naming: `<slug>.<locale>.md` (e.g. `hello-hoshivel.zh-hant.md`).
+  Every language version of one post shares the frontmatter `slug`; when a
+  translation is missing, both the list and the post page fall back to zh-Hant
+  (see lib/news.ts).
 */
 
 import { defineCollection, z } from "astro:content";
@@ -15,18 +17,19 @@ const news = defineCollection({
   loader: glob({
     pattern: "**/*.md",
     base: "./news",
-    // 預設會拿 frontmatter 的 slug 當條目 ID → 三個語言版本互相覆蓋。
-    // 改以檔名（含 locale 後綴）為 ID，slug 僅作為跨語言的邏輯鍵。
+    // By default the frontmatter slug becomes the entry ID, so the language
+    // versions overwrite each other. Use the filename (locale suffix included)
+    // as the ID instead, leaving slug as the cross-language logical key.
     generateId: ({ entry }) => entry.replace(/\.md$/, ""),
   }),
   schema: z.object({
-    /** 邏輯 slug（跨語言共用；URL 用）。 */
+    /** Logical slug (shared across languages; used in the URL). */
     slug: z.string().regex(/^[a-z0-9-]+$/),
     locale: z.enum(LOCALES),
     title: z.string(),
     summary: z.string(),
     date: z.coerce.date(),
-    /** 相關作品（可選；顯示為標籤）。 */
+    /** Related work (optional; rendered as a tag). */
     tag: z.string().optional(),
   }),
 });

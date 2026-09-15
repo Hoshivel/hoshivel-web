@@ -1,16 +1,20 @@
 /*
-  路由字串的形狀 —— 釘住 2026-08-28 的 307 無限迴圈。
+  The shape of route strings -- pinning down the 307 redirect loop of 2026-08-28.
 
-  迴圈的成因不是那支轉址腳本，是**同一頁有兩種寫法**：主機提供的是
-  `/news/x/`（產物是 `<路徑>/index.html`），而邏輯路徑一律不帶尾斜線。
-  腳本拿後者去比 `location.pathname`，判成「另一頁」就轉，主機 307 轉回來，
-  腳本再跑一次。所以要釘的不變式只有一條：
+  The loop was not caused by the redirect script but by **one page having two
+  spellings**: the host serves `/news/x/` (the build emits `<path>/index.html`),
+  while logical paths never carry a trailing slash. The script compared the
+  latter against `location.pathname`, read it as "another page" and redirected;
+  the host 307'd back and the script ran again. So there is exactly one
+  invariant to pin:
 
-      對預設語言的任何一頁，由它自己的 pathname 推回來的目標＝它自己。
+      For any page in the default locale, the target derived from its own
+      pathname is that same page.
 
-  這一層驗得到的是那條不變式；轉址腳本裡另有一道執行期護欄（比對「同一頁」
-  而不是「同一個字串」），那一道由 `src/components/PreferenceBootstrap.astro`
-  自己帶著，形狀在真的瀏覽器裡才驗得到。
+  This layer verifies that invariant. The redirect script carries a second,
+  runtime guard of its own (comparing "the same page" rather than "the same
+  string") inside `src/components/PreferenceBootstrap.astro`, and the shape of
+  that one can only be verified in a real browser.
 */
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -23,7 +27,7 @@ import {
   stripLocalePrefix,
 } from "../src/i18n/utils.ts";
 
-// 主機真的提供的那些 pathname（`dist/` 的目錄形狀）。
+// The pathnames the host actually serves (the directory shape of `dist/`).
 const SERVED = ["/", "/about/", "/works/", "/join/", "/news/", "/news/shattered-realms-site/"];
 
 test("偏好轉址的目標永遠不是讀者已經在的那一頁", () => {
