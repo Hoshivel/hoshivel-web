@@ -15,7 +15,7 @@ import PageHero from "@/components/PageHero.astro";
 import { useTranslations, type Locale } from "@/i18n/utils";
 import { chapterMark } from "@/lib/chapters";
 import { getRoles, type RoleKind } from "@/lib/roles";
-import { CONTACT_EMAIL, GITHUB_URL } from "@/lib/site";
+import { CAREERS_EMAIL, GITHUB_URL, PRESS_EMAIL } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -27,11 +27,16 @@ const roles = getRoles(locale);
 /** The subject line is split by kind, so the recipient can tell a long-term partnership from ordinary collaboration at a glance. */
 const applyHref = (kind: RoleKind, roleTitle: string) => {
   const prefix = kind === "partner" ? "Partner" : "Collab";
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[${prefix}] ${roleTitle}`)}`;
+  return `mailto:${CAREERS_EMAIL}?subject=${encodeURIComponent(`[${prefix}] ${roleTitle}`)}`;
 };
 
-/** Business mail uses `[Business]`: it comes from companies and should not sit in the same pile as individual collaboration mail. */
-const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+/*
+  Business mail goes to its own mailbox, not just its own subject line: it comes
+  from companies (publishing, platforms, press), and the person who answers it
+  is not the one reading applications. `[Business]` stays so the subject still
+  says what it is once the mail is out of its mailbox.
+*/
+const bizHref = `mailto:${PRESS_EMAIL}?subject=${encodeURIComponent(
   `[Business] ${t("join.biz.title")}`,
 )}`;
 ---
@@ -129,8 +134,8 @@ const bizHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
           <h2 class="hv-join__h2 hv-display">{t("join.how.title")}</h2>
           <p class="hv-join-open__body">{t("join.how.body")}</p>
           <div class="hv-join-open__cta">
-            <a class="hv-btn hv-btn--primary" href={`mailto:${CONTACT_EMAIL}`}>
-              {CONTACT_EMAIL}
+            <a class="hv-btn hv-btn--primary" href={`mailto:${CAREERS_EMAIL}`}>
+              {CAREERS_EMAIL}
             </a>
             <a class="hv-btn hv-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener">
               {t("footer.github")}
