@@ -22,11 +22,24 @@ export const SR_URL = "https://sr.hoshivel.com/";
  */
 export const HOSHI_ID_URL: string | null = "https://id.hoshivel.com";
 
+/*
+  Public mailboxes, split by what the sender wants. All three live on the main
+  domain. The split is by purpose, not by page: whoever reads careers@ is not
+  the same person who answers a publisher, and a general enquiry should not
+  land in either pile.
+*/
+
 /**
- * Public contact mailbox (used by the About and Join pages).
- * Confirm the production mailbox before launch; tracked in
- * workspace/todo/hoshivel-web/站台功能.md.
+ * Job applications: the `[Partner]` / `[Collab]` links on the role cards, and
+ * the self-introduction button under "How to reach us" (its body asks for a
+ * portfolio or GitHub, which makes it an application rather than an enquiry).
  */
+export const CAREERS_EMAIL = "careers@hoshivel.com";
+
+/** Business: the `[Business]` mail from the Join page's publishing section. */
+export const PRESS_EMAIL = "press@hoshivel.com";
+
+/** Everything else -- the About page and any new general-purpose contact point. */
 export const CONTACT_EMAIL = "contact@hoshivel.com";
 
 /** Social platform id (selects the icon; a new platform also needs SocialLinks.astro). */
