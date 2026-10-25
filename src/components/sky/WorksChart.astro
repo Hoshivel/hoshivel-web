@@ -166,7 +166,7 @@ const FIELD = [
           <text
             class="hv-chart__name"
             x={w.labelX}
-            y={w.y - 2}
+            y={w.y - 4}
             text-anchor={w.anchor}
           >
             {w.name}
@@ -174,7 +174,7 @@ const FIELD = [
           <text
             class="hv-chart__tag"
             x={w.labelX}
-            y={w.y + 15}
+            y={w.y + 20}
             text-anchor={w.anchor}
           >
             {w.label}
@@ -197,7 +197,7 @@ const FIELD = [
           <text
             class="hv-chart__name is-small"
             x={s.labelX}
-            y={s.y - 2}
+            y={s.y - 3}
             text-anchor={s.anchor}
           >
             {s.name}
@@ -205,7 +205,7 @@ const FIELD = [
           <text
             class="hv-chart__tag"
             x={s.labelX}
-            y={s.y + 14}
+            y={s.y + 19}
             text-anchor={s.anchor}
           >
             {s.label}
@@ -339,22 +339,36 @@ const FIELD = [
   .hv-chart__core.is-small {
     fill: var(--star-accent);
   }
+  /*
+    Label sizes are in viewBox units, and the 620-unit chart is drawn only about
+    320-340px wide, so each unit is a little over half a screen pixel: 26 here
+    is a 14px name on screen and 18 a 10px tag (they were 9px and under 6px).
+    The labels knock the lines out behind them, the way a printed chart does,
+    so a line passing under a name never runs through its strokes.
+  */
+  .hv-chart__name,
+  .hv-chart__tag {
+    paint-order: stroke fill;
+    stroke: var(--hv-night);
+    stroke-width: 6px;
+    stroke-linejoin: round;
+  }
   .hv-chart__name {
     font-family: var(--hv-font-display);
-    font-size: 17px;
+    font-size: 26px;
     font-weight: 600;
     fill: var(--hv-starlight);
     letter-spacing: 0.02em;
     transition: fill var(--hv-dur-fast) var(--hv-ease-out);
   }
   .hv-chart__name.is-small {
-    font-size: 14px;
+    font-size: 22px;
     fill: var(--hv-text);
   }
   .hv-chart__tag {
     font-family: var(--hv-font-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
+    font-size: 18px;
+    letter-spacing: 0.1em;
     fill: var(--hv-text-faint);
   }
   .hv-chart__marker:hover .hv-chart__halo {
