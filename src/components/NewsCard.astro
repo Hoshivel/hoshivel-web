@@ -44,10 +44,13 @@ const iso = post.data.date.toISOString().slice(0, 10);
     padding: var(--hv-space-6) var(--hv-space-8);
     height: 100%;
   }
+  /* The row is as tall with a tag as without one, so the titles of cards side
+     by side start on the same line. */
   .hv-news-card__meta {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    min-height: 1.6rem;
     font-size: var(--hv-text-xs);
     color: var(--hv-text-faint);
     letter-spacing: 0.05em;
@@ -62,8 +65,21 @@ const iso = post.data.date.toISOString().slice(0, 10);
     border-radius: var(--hv-radius-sm);
     color: var(--hv-text-soft);
   }
+  /*
+    A title breaks between phrases, not inside a word: CJK may otherwise break
+    between any two characters, which left a lone 「線」 on the second line and
+    split 「狀態」 across two. Lines break at spaces and punctuation instead (and
+    anywhere, as a last resort, rather than overflow); Japanese uses the
+    browser's phrase segmentation where it has one.
+  */
   .hv-news-card__title {
     font-size: var(--hv-text-lg);
+    text-wrap: balance;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .hv-news-card__title:lang(ja) {
+    word-break: auto-phrase;
   }
   .hv-news-card__summary {
     color: var(--hv-text-soft);

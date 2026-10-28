@@ -154,15 +154,29 @@ const isWork = entry.kind === "work";
     font-size: var(--hv-text-sm);
     max-width: 52ch;
   }
+  /*
+    The two links share a row while they fit. On a phone the external button
+    (its label carries the work's full name) is wider than the row, so it wraps
+    under the detail link and its own label may wrap inside it; without that,
+    the button kept its width, ran past the card's edge, and squeezed the
+    detail link into a column one character wide.
+  */
   .hv-entry__foot {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--hv-space-4);
     padding: var(--hv-space-4) var(--hv-space-8) var(--hv-space-6);
     border-top: 1px solid var(--hv-line);
   }
+  .hv-entry__foot .hv-more {
+    white-space: nowrap;
+  }
   .hv-entry__visit {
     padding: 0.55rem 1.1rem;
+    white-space: normal;
+    line-height: 1.35;
+    text-align: center;
   }
 </style>
