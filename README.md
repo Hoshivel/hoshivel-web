@@ -27,6 +27,7 @@ Hoshivel／星帆的組織門戶，包含作品、服務、新聞、關於與協
 ## 技術
 
 - Astro 7、strict TypeScript、純靜態輸出、零 client framework。
+- 建置與驗證需要 Node `>=22.23.4`。
 - i18n：zh-Hant 根路徑、`/zh-cn`、`/ja`、`/en`；typed dictionary。
 - 新聞：根目錄 `news/<slug>.<locale>.md`。
 - 協作方向：根目錄 `roles.config.ts`。
