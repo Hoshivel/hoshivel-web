@@ -201,7 +201,9 @@ const org = [
     gap: 0.75rem;
     margin-top: var(--hv-space-12);
     padding-top: var(--hv-space-6);
-    border-top: 1px solid var(--hv-line);
+    /* The rule spans the content above it, not the container's gutters. */
+    background: linear-gradient(var(--hv-line), var(--hv-line)) center top /
+      calc(100% - 2 * var(--hv-gutter)) 1px no-repeat;
     color: var(--hv-text-faint);
     font-size: var(--hv-text-xs);
     letter-spacing: 0.06em;
