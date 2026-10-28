@@ -168,13 +168,11 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     color: color-mix(in srgb, var(--hv-starlight) 68%, var(--hv-gold));
   }
   /* The tagline in Latin: one gold line, monospaced and widely tracked */
-  /* The motto is a line of verse, so it is set in the display serif; the
-     monospace face is for catalog numbers and codes. */
   .hv-hero__latin {
     margin-top: var(--hv-space-4);
-    font-family: var(--hv-font-display);
-    font-size: var(--hv-text-base);
-    letter-spacing: 0.03em;
+    font-family: var(--hv-font-mono);
+    font-size: var(--hv-text-xs);
+    letter-spacing: var(--hv-tracking-wider);
     color: var(--hv-gold);
   }
   /*
