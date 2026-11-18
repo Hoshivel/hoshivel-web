@@ -16,12 +16,15 @@
   aria-hidden, i.e. purely decorative.
 */
 interface Props {
+  /** Stable prefix unique to this mark's placement on the page. */
+  idPrefix: string;
   size?: number;
   title?: string;
   class?: string;
   variant?: "orbit" | "world";
 }
 const {
+  idPrefix,
   size = 32,
   title,
   class: className,
@@ -32,8 +35,7 @@ const a11y = title
   ? { role: "img" as const, "aria-label": title }
   : { "aria-hidden": "true" as const };
 
-/** Gradient ids must be unique site-wide (one page can hold several marks). */
-const uid = `hv-mark-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `hv-mark-${idPrefix}`;
 
 /** The four-pointed star (centered at 32,32; slightly taller than wide, as in the original). */
 const STAR =

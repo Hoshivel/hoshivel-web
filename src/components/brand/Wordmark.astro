@@ -11,12 +11,13 @@ import Mark from "./Mark.astro";
 import { useTranslations, type Locale } from "@/i18n/utils";
 
 interface Props {
+  idPrefix: string;
   locale: Locale;
   variant?: "mark" | "compact" | "full";
   size?: number;
   class?: string;
 }
-const { locale, variant = "compact", size, class: className } = Astro.props;
+const { idPrefix, locale, variant = "compact", size, class: className } = Astro.props;
 
 const t = useTranslations(locale);
 const name = t("site.name");
@@ -29,7 +30,7 @@ const tail = name.slice(-2);
 ---
 
 <span class:list={["hv-wordmark", `is-${variant}`, className]}>
-  <Mark size={markSize} title={variant === "mark" ? name : undefined} />
+  <Mark idPrefix={idPrefix} size={markSize} title={variant === "mark" ? name : undefined} />
   {
     variant !== "mark" && (
       <span class="hv-wordmark__text">

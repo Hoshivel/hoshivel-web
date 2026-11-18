@@ -37,7 +37,7 @@ const isCurrent = (p: string) => path === p || path.startsWith(`${p}/`);
 <header class="hv-header">
   <div class="hv-container hv-header__inner">
     <a class="hv-header__brand" href={home} aria-label={t("a11y.home")}>
-      <Wordmark locale={locale} variant="compact" />
+      <Wordmark idPrefix="header" locale={locale} variant="compact" />
     </a>
 
     <nav class="hv-header__nav" id="hv-primary-nav" aria-label={t("a11y.menu")}>
