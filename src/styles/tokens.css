@@ -71,14 +71,25 @@
   --hv-tracking-wide: 0.12em;
   --hv-tracking-wider: 0.26em;
 
+  /* ---- surfaces (Scheme B translucent astral plates) ---- */
+  --hv-surface-plate: linear-gradient(
+    145deg,
+    rgba(22, 28, 52, 0.78),
+    rgba(11, 15, 28, 0.88)
+  );
+  --hv-line-plate: rgba(176, 198, 240, 0.22);
+  --hv-line-chart-gold: rgba(240, 205, 148, 0.38);
+  --hv-line-chart-corner: rgba(240, 205, 148, 0.72);
+
   /* ---- layout ---- */
   --hv-maxw: 1120px;
   --hv-maxw-narrow: 720px;
   --hv-gutter: clamp(1.25rem, 4.5vw, 3.5rem);
-  /* Copperplate frame: corners are essentially square (the sibling sites use rounded pills; this is deliberately the opposite) */
+  /* Copperplate chart uses crisp 4px corners while frosted cards use 12px plates */
   --hv-radius-sm: 2px;
   --hv-radius: 4px;
   --hv-radius-lg: 6px;
+  --hv-radius-plate: 12px;
 
   /* ---- spacing scale (8pt base) ---- */
   --hv-space-1: 0.25rem;
@@ -107,7 +118,10 @@
   /* ---- glow (a very tight budget: only gold interactions and the brightest stars) ---- */
   --hv-glow-gold: 0 0 24px rgba(240, 205, 148, 0.22);
   --hv-glow-star: 0 0 12px rgba(223, 232, 255, 0.55);
-  --hv-shadow-plate: 0 18px 48px rgba(2, 4, 10, 0.55);
+  --hv-shadow-plate:
+    0 24px 60px rgba(3, 5, 16, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --hv-shadow-plate-hi: 0 32px 72px rgba(4, 6, 18, 0.85);
 
   /* ---- motion ---- */
   --hv-ease-out: cubic-bezier(0.22, 1, 0.36, 1);

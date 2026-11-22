@@ -158,6 +158,7 @@ const FIELD = [
         <a
           class="hv-chart__marker"
           href={w.href}
+          data-chart-id={w.id}
           style={`--star-accent: var(${w.accentVar})`}
         >
           <circle class="hv-chart__halo" cx={w.x} cy={w.y} r="16" />
@@ -189,6 +190,7 @@ const FIELD = [
         <a
           class="hv-chart__marker is-service"
           href={s.href}
+          data-chart-id={s.id}
           style={`--star-accent: var(${s.accentVar})`}
         >
           <circle class="hv-chart__ring is-outer" cx={s.x} cy={s.y} r="11.5" />
@@ -239,23 +241,22 @@ const FIELD = [
   .hv-chart {
     position: relative;
     padding: var(--hv-space-4) var(--hv-space-4) var(--hv-space-3);
-    border: 1px solid var(--hv-line);
-    border-radius: var(--hv-radius-lg);
-    background: linear-gradient(
-      160deg,
-      rgba(14, 20, 36, 0.6),
-      rgba(8, 11, 21, 0.25)
-    );
+    border: 1px solid var(--hv-line-chart-gold);
+    border-radius: var(--hv-radius);
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
   }
-  /* Corner ticks of the plate */
+  /* Astrolabe corner ticks (no dark backing so open starfield shines through) */
   .hv-chart::before,
   .hv-chart::after {
     content: "";
     position: absolute;
-    width: 12px;
-    height: 12px;
-    border: 0 solid var(--hv-line-gold);
+    width: 14px;
+    height: 14px;
+    border: 0 solid var(--hv-line-chart-corner);
     pointer-events: none;
+    transition: transform 280ms var(--hv-ease-out);
   }
   .hv-chart::before {
     top: 6px;
@@ -268,6 +269,12 @@ const FIELD = [
     bottom: 6px;
     border-right-width: 1px;
     border-bottom-width: 1px;
+  }
+  .hv-chart:hover::before {
+    transform: translate(-2px, -2px);
+  }
+  .hv-chart:hover::after {
+    transform: translate(2px, 2px);
   }
 
   .hv-chart__svg {
@@ -314,8 +321,41 @@ const FIELD = [
   }
   .hv-chart__halo {
     fill: var(--star-accent);
-    opacity: 0.14;
-    transition: opacity var(--hv-dur) var(--hv-ease-out);
+    opacity: 0.22;
+    filter: drop-shadow(
+      0 0 14px color-mix(in srgb, var(--star-accent) 72%, transparent)
+    );
+    transition:
+      opacity var(--hv-dur) var(--hv-ease-out),
+      transform var(--hv-dur) var(--hv-ease-out);
+  }
+  @keyframes hv-halo-breath {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.22;
+    }
+    50% {
+      transform: scale(1.26);
+      opacity: 0.42;
+    }
+  }
+  @keyframes hv-ring-drift {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hv-chart__halo {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: hv-halo-breath 4.2s ease-in-out infinite;
+    }
+    .hv-chart__ring.is-outer {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: hv-ring-drift 28s linear infinite;
+    }
   }
   .hv-chart__ring {
     fill: none;
@@ -371,17 +411,20 @@ const FIELD = [
     letter-spacing: 0.1em;
     fill: var(--hv-text-faint);
   }
-  .hv-chart__marker:hover .hv-chart__halo {
-    opacity: 0.3;
+  .hv-chart__marker:is(:hover, :focus-visible, .is-linked) .hv-chart__halo {
+    animation: none;
+    opacity: 0.48;
+    transform: scale(1.22);
   }
-  .hv-chart__marker:hover .hv-chart__ring {
+  .hv-chart__marker:is(:hover, :focus-visible, .is-linked) .hv-chart__ring {
     opacity: 1;
-    transform: scale(1.18);
+    transform: scale(1.26);
+    stroke-width: 1.5;
   }
-  .hv-chart__marker:hover .hv-chart__core {
+  .hv-chart__marker:is(:hover, :focus-visible, .is-linked) .hv-chart__core {
     fill: var(--hv-gold-soft);
   }
-  .hv-chart__marker:hover .hv-chart__name {
+  .hv-chart__marker:is(:hover, :focus-visible, .is-linked) .hv-chart__name {
     fill: var(--hv-gold);
   }
 

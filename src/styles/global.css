@@ -197,7 +197,8 @@ button {
 .hv-btn--primary:hover {
   background: var(--hv-gold-soft);
   border-color: var(--hv-gold-soft);
-  box-shadow: var(--hv-glow-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(240, 205, 148, 0.34);
 }
 .hv-btn--ghost {
   color: var(--hv-text);
@@ -243,12 +244,13 @@ button {
 */
 .hv-plate {
   position: relative;
-  border: 1px solid var(--hv-line);
-  border-radius: var(--hv-radius-lg);
-  background: var(--hv-surface);
+  border: 1px solid var(--hv-line-plate);
+  border-radius: var(--hv-radius-plate);
+  background: var(--hv-surface-plate);
+  backdrop-filter: blur(18px) saturate(1.25);
+  box-shadow: var(--hv-shadow-plate);
   transition:
-    border-color var(--hv-dur) var(--hv-ease-out),
-    background-color var(--hv-dur) var(--hv-ease-out),
+    border-color var(--hv-dur) ease,
     transform var(--hv-dur) var(--hv-ease-out),
     box-shadow var(--hv-dur) var(--hv-ease-out);
 }
@@ -274,14 +276,20 @@ button {
   border-right-width: 1px;
   border-bottom-width: 1px;
 }
-.hv-plate:hover {
-  border-color: var(--hv-line-gold);
-  background: var(--hv-surface-hi);
-  transform: translateY(-2px);
-  box-shadow: var(--hv-shadow-plate);
+.hv-plate:hover,
+.hv-plate.is-linked {
+  border-color: var(--card-accent, var(--hv-p-sr));
+  transform: translateY(-5px) scale(1.008);
+  box-shadow:
+    var(--hv-shadow-plate-hi),
+    0 0 42px
+      color-mix(in srgb, var(--card-accent, var(--hv-p-sr)) 25%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 .hv-plate:hover::before,
-.hv-plate:hover::after {
+.hv-plate:hover::after,
+.hv-plate.is-linked::before,
+.hv-plate.is-linked::after {
   border-color: var(--hv-gold);
 }
 

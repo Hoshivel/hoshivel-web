@@ -181,10 +181,15 @@ const structuredData = {
     <CookiePreferences locale={locale} />
 
     <script>
-      // Scroll motion: reveal-on-scroll plus the starfield parallax (both reduced-motion aware).
-      import { initScrollReveal, initSkyParallax } from "@/lib/motion";
+      // Scroll motion and star chart resonance (reduced-motion aware).
+      import {
+        initChartLink,
+        initScrollReveal,
+        initSkyParallax,
+      } from "@/lib/motion";
       initScrollReveal();
       initSkyParallax();
+      initChartLink();
     </script>
   </body>
 </html>
