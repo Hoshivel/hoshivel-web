@@ -25,6 +25,7 @@ const isWork = entry.kind === "work";
 <article
   class:list={["hv-plate", "hv-entry", { "is-service": !isWork }]}
   style={`--card-accent: var(${entry.accentVar})`}
+  data-entry-id={entry.id}
   data-reveal
 >
   <a class="hv-entry__cover" href={detailHref}>
@@ -121,7 +122,7 @@ const isWork = entry.kind === "work";
   .hv-entry__glyph.is-ring {
     stroke: var(--card-accent);
   }
-  .hv-entry:hover .hv-entry__glyph {
+  .hv-entry:is(:hover, :focus-within, .is-linked) .hv-entry__glyph {
     filter: drop-shadow(0 0 6px var(--card-accent));
   }
   .hv-entry__name {

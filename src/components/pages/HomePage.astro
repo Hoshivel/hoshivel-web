@@ -295,10 +295,12 @@ const latestNews = (await getNewsForLocale(locale)).slice(0, 3);
     justify-content: space-between;
     gap: var(--hv-space-8);
     padding: clamp(2rem, 5vw, 3.5rem);
-    border: 1px solid var(--hv-line);
+    border: 1px solid var(--hv-line-plate);
     border-left: 2px solid var(--hv-gold);
-    border-radius: var(--hv-radius-lg);
-    background: var(--hv-surface);
+    border-radius: var(--hv-radius-plate);
+    background: var(--hv-surface-plate);
+    backdrop-filter: blur(18px) saturate(1.25);
+    box-shadow: var(--hv-shadow-plate);
   }
   .hv-home-join__title {
     margin-top: var(--hv-space-4);

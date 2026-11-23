@@ -104,3 +104,81 @@ export function initSkyParallax(): () => void {
   window.addEventListener("scroll", onScroll, { passive: true });
   return () => window.removeEventListener("scroll", onScroll);
 }
+
+/**
+ * Bidirectional chart resonance: hovering or focusing either a star chart
+ * marker (`[data-chart-id]`) or its matching catalog card (`[data-entry-id]`)
+ * illuminates both synchronously via `.is-linked`.
+ * @returns cleanup function (removes attached listeners).
+ */
+export function initChartLink(): () => void {
+  if (typeof document === "undefined") return () => {};
+
+  const markers = Array.from(document.querySelectorAll<HTMLElement | SVGElement>("[data-chart-id]"));
+  const entries = Array.from(document.querySelectorAll<HTMLElement>("[data-entry-id]"));
+  if (markers.length === 0 && entries.length === 0) return () => {};
+
+  type Bucket = {
+    targets: (HTMLElement | SVGElement)[];
+    sources: Set<Element>;
+  };
+  const buckets = new Map<string, Bucket>();
+  const ensure = (id: string): Bucket => {
+    let b = buckets.get(id);
+    if (!b) {
+      b = { targets: [], sources: new Set() };
+      buckets.set(id, b);
+    }
+    return b;
+  };
+
+  for (const el of markers) {
+    const id = el.getAttribute("data-chart-id");
+    if (id) ensure(id).targets.push(el);
+  }
+  for (const el of entries) {
+    const id = el.getAttribute("data-entry-id");
+    if (id) ensure(id).targets.push(el);
+  }
+
+  const sync = (bucket: Bucket) => {
+    const active = bucket.sources.size > 0;
+    for (const target of bucket.targets) {
+      target.classList.toggle("is-linked", active);
+    }
+  };
+
+  const cleanups: (() => void)[] = [];
+  for (const bucket of buckets.values()) {
+    for (const el of bucket.targets) {
+      const onEnter = () => {
+        bucket.sources.add(el);
+        sync(bucket);
+      };
+      const onLeave = () => {
+        bucket.sources.delete(el);
+        sync(bucket);
+      };
+      const onFocusOut = (ev: Event) => {
+        const next = (ev as FocusEvent).relatedTarget as Node | null;
+        if (next && el.contains(next)) return;
+        bucket.sources.delete(el);
+        sync(bucket);
+      };
+      el.addEventListener("mouseenter", onEnter);
+      el.addEventListener("mouseleave", onLeave);
+      el.addEventListener("focusin", onEnter);
+      el.addEventListener("focusout", onFocusOut);
+      cleanups.push(() => {
+        el.removeEventListener("mouseenter", onEnter);
+        el.removeEventListener("mouseleave", onLeave);
+        el.removeEventListener("focusin", onEnter);
+        el.removeEventListener("focusout", onFocusOut);
+      });
+    }
+  }
+
+  return () => {
+    for (const fn of cleanups) fn();
+  };
+}
